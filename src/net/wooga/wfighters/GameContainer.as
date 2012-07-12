@@ -4,10 +4,12 @@ package net.wooga.wfighters
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.utils.Dictionary;
+	import net.wooga.wfighters.controller.GameController;
 	
 	public class GameContainer extends Sprite
 	{
 		private var pressedKeys : Dictionary;
+		private var gameController : GameController;
 		
 		public function GameContainer() 
 		{
@@ -30,8 +32,16 @@ package net.wooga.wfighters
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, handleAddedToState );
 			
+			gameController = new GameController( this );
+			
 			stage.addEventListener( KeyboardEvent.KEY_DOWN, handleKeyDown );
 			stage.addEventListener( KeyboardEvent.KEY_UP, handleKeyDown );
+			stage.addEventListener(Event.ENTER_FRAME, handleEnterFrame );
+		}
+		
+		private function handleEnterFrame( e : Event ) : void
+		{
+			gameController.update();
 		}
 		
 		private function handleKeyDown( e : KeyboardEvent ) : void 

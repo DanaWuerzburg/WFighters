@@ -10,7 +10,17 @@ package net.wooga.wfighters
 		
 		public function Fighter() 
 		{
+			super();
 			state = STATE_STAND;
+			
+			graphics.beginFill( 0xFF0000 );
+			graphics.drawRect( 0, 0, 100, 100 );
+			graphics.endFill();
+		}
+		
+		public function update( t : int ) : void
+		{
+			
 		}
 		
 		public function doPunch() : void
