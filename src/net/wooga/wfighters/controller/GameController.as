@@ -17,7 +17,6 @@ package net.wooga.wfighters.controller
 		public function GameController( gameContainer : GameContainer ) 
 		{
 			this.gameContainer = gameContainer;
-			
 			this.changeGameState( new FightIntroGameState( gameContainer ) );
 		}
 		

@@ -5,11 +5,13 @@ package net.wooga.wfighters
 	import flash.events.KeyboardEvent;
 	import flash.utils.Dictionary;
 	import net.wooga.wfighters.controller.GameController;
+	import net.wooga.wfighters.controller.InputController;
 	
 	public class GameContainer extends Sprite
 	{
 		private var pressedKeys : Dictionary;
-		private var gameController : GameController;
+		private var _gameController : GameController;
+		private var _inputController : InputController;
 		
 		public function GameContainer() 
 		{
@@ -19,6 +21,11 @@ package net.wooga.wfighters
 			
 			setup();
 			addEventListener( Event.ADDED_TO_STAGE, handleAddedToState );
+		}
+		
+		public function get inputController() : InputController
+		{
+			return _inputController;
 		}
 		
 		private function setup() : void
@@ -32,28 +39,18 @@ package net.wooga.wfighters
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, handleAddedToState );
 			
-			gameController = new GameController( this );
+			_gameController = new GameController( this );
+			_inputController = new InputController();
+			stage.addEventListener( KeyboardEvent.KEY_DOWN, _inputController.handleKeyDown );
+			stage.addEventListener( KeyboardEvent.KEY_UP, _inputController.handleKeyUp );
 			
-			stage.addEventListener( KeyboardEvent.KEY_DOWN, handleKeyDown );
-			stage.addEventListener( KeyboardEvent.KEY_UP, handleKeyDown );
-			stage.addEventListener(Event.ENTER_FRAME, handleEnterFrame );
+			stage.addEventListener( Event.ENTER_FRAME, handleEnterFrame );
 		}
 		
 		private function handleEnterFrame( e : Event ) : void
 		{
-			gameController.update();
+			_gameController.update();
 		}
-		
-		private function handleKeyDown( e : KeyboardEvent ) : void 
-		{
-			pressedKeys[ e.keyCode ] = e.keyCode;
-		}
-		
-		private function handleKeyUp( e : KeyboardEvent ) : void 
-		{
-			delete pressedKeys[ e.keyCode ];
-		}
-		
 	}
 
 }
