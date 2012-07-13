@@ -3,6 +3,7 @@ package net.wooga.wfighters
 	import flash.display.Sprite;
 	import flash.events.KeyboardEvent;
 	import flash.geom.Vector3D;
+	import flash.ui.Keyboard;
 	
 	public class Fighter extends Sprite 
 	{
@@ -70,19 +71,19 @@ package net.wooga.wfighters
 			{
 				y = 400;
 			}
-			if ( gameContainer.inputController.isKeyPressed( 37 ) )
+			if ( gameContainer.inputController.isKeyPressed( Keyboard.LEFT ) )
 			{
 				x -= 0.5 * t;
 			}
-			if ( gameContainer.inputController.isKeyPressed( 39 ) )
+			if ( gameContainer.inputController.isKeyPressed( Keyboard.RIGHT ) )
 			{
 				x += 0.5 * t;
 			}
-			if ( gameContainer.inputController.isKeyPressed( 38 ) )
+			if ( gameContainer.inputController.isKeyPressed( Keyboard.UP ) )
 			{
 				state = STATE_JUMP;
 			}
-			if ( gameContainer.inputController.isKeyPressed( 65 ) )
+			if ( gameContainer.inputController.isKeyPressed( Keyboard.A ) )
 			{
 				state = STATE_PUNCH;
 			}
@@ -101,12 +102,12 @@ package net.wooga.wfighters
 			
 			var moveFactor : Number = 0;
 			if ( jumpTime < 1000 ) moveFactor = 1 - jumpTime / 1000;
-			if ( gameContainer.inputController.isKeyPressed( 37 ) )
+			if ( gameContainer.inputController.isKeyPressed( Keyboard.LEFT ) )
 			{
 				jumpVector.x -= 0.1 * moveFactor;
 				if ( jumpVector.x < -0.5 ) jumpVector.x = -0.5;
 			}
-			if ( gameContainer.inputController.isKeyPressed( 39 ) )
+			if ( gameContainer.inputController.isKeyPressed( Keyboard.RIGHT ) )
 			{
 				jumpVector.x += 0.1 * moveFactor;
 				if ( jumpVector.x > 0.5 ) jumpVector.x = 0.5;
