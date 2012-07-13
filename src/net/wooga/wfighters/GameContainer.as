@@ -6,12 +6,14 @@ package net.wooga.wfighters
 	import flash.utils.Dictionary;
 	import net.wooga.wfighters.controller.GameController;
 	import net.wooga.wfighters.controller.InputController;
+	import net.wooga.wfighters.fightarea.FightArea;
 	
 	public class GameContainer extends Sprite
 	{
 		private var pressedKeys : Dictionary;
 		private var _gameController : GameController;
 		private var _inputController : InputController;
+		private var _fightArea : FightArea;
 		
 		public function GameContainer() 
 		{
@@ -28,6 +30,11 @@ package net.wooga.wfighters
 			return _inputController;
 		}
 		
+		public function get fightArea() : FightArea
+		{
+			return _fightArea;
+		}
+		
 		private function setup() : void
 		{
 			graphics.beginFill( 0x000000 );
@@ -39,8 +46,12 @@ package net.wooga.wfighters
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, handleAddedToState );
 			
+			_fightArea = new FightArea();
+			addChild( _fightArea );
+			
 			_gameController = new GameController( this );
 			_inputController = new InputController();
+			
 			stage.addEventListener( KeyboardEvent.KEY_DOWN, _inputController.handleKeyDown );
 			stage.addEventListener( KeyboardEvent.KEY_UP, _inputController.handleKeyUp );
 			
