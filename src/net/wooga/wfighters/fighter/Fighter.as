@@ -10,6 +10,8 @@ package net.wooga.wfighters.fighter
 	import flash.ui.Keyboard;
 	import net.wooga.wfighters.fightarea.FightArea;
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.spriteset.FrameLoaderConfig;
+	import net.wooga.wfighters.spriteset.Spriteset;
 	
 	public class Fighter extends Sprite 
 	{
@@ -27,8 +29,9 @@ package net.wooga.wfighters.fighter
 		private var jumpVector : Vector3D = new Vector3D();
 		
 		private var punchTime : Number = 0;
+		private var punchKeyReleased : Boolean = false;
 		
-		private var loader : Loader;
+		private var spriteset : Spriteset;
 		
 		public function Fighter( gameContainer : GameContainer ) 
 		{
@@ -36,18 +39,15 @@ package net.wooga.wfighters.fighter
 			this.gameContainer = gameContainer;
 			state = STATE_STAND;
 			
-			graphics.beginFill( 0xFF0000 );
-			graphics.drawRect( 0, 0, 50, 200 );
-			graphics.endFill();
-			
-			loader = new Loader();
-			loader.contentLoaderInfo.addEventListener( Event.COMPLETE, doneLoad );
-			loader.load( new URLRequest("res/panda.png") );
-		}
-		
-		private function doneLoad( event : Event ) : void
-		{
-			addChild( loader );
+			spriteset = new Spriteset( new <FrameLoaderConfig>
+			[
+				new FrameLoaderConfig( "idle",	"res/panda.png" ),
+				new FrameLoaderConfig( "walk",	"res/panda.png" ),
+				new FrameLoaderConfig( "punch",	"res/panda_punch.png", new Vector3D( -25, 0 ) ),
+				new FrameLoaderConfig( "jump",	"res/panda.png" )
+			] );
+			spriteset.load();
+			addChild( spriteset );
 		}
 		
 		public function update( t : int ) : void
@@ -60,6 +60,11 @@ package net.wooga.wfighters.fighter
 			}
 			updateCollision();
 			updateDirection();
+			
+			if ( !gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) )
+			{
+				punchKeyReleased = true;
+			}
 		}
 		
 		public function set controlConfig( controlConfig : ControlConfig ) : void
@@ -75,6 +80,14 @@ package net.wooga.wfighters.fighter
 		public function set opponent ( fighter : Fighter ) : void
 		{
 			_opponent = fighter;
+		}
+		
+		public function receivePunch() : void
+		{
+			//switch ( state )
+			//{
+				//
+			//}
 		}
 		
 		private function set state( state : String ) : void
@@ -100,6 +113,8 @@ package net.wooga.wfighters.fighter
 		
 		private function updateStand( t : int ) : void
 		{
+			spriteset.showFrame( "idle" );
+			
 			if ( y < 200 )
 			{
 				y += t;
@@ -122,7 +137,7 @@ package net.wooga.wfighters.fighter
 			{
 				state = STATE_JUMP;
 			}
-			if ( gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) )
+			if ( punchKeyReleased && gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) )
 			{
 				state = STATE_PUNCH;
 			}
@@ -168,12 +183,18 @@ package net.wooga.wfighters.fighter
 		private function handleEnterPunch() : void
 		{
 			punchTime = 0;
+			spriteset.showFrame( "punch" );
+			punchKeyReleased = false;
+			if ( _opponent && Math.abs( x - _opponent.x ) < width + 10 )
+			{
+				_opponent.receivePunch();
+			}
 		}
 		
 		private function updatePunch( t : int ) : void
 		{
 			punchTime += t;
-			if ( punchTime > 250 )
+			if ( punchTime > 100 )
 			{
 				state = STATE_STAND;
 			}
@@ -183,14 +204,22 @@ package net.wooga.wfighters.fighter
 		{
 			if ( _opponent && hitTestObject( _opponent ) )
 			{
-				var intersection : Rectangle = getBounds( this.parent ).intersection( _opponent.getBounds( _opponent.parent ) );
-				if ( x < _opponent.x )
+				if ( x > _opponent.x && x - _opponent.x < 100)
 				{
-					x -= intersection.width;
+					x += 100 - ( x - _opponent.x );
+					_fightArea.handleFighterPositionChanged( this );
 				}
-				else
+				else if ( x < _opponent.x && _opponent.x - x < 100 )
 				{
-					x += intersection.width;
+					x -= 100 - ( _opponent.x - x )
+					_fightArea.handleFighterPositionChanged( this );
+				}
+				else if ( x == _opponent.x )
+				{
+					x += 10;
+					_opponent.x -= 10;
+					_fightArea.handleFighterPositionChanged( this );
+					_fightArea.handleFighterPositionChanged( _opponent );
 				}
 			}
 		}
@@ -201,11 +230,13 @@ package net.wooga.wfighters.fighter
 			{
 				if ( x < _opponent.x )
 				{
-					loader.scaleX = -1;
+					spriteset.scaleX = -1;
+					spriteset.x = spriteset.width;
 				}
 				else
 				{
-					loader.scaleX = 1;
+					spriteset.scaleX = 1;
+					spriteset.x = 0;
 				}
 			}
 		}
