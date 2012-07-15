@@ -18,6 +18,8 @@ package net.wooga.wfighters.fighter
 		private static const STATE_STAND : String = "STATE_STAND";
 		private static const STATE_JUMP : String = "STATE_JUMP";
 		private static const STATE_PUNCH : String = "STATE_PUNCH";
+		private static const STATE_BLOCK : String = "STATE_BLOCK";
+		private static const STATE_DAMAGE : String = "STATE_DAMAGE";
 		
 		private var _state : String;
 		private var gameContainer : GameContainer;
@@ -30,6 +32,9 @@ package net.wooga.wfighters.fighter
 		
 		private var punchTime : Number = 0;
 		private var punchKeyReleased : Boolean = false;
+		
+		private var blockTime : Number = 0;
+		private var blockDamage : Number = 0;
 		
 		private var spriteset : Spriteset;
 		
@@ -44,7 +49,8 @@ package net.wooga.wfighters.fighter
 				new FrameLoaderConfig( "idle",	"res/panda.png" ),
 				new FrameLoaderConfig( "walk",	"res/panda.png" ),
 				new FrameLoaderConfig( "punch",	"res/panda_punch.png", new Vector3D( -25, 0 ) ),
-				new FrameLoaderConfig( "jump",	"res/panda.png" )
+				new FrameLoaderConfig( "jump",	"res/panda.png" ),
+				new FrameLoaderConfig( "block",	"res/panda_block.png" ),
 			] );
 			spriteset.load();
 			addChild( spriteset );
@@ -57,6 +63,7 @@ package net.wooga.wfighters.fighter
 				case STATE_STAND:	updateStand( t );	break;
 				case STATE_JUMP:	updateJump( t );	break;
 				case STATE_PUNCH:	updatePunch( t );	break;
+				case STATE_BLOCK:	updateBlock( t );	break;
 			}
 			updateCollision();
 			updateDirection();
@@ -84,10 +91,40 @@ package net.wooga.wfighters.fighter
 		
 		public function receivePunch() : void
 		{
-			//switch ( state )
-			//{
-				//
-			//}
+			switch ( state )
+			{
+				case STATE_STAND:
+				{
+					if ( gameContainer.inputController.isKeyPressed( _controlConfig.leftKey ) && _opponent.x > x )
+					{
+						state = STATE_BLOCK;
+					}
+					else if ( gameContainer.inputController.isKeyPressed( _controlConfig.rightKey ) && _opponent.x < x )
+					{
+						state = STATE_BLOCK;
+					}
+					else
+					{
+						state = STATE_DAMAGE;
+					}
+					break;
+				}
+				case STATE_PUNCH:
+				{
+					state = STATE_DAMAGE;
+					break;
+				}
+				case STATE_BLOCK:
+				{
+					blockTime = 0;
+					blockDamage++;
+					if ( blockDamage > 3 )
+					{
+						state = STATE_DAMAGE;
+					}
+					break;
+				}
+			}
 		}
 		
 		private function set state( state : String ) : void
@@ -108,6 +145,7 @@ package net.wooga.wfighters.fighter
 				case STATE_STAND: break;
 				case STATE_JUMP: handleEnterJump(); break;
 				case STATE_PUNCH: handleEnterPunch(); break;
+				case STATE_BLOCK: handleEnterBlock(); break;
 			}
 		}
 		
@@ -195,6 +233,22 @@ package net.wooga.wfighters.fighter
 		{
 			punchTime += t;
 			if ( punchTime > 100 )
+			{
+				state = STATE_STAND;
+			}
+		}
+		
+		private function handleEnterBlock() : void
+		{
+			blockTime = 0;
+			blockDamage = 0;
+			spriteset.showFrame( "block" );
+		}
+		
+		private function updateBlock( t : int ) : void
+		{
+			blockTime += t;
+			if ( blockTime > 250 )
 			{
 				state = STATE_STAND;
 			}
