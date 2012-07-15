@@ -9,6 +9,7 @@ package net.wooga.wfighters.controller.gamestate
 		private var introTime : Number = 0;
 		private var fighterOne : Fighter;
 		private var fighterTwo : Fighter;
+		private var fairnessCounter : uint = 0;
 		
 		public function FightIntroGameState( gameContainer : GameContainer )
 		{
@@ -54,8 +55,9 @@ package net.wooga.wfighters.controller.gamestate
 		public override function update( t : int ) : void
 		{
 			introTime += t;
-			fighterOne.update( t );
-			fighterTwo.update( t );
+			fairnessCounter++;
+			fairnessCounter % 2 == 0 ? fighterOne.update( t ) : fighterTwo.update( t );
+			fairnessCounter % 2 == 0 ? fighterTwo.update( t ) : fighterOne.update( t );
 		}
 	}
 }

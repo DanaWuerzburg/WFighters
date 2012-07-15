@@ -18,8 +18,13 @@ package net.wooga.wfighters.fighter
 		private static const STATE_STAND : String = "STATE_STAND";
 		private static const STATE_JUMP : String = "STATE_JUMP";
 		private static const STATE_PUNCH : String = "STATE_PUNCH";
+		private static const STATE_KICK : String = "STATE_KICK";
+		private static const STATE_JUMP_PUNCH : String = "STATE_JUMP_PUNCH";
+		private static const STATE_JUMP_KICK : String = "STATE_JUMP_KICK";
 		private static const STATE_BLOCK : String = "STATE_BLOCK";
 		private static const STATE_DAMAGE : String = "STATE_DAMAGE";
+		private static const STATE_DOWN : String = "STATE_DOWN";
+		private static const STATE_KO : String = "STATE_KO";
 		
 		private var _state : String;
 		private var gameContainer : GameContainer;
@@ -33,8 +38,18 @@ package net.wooga.wfighters.fighter
 		private var punchTime : Number = 0;
 		private var punchKeyReleased : Boolean = false;
 		
+		private var kickTime : Number = 0;
+		private var kickKeyReleased : Boolean = false;
+		
+		private var jumpPunchTime : Number = 0;
+		
+		private var jumpKickTime : Number = 0;
+		
 		private var blockTime : Number = 0;
 		private var blockDamage : Number = 0;
+		
+		private var damageTime : Number = 0;
+		private var damageLevel : Number = 0;
 		
 		private var spriteset : Spriteset;
 		
@@ -46,11 +61,15 @@ package net.wooga.wfighters.fighter
 			
 			spriteset = new Spriteset( new <FrameLoaderConfig>
 			[
-				new FrameLoaderConfig( "idle",	"res/panda.png" ),
-				new FrameLoaderConfig( "walk",	"res/panda.png" ),
-				new FrameLoaderConfig( "punch",	"res/panda_punch.png", new Vector3D( -25, 0 ) ),
-				new FrameLoaderConfig( "jump",	"res/panda.png" ),
-				new FrameLoaderConfig( "block",	"res/panda_block.png" ),
+				new FrameLoaderConfig( "idle",			"res/panda.png" ),
+				new FrameLoaderConfig( "punch",			"res/panda_punch.png", new Vector3D( -25, 0 ) ),
+				new FrameLoaderConfig( "kick",			"res/panda_kick.png" ),
+				new FrameLoaderConfig( "jumppunch",		"res/panda_jumppunch.png"),
+				new FrameLoaderConfig( "jumpkick",		"res/panda_jumpkick.png"),
+				new FrameLoaderConfig( "jump",			"res/panda_jump.png" ),
+				new FrameLoaderConfig( "block",			"res/panda_block.png" ),
+				new FrameLoaderConfig( "damage",		"res/panda_damage.png" ),
+				new FrameLoaderConfig( "down",			"res/panda_down.png" ),
 			] );
 			spriteset.load();
 			addChild( spriteset );
@@ -60,17 +79,29 @@ package net.wooga.wfighters.fighter
 		{
 			switch ( state )
 			{
-				case STATE_STAND:	updateStand( t );	break;
-				case STATE_JUMP:	updateJump( t );	break;
-				case STATE_PUNCH:	updatePunch( t );	break;
-				case STATE_BLOCK:	updateBlock( t );	break;
+				case STATE_STAND:		updateStand( t );	break;
+				case STATE_JUMP:		updateJump( t );	break;
+				case STATE_PUNCH:		updatePunch( t );	break;
+				case STATE_KICK:		updateKick( t );	break;
+				case STATE_JUMP_PUNCH:	updateJumpPunch( t );	break;
+				case STATE_JUMP_KICK:	updateJumpKick( t );	break;
+				case STATE_BLOCK:		updateBlock( t );	break;
+				case STATE_DAMAGE:		updateDamage( t );	break;
+				case STATE_DOWN:		updateDown( t );	break;
 			}
 			updateCollision();
-			updateDirection();
+			if ( state != STATE_DOWN )
+			{
+				updateDirection();
+			}
 			
 			if ( !gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) )
 			{
 				punchKeyReleased = true;
+			}
+			if ( !gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) )
+			{
+				kickKeyReleased = true;
 			}
 		}
 		
@@ -91,40 +122,12 @@ package net.wooga.wfighters.fighter
 		
 		public function receivePunch() : void
 		{
-			switch ( state )
-			{
-				case STATE_STAND:
-				{
-					if ( gameContainer.inputController.isKeyPressed( _controlConfig.leftKey ) && _opponent.x > x )
-					{
-						state = STATE_BLOCK;
-					}
-					else if ( gameContainer.inputController.isKeyPressed( _controlConfig.rightKey ) && _opponent.x < x )
-					{
-						state = STATE_BLOCK;
-					}
-					else
-					{
-						state = STATE_DAMAGE;
-					}
-					break;
-				}
-				case STATE_PUNCH:
-				{
-					state = STATE_DAMAGE;
-					break;
-				}
-				case STATE_BLOCK:
-				{
-					blockTime = 0;
-					blockDamage++;
-					if ( blockDamage > 3 )
-					{
-						state = STATE_DAMAGE;
-					}
-					break;
-				}
-			}
+			receiveDamage();
+		}
+		
+		public function receiveKick() : void
+		{
+			receiveDamage();
 		}
 		
 		private function set state( state : String ) : void
@@ -142,10 +145,14 @@ package net.wooga.wfighters.fighter
 		{
 			switch ( _state )
 			{
-				case STATE_STAND: break;
-				case STATE_JUMP: handleEnterJump(); break;
-				case STATE_PUNCH: handleEnterPunch(); break;
-				case STATE_BLOCK: handleEnterBlock(); break;
+				case STATE_JUMP:		handleEnterJump(); break;
+				case STATE_PUNCH:		handleEnterPunch(); break;
+				case STATE_KICK:		handleEnterKick(); break;
+				case STATE_JUMP_PUNCH:	handleEnterJumpPunch(); break;
+				case STATE_JUMP_KICK:	handleEnterJumpKick(); break;
+				case STATE_BLOCK:		handleEnterBlock(); break;
+				case STATE_DAMAGE:		handleEnterDamage(); break;
+				case STATE_DOWN: 		handleEnterDown(); break;
 			}
 		}
 		
@@ -179,6 +186,10 @@ package net.wooga.wfighters.fighter
 			{
 				state = STATE_PUNCH;
 			}
+			if ( kickKeyReleased && gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) )
+			{
+				state = STATE_KICK;
+			}
 		}
 		
 		private function handleEnterJump() : void
@@ -186,6 +197,7 @@ package net.wooga.wfighters.fighter
 			jumpTime = 0;
 			jumpVector.x = 0;
 			jumpVector.y = -2;
+			spriteset.showFrame( "jump" );
 		}
 		
 		private function updateJump( t : int ) : void
@@ -203,6 +215,14 @@ package net.wooga.wfighters.fighter
 			{
 				jumpVector.x += 0.1 * moveFactor;
 				if ( jumpVector.x > 0.5 ) jumpVector.x = 0.5;
+			}
+			if ( gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) && jumpVector.y > 0 )
+			{
+				state = STATE_JUMP_PUNCH;
+			}
+			if ( gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) && jumpVector.y > 0 )
+			{
+				state = STATE_JUMP_KICK;
 			}
 			
 			y += jumpVector.y * t;
@@ -238,6 +258,50 @@ package net.wooga.wfighters.fighter
 			}
 		}
 		
+		private function handleEnterKick() : void
+		{
+			kickTime = 0;
+			spriteset.showFrame( "kick" );
+			kickKeyReleased = false;
+			if ( _opponent && Math.abs( x - _opponent.x ) < width + 10 )
+			{
+				_opponent.receiveKick();
+			}
+		}
+		
+		private function updateKick( t : int ) : void
+		{
+			kickTime += t;
+			if ( kickTime > 100 )
+			{
+				state = STATE_STAND;
+			}
+		}
+		
+		private function handleEnterJumpPunch() : void
+		{
+			jumpPunchTime = 0;
+			spriteset.showFrame( "jumppunch" );
+			punchKeyReleased = false;
+		}
+		
+		private function updateJumpPunch( t : int ) : void
+		{
+			updateJump( t );
+		}
+		
+		private function handleEnterJumpKick() : void
+		{
+			jumpKickTime = 0;
+			spriteset.showFrame( "jumpkick" );
+			kickKeyReleased = false;
+		}
+		
+		private function updateJumpKick( t : int ) : void
+		{
+			updateJump( t );
+		}
+		
 		private function handleEnterBlock() : void
 		{
 			blockTime = 0;
@@ -252,6 +316,32 @@ package net.wooga.wfighters.fighter
 			{
 				state = STATE_STAND;
 			}
+		}
+		
+		private function handleEnterDamage() : void
+		{
+			damageTime = 0;
+			damageLevel = 0;
+			spriteset.showFrame( "damage" );
+		}
+		
+		private function updateDamage( t : int ) : void
+		{
+			damageTime += t;
+			if ( damageTime > 250 )
+			{
+				state = STATE_STAND;
+			}
+		}
+		
+		private function handleEnterDown() : void
+		{
+			spriteset.showFrame( "down" );
+		}
+		
+		private function updateDown( t : int ) : void
+		{
+			state = STATE_STAND;
 		}
 		
 		private function updateCollision() : void
@@ -291,6 +381,59 @@ package net.wooga.wfighters.fighter
 				{
 					spriteset.scaleX = 1;
 					spriteset.x = 0;
+				}
+			}
+		}
+		
+		private function receiveDamage() : void
+		{
+			switch ( state )
+			{
+				case STATE_STAND:
+				{
+					if ( gameContainer.inputController.isKeyPressed( _controlConfig.leftKey ) && _opponent.x > x )
+					{
+						state = STATE_BLOCK;
+					}
+					else if ( gameContainer.inputController.isKeyPressed( _controlConfig.rightKey ) && _opponent.x < x )
+					{
+						state = STATE_BLOCK;
+					}
+					else
+					{
+						state = STATE_DAMAGE;
+					}
+					break;
+				}
+				case STATE_PUNCH:
+				{
+					state = STATE_DAMAGE;
+					break;
+				}
+				case STATE_KICK:
+				{
+					state = STATE_DAMAGE;
+					break;
+				}
+				case STATE_BLOCK:
+				{
+					blockTime = 0;
+					blockDamage++;
+					if ( blockDamage > 3 )
+					{
+						state = STATE_DAMAGE;
+					}
+					break;
+				}
+				case STATE_DAMAGE:
+				{
+					damageTime = 0;
+					damageLevel++;
+					if ( damageLevel > 5 )
+					{
+						state = STATE_DOWN;
+					}
+					break;
 				}
 			}
 		}
