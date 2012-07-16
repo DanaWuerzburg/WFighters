@@ -63,7 +63,7 @@ package net.wooga.wfighters.fighter
 			[
 				new FrameLoaderConfig( "idle",			"res/panda.png" ),
 				new FrameLoaderConfig( "punch",			"res/panda_punch.png", new Vector3D( -25, 0 ) ),
-				new FrameLoaderConfig( "kick",			"res/panda_kick.png" ),
+				new FrameLoaderConfig( "kick",			"res/panda_kick.png", new Vector3D( -50, 5 ) ),
 				new FrameLoaderConfig( "jumppunch",		"res/panda_jumppunch.png"),
 				new FrameLoaderConfig( "jumpkick",		"res/panda_jumpkick.png"),
 				new FrameLoaderConfig( "jump",			"res/panda_jump.png" ),
@@ -241,6 +241,7 @@ package net.wooga.wfighters.fighter
 		private function handleEnterPunch() : void
 		{
 			punchTime = 0;
+			parent.setChildIndex( this, parent.numChildren - 1 );
 			spriteset.showFrame( "punch" );
 			punchKeyReleased = false;
 			if ( _opponent && Math.abs( x - _opponent.x ) < width + 10 )
@@ -261,6 +262,7 @@ package net.wooga.wfighters.fighter
 		private function handleEnterKick() : void
 		{
 			kickTime = 0;
+			parent.setChildIndex( this, parent.numChildren - 1 );
 			spriteset.showFrame( "kick" );
 			kickKeyReleased = false;
 			if ( _opponent && Math.abs( x - _opponent.x ) < width + 10 )
@@ -375,7 +377,7 @@ package net.wooga.wfighters.fighter
 				if ( x < _opponent.x )
 				{
 					spriteset.scaleX = -1;
-					spriteset.x = spriteset.width;
+					spriteset.x = 100;
 				}
 				else
 				{
