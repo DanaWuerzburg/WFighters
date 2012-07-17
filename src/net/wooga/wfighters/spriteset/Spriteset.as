@@ -3,72 +3,46 @@ package net.wooga.wfighters.spriteset
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Matrix;
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	public class Spriteset extends Sprite
 	{
-		private var imagePathList : Vector.<FrameLoaderConfig>;
-		private var loadedImageList : Vector.<FrameConfig> = new Vector.<FrameConfig>();
-		private var loadedImageMap : Dictionary = new Dictionary();
+		private var config : Vector.<FrameConfig> = new Vector.<FrameConfig>();
+		private var imageMap : Dictionary = new Dictionary();
 		private var currentLoadingFrame : FrameConfig;
 		private var hasLoaded : Boolean = false;
 		private var currentShownFrame : String;
+		private var matrix : Matrix = new Matrix();
 		
-		public function Spriteset( imageList : Vector.<FrameLoaderConfig> ) 
+		public function Spriteset( config : Vector.<FrameConfig> ) 
 		{
-			this.imagePathList = imageList;
-		}
-		
-		public function load() : void
-		{
-			loadImage();
+			var index : uint;
+			var length : uint = config.length;
+			for ( index = 0; index < length; index++ )
+			{
+				imageMap[ config[ index ].id ] = config[ index ];
+			}
+			this.config = config;
 		}
 		
 		public function showFrame( id : String ) : void
 		{
-			if ( hasLoaded && currentShownFrame != id && loadedImageMap[ id ] )
+			if ( currentShownFrame != id && imageMap[ id ] )
 			{
-				replaceFrame( loadedImageMap[ id ] );
+				replaceFrame( imageMap[ id ] );
 				currentShownFrame = id;
 			}
 		}
 		
 		private function replaceFrame( frame : FrameConfig ) : void
 		{
-			while ( numChildren > 0 )
-			{
-				removeChildAt( 0 );
-			}
-			addChild( frame.image );
-			frame.image.x = frame.offset.x;
-			frame.image.y = frame.offset.y;
-		}
-		
-		private function loadImage() : void
-		{
-			if ( imagePathList.length > loadedImageList.length )
-			{
-				currentLoadingFrame = new FrameConfig( imagePathList[ loadedImageList.length ].id, new Loader(), imagePathList[ loadedImageList.length ].offset );
-				currentLoadingFrame.image.contentLoaderInfo.addEventListener( Event.COMPLETE, handleLoadedImage );
-				currentLoadingFrame.image.load( new URLRequest( imagePathList[ loadedImageList.length ].path ) );
-				addChild( currentLoadingFrame.image );
-			}
-			else
-			{
-				hasLoaded = true;
-				while ( numChildren > 0 )
-				{
-					removeChildAt( 0 );
-				}
-			}
-		}
-		
-		private function handleLoadedImage( event : Event ) : void
-		{
-			currentLoadingFrame.image.contentLoaderInfo.removeEventListener( Event.COMPLETE, handleLoadedImage );
-			loadedImageList.push( currentLoadingFrame );
-			loadedImageMap[ currentLoadingFrame.id ] = currentLoadingFrame;
-			loadImage();
+			matrix.tx = frame.offset.x;
+			matrix.ty = frame.offset.y;
+			graphics.clear();
+			graphics.beginBitmapFill( frame.bitmap.bitmapData, matrix, false );
+			graphics.drawRect( frame.offset.x, frame.offset.y, frame.bitmap.bitmapData.width, frame.bitmap.bitmapData.height )
+			graphics.endFill();
 		}
 	}
 }

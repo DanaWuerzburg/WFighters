@@ -33,11 +33,8 @@ package net.wooga.wfighters.fightarea
 		public function FightArea() 
 		{
 			super();
-			
-			floorLoader = new Loader();
-			floorLoader.load( new URLRequest( "res/floor.png" ) );
-			floorLoader.contentLoaderInfo.addEventListener( Event.COMPLETE, handleFloorLoaderComplete );
-			addChild( floorLoader );
+			floorBitmapData = ( new Assets.FloorBitmap() as Bitmap ).bitmapData;
+			updateCamera();
 		}
 		
 		public function addFighter( fighter : Fighter ) : void
@@ -104,18 +101,6 @@ package net.wooga.wfighters.fightarea
 				Vector.<Number>([ 0,0,ft1, 1,0,ft2, 1,1,ft3, 0,1,ft4 ]));
 			graphics.endFill();
 			
-		}
-		
-		private function handleFloorLoaderComplete( event : Event ) : void
-		{
-			floorLoader.loaderInfo.removeEventListener( Event.COMPLETE, handleFloorLoaderComplete );
-			
-			var bitmap : Bitmap = event.target.content;
-			floorBitmapData = bitmap.bitmapData;
-			
-			removeChild( floorLoader );
-			updateCamera();
-		}
-		
+		}		
 	}
 }

@@ -10,7 +10,7 @@ package net.wooga.wfighters.fighter
 	import flash.ui.Keyboard;
 	import net.wooga.wfighters.fightarea.FightArea;
 	import net.wooga.wfighters.GameContainer;
-	import net.wooga.wfighters.spriteset.FrameLoaderConfig;
+	import net.wooga.wfighters.spriteset.FrameConfig;
 	import net.wooga.wfighters.spriteset.Spriteset;
 	
 	public class Fighter extends Sprite 
@@ -59,19 +59,18 @@ package net.wooga.wfighters.fighter
 			this.gameContainer = gameContainer;
 			state = STATE_STAND;
 			
-			spriteset = new Spriteset( new <FrameLoaderConfig>
+			spriteset = new Spriteset( new <FrameConfig>
 			[
-				new FrameLoaderConfig( "idle",			"res/panda.png" ),
-				new FrameLoaderConfig( "punch",			"res/panda_punch.png", new Vector3D( -25, 0 ) ),
-				new FrameLoaderConfig( "kick",			"res/panda_kick.png", new Vector3D( -50, 5 ) ),
-				new FrameLoaderConfig( "jumppunch",		"res/panda_jumppunch.png"),
-				new FrameLoaderConfig( "jumpkick",		"res/panda_jumpkick.png"),
-				new FrameLoaderConfig( "jump",			"res/panda_jump.png" ),
-				new FrameLoaderConfig( "block",			"res/panda_block.png" ),
-				new FrameLoaderConfig( "damage",		"res/panda_damage.png" ),
-				new FrameLoaderConfig( "down",			"res/panda_down.png" ),
+				new FrameConfig( "idle",		new Assets.IdleBitmap() ),
+				new FrameConfig( "punch",		new Assets.PunchBitmap(), new Vector3D( -25, 0 ) ),
+				new FrameConfig( "kick",		new Assets.KickBitmap(), new Vector3D( -50, 5 ) ),
+				new FrameConfig( "jumppunch",	new Assets.JumpPunchBitmap() ),
+				new FrameConfig( "jumpkick",	new Assets.JumpKickBitmap() ),
+				new FrameConfig( "jump",		new Assets.JumpBitmap() ),
+				new FrameConfig( "block",		new Assets.BlockBitmap() ),
+				new FrameConfig( "damage",		new Assets.DamageBitmap() ),
+				new FrameConfig( "down",		new Assets.DownBitmap() ),
 			] );
-			spriteset.load();
 			addChild( spriteset );
 		}
 		
@@ -170,12 +169,12 @@ package net.wooga.wfighters.fighter
 			}
 			if ( gameContainer.inputController.isKeyPressed( _controlConfig.leftKey ) )
 			{
-				x -= 0.5 * t;
+				x -= 0.3 * t;
 				_fightArea.handleFighterPositionChanged( this );
 			}
 			if ( gameContainer.inputController.isKeyPressed( _controlConfig.rightKey ) )
 			{
-				x += 0.5 * t;
+				x += 0.3 * t;
 				_fightArea.handleFighterPositionChanged( this );
 			}
 			if ( gameContainer.inputController.isKeyPressed( _controlConfig.upKey ) )
