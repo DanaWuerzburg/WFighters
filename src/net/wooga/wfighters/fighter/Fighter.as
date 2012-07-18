@@ -26,11 +26,14 @@ package net.wooga.wfighters.fighter
 		private static const STATE_DOWN : String = "STATE_DOWN";
 		private static const STATE_KO : String = "STATE_KO";
 		
+		private static const MAX_DAMAGE : Number = 100;
+		
 		private var _state : String;
 		private var gameContainer : GameContainer;
 		private var _controlConfig : ControlConfig;
 		private var _fightArea : FightArea;
 		private var _opponent : Fighter;
+		private var _damage : Number = 0;
 		
 		private var jumpTime : Number = 0;
 		private var jumpVector : Vector3D = new Vector3D();
@@ -50,6 +53,9 @@ package net.wooga.wfighters.fighter
 		
 		private var damageTime : Number = 0;
 		private var damageLevel : Number = 0;
+		
+		private var downTime : Number = 0;
+		private var downVector : Vector3D = new Vector3D();
 		
 		private var spriteset : Spriteset;
 		
@@ -337,12 +343,33 @@ package net.wooga.wfighters.fighter
 		
 		private function handleEnterDown() : void
 		{
+			downTime = 0;
+			downVector.x = ( x - _opponent.x );
+			downVector.y = -100;
+			downVector.z = 0;
+			downVector.normalize();
 			spriteset.showFrame( "down" );
 		}
 		
 		private function updateDown( t : int ) : void
 		{
-			state = STATE_STAND;
+			if ( downTime == 0 )
+			{
+				x += downVector.x * t / 2;
+				y += downVector.y * t / 2;
+				
+				downVector.y += t / 300;
+				_fightArea.handleFighterPositionChanged( this );
+			}
+			if ( y >= 200 )
+			{
+				y = 200;
+				downTime += t;
+			}
+			if ( downTime > 500 )
+			{
+				state = STATE_STAND;
+			}
 		}
 		
 		private function updateCollision() : void
