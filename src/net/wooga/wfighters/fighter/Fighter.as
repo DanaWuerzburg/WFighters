@@ -34,6 +34,7 @@ package net.wooga.wfighters.fighter
 		private var _fightArea : FightArea;
 		private var _opponent : Fighter;
 		private var _damage : Number = 0;
+		private var _comboHelper : ComboHelper = new ComboHelper();
 		
 		private var jumpTime : Number = 0;
 		private var jumpVector : Vector3D = new Vector3D();
@@ -76,6 +77,7 @@ package net.wooga.wfighters.fighter
 				new FrameConfig( "block",		new Assets.BlockBitmap() ),
 				new FrameConfig( "damage",		new Assets.DamageBitmap() ),
 				new FrameConfig( "down",		new Assets.DownBitmap() ),
+				new FrameConfig( "ko",			new Assets.KOBitmap() ),
 			] );
 			addChild( spriteset );
 		}
@@ -108,6 +110,16 @@ package net.wooga.wfighters.fighter
 			{
 				kickKeyReleased = true;
 			}
+			
+			if ( gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) )
+			{
+				_comboHelper.addPunch();
+			}
+			else if ( gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) )
+			{
+				_comboHelper.addKick();
+			}
+			
 		}
 		
 		public function set controlConfig( controlConfig : ControlConfig ) : void
@@ -146,6 +158,11 @@ package net.wooga.wfighters.fighter
 			return _state;
 		}
 		
+		private function get lowestY() : Number
+		{
+			return 400 - height;
+		}
+		
 		private function handleStateChanged() : void
 		{
 			switch ( _state )
@@ -165,13 +182,13 @@ package net.wooga.wfighters.fighter
 		{
 			spriteset.showFrame( "idle" );
 			
-			if ( y < 200 )
+			if ( y < lowestY )
 			{
 				y += t;
 			}
-			if ( y > 200 )
+			if ( y > lowestY )
 			{
-				y = 200;
+				y = lowestY;
 			}
 			if ( gameContainer.inputController.isKeyPressed( _controlConfig.leftKey ) )
 			{
@@ -203,6 +220,8 @@ package net.wooga.wfighters.fighter
 			jumpVector.x = 0;
 			jumpVector.y = -2;
 			spriteset.showFrame( "jump" );
+			
+			_comboHelper.addJump();
 		}
 		
 		private function updateJump( t : int ) : void
@@ -221,11 +240,11 @@ package net.wooga.wfighters.fighter
 				jumpVector.x += 0.1 * moveFactor;
 				if ( jumpVector.x > 0.5 ) jumpVector.x = 0.5;
 			}
-			if ( gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) && jumpVector.y > 0 )
+			if ( gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) && jumpTime > 200 )
 			{
 				state = STATE_JUMP_PUNCH;
 			}
-			if ( gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) && jumpVector.y > 0 )
+			if ( gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) && jumpTime > 200 )
 			{
 				state = STATE_JUMP_KICK;
 			}
@@ -236,9 +255,9 @@ package net.wooga.wfighters.fighter
 			
 			jumpVector.y += 0.01 * t;
 			
-			if ( y >= 200 )
+			if ( y >= lowestY )
 			{
-				y = 200;
+				y = lowestY;
 				state = STATE_STAND;
 			}
 		}
@@ -295,6 +314,11 @@ package net.wooga.wfighters.fighter
 		private function updateJumpPunch( t : int ) : void
 		{
 			updateJump( t );
+			
+			if ( _opponent && Math.abs( x - _opponent.x ) < width + 10 )
+			{
+				_opponent.receivePunch();
+			}
 		}
 		
 		private function handleEnterJumpKick() : void
@@ -307,6 +331,11 @@ package net.wooga.wfighters.fighter
 		private function updateJumpKick( t : int ) : void
 		{
 			updateJump( t );
+			
+			if ( _opponent && Math.abs( x - _opponent.x ) < width + 10 )
+			{
+				_opponent.receiveKick();
+			}
 		}
 		
 		private function handleEnterBlock() : void
@@ -361,9 +390,13 @@ package net.wooga.wfighters.fighter
 				downVector.y += t / 300;
 				_fightArea.handleFighterPositionChanged( this );
 			}
-			if ( y >= 200 )
+			if ( y >= lowestY )
 			{
-				y = 200;
+				if ( downTime == 0 )
+				{
+					spriteset.showFrame( "ko" );
+				}
+				y = lowestY;
 				downTime += t;
 			}
 			if ( downTime > 500 )

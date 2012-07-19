@@ -23,5 +23,7 @@ package
 		public static const DamageBitmap : Class;
 		[Embed(source = "panda_down.png")]
 		public static const DownBitmap : Class;
+		[Embed(source = "panda_ko.png")]
+		public static const KOBitmap : Class;
 	}
 }
