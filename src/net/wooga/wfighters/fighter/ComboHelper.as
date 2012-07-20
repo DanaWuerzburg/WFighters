@@ -4,98 +4,24 @@ package net.wooga.wfighters.fighter
 	import flash.utils.Dictionary;
 	public class ComboHelper 
 	{
-		private static const KICK : String = "KICK";
-		private static const PUNCH : String = "PUNCH";
-		private static const JUMP : String = "JUMP";
-		private static const RESULT : String = "RESULT";
-		private static const lib : Object =
+		private var comboList : Vector.<Combo> = new Vector.<Combo>;
+		private var base : Combo;
+		private var current : Combo;
+		
+		public function ComboHelper( base : Combo ) 
 		{
-			PUNCH :
-			{
-				RESULT : "singlePunch",
-				PUNCH :
-				{
-					RESULT : "doublePunch",
-					PUNCH :
-					{
-						RESULT : "triplePunch"
-					}
-				},
-				KICK :
-				{
-					RESULT: "punchKick"
-				}
-			},
-			KICK :
-			{
-				RESULT : "singleKick",
-				KICK :
-				{
-					RESULT : "doubleKick",
-					KICK :
-					{
-						RESULT : "tripleKick"
-					}
-				},
-				PUNCH :
-				{
-					RESULT : "kickPunch"
-				}
-			},
-			JUMP :
-			{
-				RESULT : "jump",
-				KICK :
-				{
-					RESULT : "jumpKick"
-				}
-				PUNCH :
-				{
-					RESULT : "jumpPunch"
-				}
-			}
+			this.base = base;
+			reset();
 		}
 		
-		private var current : Object = lib;
-		
-		public function ComboHelper() 
+		public function trigger( trigger : String ) : void
 		{
-			
-		}
-		
-		public function addPunch() : String
-		{
-			if ( current[ PUNCH ] )
-			{
-				current = current[ PUNCH ]
-				return current[ RESULT ];
-			}
-			else return null;
-		}
-		
-		public function addKick() : String
-		{
-			if ( current[ KICK ] )
-			{
-				current = current[ KICK ]
-				return current[ RESULT ];
-			}
-			else return null;
-		}
-		
-		public function addJump() : void
-		{
-			if ( current[ JUMP ] )
-			{
-				current = current[ JUMP ]
-				return current[ RESULT ];
-			}
-			else return null;
+			current = current.trigger( trigger );
 		}
 		
 		public function reset() : void
 		{
-			current = lib;
+			current = base;
 		}
 	}
 

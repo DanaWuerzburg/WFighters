@@ -3,6 +3,7 @@ package net.wooga.wfighters.controller.gamestate
 	import flash.ui.Keyboard;
 	import net.wooga.wfighters.fighter.Fighter;
 	import net.wooga.wfighters.fighter.ControlConfig;
+	import net.wooga.wfighters.fighter.Panda;
 	import net.wooga.wfighters.GameContainer;
 	public class FightIntroGameState extends GameState 
 	{		
@@ -18,8 +19,8 @@ package net.wooga.wfighters.controller.gamestate
 		
 		public override function handleBecomeActive() : void
 		{
-			gameContainer.fightArea.addFighter( fighterOne = new Fighter( gameContainer ) );
-			gameContainer.fightArea.addFighter( fighterTwo = new Fighter( gameContainer ) );
+			gameContainer.fightArea.addFighter( fighterOne = new Panda( gameContainer ) );
+			gameContainer.fightArea.addFighter( fighterTwo = new Panda( gameContainer ) );
 			
 			var controlConfig : ControlConfig;
 			controlConfig = new ControlConfig();

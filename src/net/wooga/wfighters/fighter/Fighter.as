@@ -8,6 +8,7 @@ package net.wooga.wfighters.fighter
 	import flash.geom.Vector3D;
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
+	import flash.utils.Dictionary;
 	import net.wooga.wfighters.fightarea.FightArea;
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.spriteset.FrameConfig;
@@ -16,7 +17,7 @@ package net.wooga.wfighters.fighter
 	public class Fighter extends Sprite 
 	{
 		private static const STATE_STAND : String = "STATE_STAND";
-		private static const STATE_JUMP : String = "STATE_JUMP";
+		
 		private static const STATE_PUNCH : String = "STATE_PUNCH";
 		private static const STATE_KICK : String = "STATE_KICK";
 		private static const STATE_JUMP_PUNCH : String = "STATE_JUMP_PUNCH";
@@ -26,7 +27,13 @@ package net.wooga.wfighters.fighter
 		private static const STATE_DOWN : String = "STATE_DOWN";
 		private static const STATE_KO : String = "STATE_KO";
 		
+		private static const STATE_FREE : String = "STATE_FREE";
+		private static const STATE_COMBO : String = "STATE_COMBO";
+		private static const STATE_JUMP : String = "STATE_JUMP";
+		private static const STATE_JUMP_ATTACK : String = "STATE_JUMP_ATTACK";
+		
 		private static const MAX_DAMAGE : Number = 100;
+		private static const MOVE_SPEED : Number = 0.3;
 		
 		private var _state : String;
 		private var gameContainer : GameContainer;
@@ -34,7 +41,10 @@ package net.wooga.wfighters.fighter
 		private var _fightArea : FightArea;
 		private var _opponent : Fighter;
 		private var _damage : Number = 0;
-		private var _comboHelper : ComboHelper = new ComboHelper();
+		private var _comboHelper : ComboHelper;
+		private var triggeredKeys : Dictionary = new Dictionary();
+		
+		private var comboTime : Number = 0;
 		
 		private var jumpTime : Number = 0;
 		private var jumpVector : Vector3D = new Vector3D();
@@ -64,61 +74,234 @@ package net.wooga.wfighters.fighter
 		{
 			super();
 			this.gameContainer = gameContainer;
-			state = STATE_STAND;
 			
-			spriteset = new Spriteset( new <FrameConfig>
-			[
-				new FrameConfig( "idle",		new Assets.IdleBitmap() ),
-				new FrameConfig( "punch",		new Assets.PunchBitmap(), new Vector3D( -25, 0 ) ),
-				new FrameConfig( "kick",		new Assets.KickBitmap(), new Vector3D( -50, 5 ) ),
-				new FrameConfig( "jumppunch",	new Assets.JumpPunchBitmap() ),
-				new FrameConfig( "jumpkick",	new Assets.JumpKickBitmap() ),
-				new FrameConfig( "jump",		new Assets.JumpBitmap() ),
-				new FrameConfig( "block",		new Assets.BlockBitmap() ),
-				new FrameConfig( "damage",		new Assets.DamageBitmap() ),
-				new FrameConfig( "down",		new Assets.DownBitmap() ),
-				new FrameConfig( "ko",			new Assets.KOBitmap() ),
-			] );
-			addChild( spriteset );
+			addChild( spriteset = createSpriteset() );
+			
+			
+			var base : Combo = new Combo();
+			var combo : Combo;
+			base.addCombo( Combo.PUNCH, combo = new Combo( punch ) );
+			{
+				combo.addCombo( Combo.PUNCH, combo = new Combo( punchPunch ) );
+				{
+					combo.addCombo( Combo.PUNCH, combo = new Combo( punchPunchPunch ) );
+				}
+			}
+			base.addCombo( Combo.KICK, combo = new Combo( kick ) );
+			base.addCombo( Combo.JUMP, combo = new Combo( jump ) );
+			{
+				combo
+					.addCombo( Combo.PUNCH, combo = new Combo( jumpPunch ) )
+					.addCombo( Combo.KICK, combo = new Combo( jumpKick ) );
+			}
+			
+			_comboHelper = new ComboHelper( base );
+			
+			state = STATE_FREE;
+		}
+		
+		protected function createSpriteset() : Spriteset
+		{
+			return new Spriteset( new <FrameConfig>[] );
+		}
+		
+		private function punch() : void
+		{
+			state = STATE_COMBO;
+			comboTime = 400;
+			spriteset.showFrame( "punch0" );
+		}
+		
+		private function punchPunch() : void
+		{
+			state = STATE_COMBO;
+			comboTime = 400;
+			spriteset.showFrame( "punch1" );
+		}
+		
+		private function punchPunchPunch() : void
+		{
+			state = STATE_COMBO;
+			comboTime = 800;
+			spriteset.showFrame( "punch2" );
+		}
+		
+		private function kick() : void
+		{
+			
+		}
+		
+		private function jump() : void
+		{
+			state = STATE_JUMP;
+			comboTime = 200;
+			spriteset.showFrame( "jump" );
+			jumpVector.y = -100;
+		}
+		
+		private function jumpPunch() : void
+		{
+			state = STATE_JUMP_ATTACK;
+			comboTime = 200;
+			spriteset.showFrame( "jumppunch" );
+		}
+		
+		private function jumpKick() : void
+		{
+			
+		}
+		
+		private function endCombo() : void
+		{
+			_comboHelper.reset();
+		}
+		
+		private function isKeyPressed( key : uint ) : Boolean
+		{
+			return gameContainer.inputController.isKeyPressed( key );
+		}
+		
+		private function isKeyTriggered( key : uint ) : Boolean
+		{
+			var wasPressed : Boolean = triggeredKeys[ key ];
+			triggeredKeys[ key ] = isKeyPressed( key );
+			return !wasPressed && triggeredKeys[ key ];
 		}
 		
 		public function update( t : int ) : void
-		{
+		{			
 			switch ( state )
 			{
-				case STATE_STAND:		updateStand( t );	break;
-				case STATE_JUMP:		updateJump( t );	break;
-				case STATE_PUNCH:		updatePunch( t );	break;
-				case STATE_KICK:		updateKick( t );	break;
-				case STATE_JUMP_PUNCH:	updateJumpPunch( t );	break;
-				case STATE_JUMP_KICK:	updateJumpKick( t );	break;
-				case STATE_BLOCK:		updateBlock( t );	break;
-				case STATE_DAMAGE:		updateDamage( t );	break;
-				case STATE_DOWN:		updateDown( t );	break;
+				case STATE_FREE:
+				{
+					if ( isKeyPressed( _controlConfig.leftKey ) )
+					{
+						x -= t * MOVE_SPEED;
+						_fightArea.handleFighterPositionChanged( this );
+					}
+					else if ( isKeyPressed( _controlConfig.rightKey ) )
+					{
+						x += t * MOVE_SPEED;
+						_fightArea.handleFighterPositionChanged( this );
+					}
+					if ( isKeyTriggered( _controlConfig.punchKey ) )
+					{
+						_comboHelper.trigger( Combo.PUNCH );
+					}
+					if ( isKeyTriggered( _controlConfig.upKey ) )
+					{
+						_comboHelper.trigger( Combo.JUMP );
+					}
+					updateDirection();
+					break;
+				}
+				case STATE_COMBO:
+				{
+					comboTime -= t;
+					if ( comboTime <= 0 )
+					{
+						endCombo();
+						state = STATE_FREE;
+					}
+					else
+					{
+						if ( isKeyTriggered( _controlConfig.punchKey ) )
+						{
+							_comboHelper.trigger( Combo.PUNCH );
+						}
+					}
+					break;
+				}
+				case STATE_JUMP:
+				{
+					if ( isKeyPressed( _controlConfig.leftKey ) )
+					{
+						x -= t * MOVE_SPEED;
+					}
+					else if ( isKeyPressed( _controlConfig.rightKey ) )
+					{
+						x += t * MOVE_SPEED;
+					}
+					jumpVector.y += t / 4.5;
+					y += jumpVector.y;
+					_fightArea.handleFighterPositionChanged( this );
+					if ( y > lowestY )
+					{
+						y = lowestY;
+						state = STATE_FREE;
+						endCombo();
+					}
+					else
+					{
+						if ( isKeyTriggered( _controlConfig.punchKey ) )
+						{
+							_comboHelper.trigger( Combo.PUNCH );
+						}
+					}
+					break;
+				}
+				case STATE_JUMP_ATTACK:
+				{
+					jumpVector.y += t / 4.5;
+					y += jumpVector.y;
+					_fightArea.handleFighterPositionChanged( this );
+					if ( y > lowestY )
+					{
+						y = lowestY;
+						state = STATE_FREE;
+						endCombo();
+					}
+					break;
+				}
 			}
+			
+			if ( y < lowestY )
+			{
+				y += t;
+				if ( y > lowestY )
+				{
+					y = lowestY;
+				}
+				_fightArea.handleFighterPositionChanged( this );
+			}
+			
 			updateCollision();
-			if ( state != STATE_DOWN )
-			{
-				updateDirection();
-			}
 			
-			if ( !gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) )
-			{
-				punchKeyReleased = true;
-			}
-			if ( !gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) )
-			{
-				kickKeyReleased = true;
-			}
-			
-			if ( gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) )
-			{
-				_comboHelper.addPunch();
-			}
-			else if ( gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) )
-			{
-				_comboHelper.addKick();
-			}
+			//switch ( state )
+			//{
+				//case STATE_STAND:		updateStand( t );	break;
+				//case STATE_JUMP:		updateJump( t );	break;
+				//case STATE_PUNCH:		updatePunch( t );	break;
+				//case STATE_KICK:		updateKick( t );	break;
+				//case STATE_JUMP_PUNCH:	updateJumpPunch( t );	break;
+				//case STATE_JUMP_KICK:	updateJumpKick( t );	break;
+				//case STATE_BLOCK:		updateBlock( t );	break;
+				//case STATE_DAMAGE:		updateDamage( t );	break;
+				//case STATE_DOWN:		updateDown( t );	break;
+			//}
+			//updateCollision();
+			//if ( state != STATE_DOWN )
+			//{
+				//updateDirection();
+			//}
+			//
+			//if ( !gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) )
+			//{
+				//punchKeyReleased = true;
+			//}
+			//if ( !gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) )
+			//{
+				//kickKeyReleased = true;
+			//}
+			//
+			//if ( gameContainer.inputController.isKeyPressed( _controlConfig.punchKey ) )
+			//{
+				//_comboHelper.addPunch();
+			//}
+			//else if ( gameContainer.inputController.isKeyPressed( _controlConfig.kickKey ) )
+			//{
+				//_comboHelper.addKick();
+			//}
 			
 		}
 		
@@ -165,17 +348,25 @@ package net.wooga.wfighters.fighter
 		
 		private function handleStateChanged() : void
 		{
-			switch ( _state )
+			switch ( state )
 			{
-				case STATE_JUMP:		handleEnterJump(); break;
-				case STATE_PUNCH:		handleEnterPunch(); break;
-				case STATE_KICK:		handleEnterKick(); break;
-				case STATE_JUMP_PUNCH:	handleEnterJumpPunch(); break;
-				case STATE_JUMP_KICK:	handleEnterJumpKick(); break;
-				case STATE_BLOCK:		handleEnterBlock(); break;
-				case STATE_DAMAGE:		handleEnterDamage(); break;
-				case STATE_DOWN: 		handleEnterDown(); break;
+				case STATE_FREE:
+				{
+					spriteset.showFrame( "idle" );
+					break;
+				}
 			}
+			//switch ( _state )
+			//{
+				//case STATE_JUMP:		handleEnterJump(); break;
+				//case STATE_PUNCH:		handleEnterPunch(); break;
+				//case STATE_KICK:		handleEnterKick(); break;
+				//case STATE_JUMP_PUNCH:	handleEnterJumpPunch(); break;
+				//case STATE_JUMP_KICK:	handleEnterJumpKick(); break;
+				//case STATE_BLOCK:		handleEnterBlock(); break;
+				//case STATE_DAMAGE:		handleEnterDamage(); break;
+				//case STATE_DOWN: 		handleEnterDown(); break;
+			//}
 		}
 		
 		private function updateStand( t : int ) : void
@@ -221,7 +412,7 @@ package net.wooga.wfighters.fighter
 			jumpVector.y = -2;
 			spriteset.showFrame( "jump" );
 			
-			_comboHelper.addJump();
+			
 		}
 		
 		private function updateJump( t : int ) : void

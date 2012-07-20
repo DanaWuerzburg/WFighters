@@ -6,24 +6,28 @@ package
 		public static const FloorBitmap : Class;
 		
 		[Embed(source = "panda.png")]
-		public static const IdleBitmap : Class;
-		[Embed(source = "panda_punch.png")]
-		public static const PunchBitmap : Class;
+		public static const PandaIdleBitmap : Class;
+		[Embed(source = "panda_punch_0.png")]
+		public static const PandaPunch0Bitmap : Class;
+		[Embed(source = "panda_punch_1.png")]
+		public static const PandaPunch1Bitmap : Class;
+		[Embed(source = "panda_punch_2.png")]
+		public static const PandaPunch2Bitmap : Class;
 		[Embed(source = "panda_kick.png")]
-		public static const KickBitmap : Class;
+		public static const PandaKickBitmap : Class;
 		[Embed(source = "panda_jumppunch.png")]
-		public static const JumpPunchBitmap : Class;
+		public static const PandaJumpPunchBitmap : Class;
 		[Embed(source = "panda_jumpkick.png")]
-		public static const JumpKickBitmap : Class;
+		public static const PandaJumpKickBitmap : Class;
 		[Embed(source = "panda_jump.png")]
-		public static const JumpBitmap : Class;
+		public static const PandaJumpBitmap : Class;
 		[Embed(source = "panda_block.png")]
-		public static const BlockBitmap : Class;
+		public static const PandaBlockBitmap : Class;
 		[Embed(source = "panda_damage.png")]
-		public static const DamageBitmap : Class;
+		public static const PandaDamageBitmap : Class;
 		[Embed(source = "panda_down.png")]
-		public static const DownBitmap : Class;
+		public static const PandaDownBitmap : Class;
 		[Embed(source = "panda_ko.png")]
-		public static const KOBitmap : Class;
+		public static const PandaKOBitmap : Class;
 	}
 }
