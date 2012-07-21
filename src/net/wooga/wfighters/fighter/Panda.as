@@ -6,12 +6,11 @@ package net.wooga.wfighters.fighter
 	import net.wooga.wfighters.spriteset.Spriteset;
 
 	public class Panda extends Fighter 
-	{
-		public function Panda(gameContainer:GameContainer) 
+	{	
+		public function Panda( gameCointainer : GameContainer, id : uint )
 		{
-			super( gameContainer );
+			super( gameCointainer, id );
 		}
-		
 		protected override function createSpriteset() : Spriteset
 		{
 			return new Spriteset( new <FrameConfig>
@@ -20,7 +19,9 @@ package net.wooga.wfighters.fighter
 				new FrameConfig( "punch0",		new Assets.PandaPunch0Bitmap(), new Vector3D( -25, 0 ) ),
 				new FrameConfig( "punch1",		new Assets.PandaPunch1Bitmap(), new Vector3D( -25, 0 ) ),
 				new FrameConfig( "punch2",		new Assets.PandaPunch2Bitmap(), new Vector3D( -25, 0 ) ),
-				new FrameConfig( "kick",		new Assets.PandaKickBitmap(), new Vector3D( -50, 5 ) ),
+				new FrameConfig( "kick0",		new Assets.PandaKick0Bitmap(), new Vector3D( -50, 5 ) ),
+				new FrameConfig( "kick1",		new Assets.PandaKick1Bitmap(), new Vector3D( -50, 5 ) ),
+				new FrameConfig( "kick2",		new Assets.PandaKick2Bitmap(), new Vector3D( -50, 5 ) ),
 				new FrameConfig( "jumppunch",	new Assets.PandaJumpPunchBitmap() ),
 				new FrameConfig( "jumpkick",	new Assets.PandaJumpKickBitmap() ),
 				new FrameConfig( "jump",		new Assets.PandaJumpBitmap() ),

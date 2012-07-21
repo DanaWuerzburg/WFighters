@@ -2,8 +2,21 @@ package
 {
 	public class Assets 
 	{
+		[Embed(source = "SF Quartzite Bold.ttf", fontName="Quartzite", embedAsCFF = "false")]
+		public static const QuartziteFont : Class;
+		
+		[Embed(source = "hp.png")]
+		public static const HPBitmap : Class;
+		
+		
 		[Embed(source = "floor.png")]
 		public static const FloorBitmap : Class;
+		[Embed(source = "sky.png")]
+		public static const SkyBitmap : Class;
+		[Embed(source = "foreground.png")]
+		public static const ForegroundBitmap : Class;
+		[Embed(source = "background.png")]
+		public static const BackgroundBitmap : Class;
 		
 		[Embed(source = "panda.png")]
 		public static const PandaIdleBitmap : Class;
@@ -13,8 +26,12 @@ package
 		public static const PandaPunch1Bitmap : Class;
 		[Embed(source = "panda_punch_2.png")]
 		public static const PandaPunch2Bitmap : Class;
-		[Embed(source = "panda_kick.png")]
-		public static const PandaKickBitmap : Class;
+		[Embed(source = "panda_kick_0.png")]
+		public static const PandaKick0Bitmap : Class;
+		[Embed(source = "panda_kick_1.png")]
+		public static const PandaKick1Bitmap : Class;
+		[Embed(source = "panda_kick_2.png")]
+		public static const PandaKick2Bitmap : Class;
 		[Embed(source = "panda_jumppunch.png")]
 		public static const PandaJumpPunchBitmap : Class;
 		[Embed(source = "panda_jumpkick.png")]

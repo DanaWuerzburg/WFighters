@@ -28,7 +28,7 @@ package net.wooga.wfighters.controller
 			hasLastFrameTime = true;
 		}
 		
-		private function changeGameState( state : GameState ) : void
+		public function changeGameState( state : GameState ) : void
 		{
 			if ( this.state ) this.state.handleResignActive();
 			this.state = state;

@@ -5,6 +5,7 @@ package net.wooga.wfighters.fightarea
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
@@ -17,23 +18,29 @@ package net.wooga.wfighters.fightarea
 		private var boundsRect : Rectangle = new Rectangle( 0, 0, 1280, 480 );
 		private var cameraRectangle : Rectangle = new Rectangle( 0, 0, 640, 480 );
 		
-		private var index : uint;
-		private var length : uint;
-		private var floorLoader : Loader;
-		private var floorBitmapData : BitmapData;
-		private var fp1 : Point = new Point();
-		private var fp2 : Point = new Point();
-		private var fp3 : Point = new Point();
-		private var fp4 : Point = new Point();
-		private var ft1 : Number;
-		private var ft2 : Number;
-		private var ft3 : Number;
-		private var ft4 : Number;		
+		private var foreground : Foreground;
+		private var floor : Floor;
+		private var fighterContainer : Sprite;
 		
+		private var skyBitmapData : BitmapData;
+		private var backgroundBitmapData : BitmapData;
+		private var renderMatrix : Matrix = new Matrix;
+				
 		public function FightArea() 
 		{
 			super();
-			floorBitmapData = ( new Assets.FloorBitmap() as Bitmap ).bitmapData;
+			
+			floor = new Floor();
+			addChild( floor );
+			
+			fighterContainer = new Sprite();
+			addChild( fighterContainer );
+			
+			foreground = new Foreground();
+			addChild( foreground );
+			
+			skyBitmapData = ( new Assets.SkyBitmap() as Bitmap ).bitmapData;
+			backgroundBitmapData = ( new Assets.BackgroundBitmap() as Bitmap ).bitmapData;
 			updateCamera();
 		}
 		
@@ -41,7 +48,17 @@ package net.wooga.wfighters.fightarea
 		{
 			fighterList.push( fighter );
 			fighter.fightArea = this;
-			addChild( fighter );
+			fighterContainer.addChild( fighter );
+		}
+		
+		public function update( t : int ) : void
+		{
+			var index : uint = 0;
+			var length : uint = fighterList.length;
+			for ( index = 0; index < length; index++ )
+			{
+				fighterList[ index ].update( t );
+			}
 		}
 		
 		public function handleFighterPositionChanged( fighter : Fighter ) : void
@@ -49,7 +66,8 @@ package net.wooga.wfighters.fightarea
 			if ( fighter.x < boundsRect.x ) fighter.x = boundsRect.x;
 			if ( fighter.x + 100 > boundsRect.width ) fighter.x = boundsRect.width - 100;
 			
-			length = fighterList.length;
+			var index : uint;
+			var length : uint = fighterList.length;
 			var middleX : Number = 0;
 			for ( index = 0; index < length; index++ )
 			{
@@ -78,28 +96,25 @@ package net.wooga.wfighters.fightarea
 		public function updateCamera() : void
 		{
 			x = -cameraRectangle.x;
-			
-			fp1.x = boundsRect.left + cameraRectangle.x;
-			fp1.y = 300;
-			fp2.x = boundsRect.right + cameraRectangle.x;
-			fp2.y = 300;
-			fp3.x = boundsRect.right - 320;
-			fp3.y = boundsRect.bottom;
-			fp4.x = boundsRect.left - 320;
-			fp4.y = boundsRect.bottom;
-			
-			ft1 = 1 / (1 + 0.5);
-			ft2 = 1 / (1 + 0.5);
-			ft3 = 1 / (1 - 0.5);
-			ft4 = 1 / (1 - 0.5);
-			
+
 			graphics.clear();
-			graphics.beginBitmapFill( floorBitmapData );
-			graphics.drawTriangles(
-				Vector.<Number>([ fp1.x * ft1, fp1.y, fp2.x * ft2, fp2.y, fp3.x * ft3, fp3.y, fp4.x * ft4, fp4.y ]),
-				Vector.<int>([ 0,1,2, 0,2,3 ]),
-				Vector.<Number>([ 0,0,ft1, 1,0,ft2, 1,1,ft3, 0,1,ft4 ]));
+			
+			renderMatrix.tx = cameraRectangle.x - 40 * cameraRectangle.x / 640;
+			renderMatrix.ty = 0;
+			graphics.beginBitmapFill( skyBitmapData , renderMatrix );
+			graphics.drawRect( renderMatrix.tx, 0, skyBitmapData.width, skyBitmapData.height ); 
 			graphics.endFill();
+			
+			renderMatrix.tx = cameraRectangle.x / 2;
+			renderMatrix.ty = 280;
+			graphics.beginBitmapFill( backgroundBitmapData , renderMatrix );
+			graphics.drawRect( cameraRectangle.x, 280, 640, 100 ); 
+			graphics.endFill();
+			
+			foreground.x = -200 * cameraRectangle.x / 640;
+			
+			floor.x = cameraRectangle.x;
+			floor.update( cameraRectangle.x / 1280 );
 			
 		}		
 	}

@@ -5,12 +5,12 @@ package net.wooga.wfighters.controller.gamestate
 	import net.wooga.wfighters.fighter.ControlConfig;
 	import net.wooga.wfighters.fighter.Panda;
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.gui.HPGauge;
 	public class FightIntroGameState extends GameState 
 	{		
 		private var introTime : Number = 0;
 		private var fighterOne : Fighter;
 		private var fighterTwo : Fighter;
-		private var fairnessCounter : uint = 0;
 		
 		public function FightIntroGameState( gameContainer : GameContainer )
 		{
@@ -19,18 +19,17 @@ package net.wooga.wfighters.controller.gamestate
 		
 		public override function handleBecomeActive() : void
 		{
-			gameContainer.fightArea.addFighter( fighterOne = new Panda( gameContainer ) );
-			gameContainer.fightArea.addFighter( fighterTwo = new Panda( gameContainer ) );
+			gameContainer.fightArea.addFighter( fighterOne = new Panda( gameContainer, 0 ) );
+			gameContainer.fightArea.addFighter( fighterTwo = new Panda( gameContainer, 1 ) );
 			
 			var controlConfig : ControlConfig;
 			controlConfig = new ControlConfig();
-			controlConfig.upKey =		Keyboard.T;
-			controlConfig.downKey =		Keyboard.G;
-			controlConfig.leftKey =		Keyboard.F;
-			controlConfig.rightKey =	Keyboard.H;
-			controlConfig.punchKey =	Keyboard.A;
-			controlConfig.kickKey =		Keyboard.S;
-			controlConfig.jumpKey =		Keyboard.D;
+			controlConfig.upKey =		Keyboard.W;
+			controlConfig.downKey =		Keyboard.S;
+			controlConfig.leftKey =		Keyboard.A;
+			controlConfig.rightKey =	Keyboard.D;
+			controlConfig.punchKey =	Keyboard.F;
+			controlConfig.kickKey =		Keyboard.G;
 			fighterOne.controlConfig = controlConfig;
 			
 			controlConfig = new ControlConfig();
@@ -40,7 +39,6 @@ package net.wooga.wfighters.controller.gamestate
 			controlConfig.rightKey =	Keyboard.RIGHT;
 			controlConfig.punchKey =	Keyboard.J;
 			controlConfig.kickKey =		Keyboard.K;
-			controlConfig.jumpKey =		Keyboard.L;
 			fighterTwo.controlConfig = controlConfig;
 			fighterTwo.x = 200;
 			
@@ -56,9 +54,7 @@ package net.wooga.wfighters.controller.gamestate
 		public override function update( t : int ) : void
 		{
 			introTime += t;
-			fairnessCounter++;
-			fairnessCounter % 2 == 0 ? fighterOne.update( t ) : fighterTwo.update( t );
-			fairnessCounter % 2 == 0 ? fighterTwo.update( t ) : fighterOne.update( t );
+			gameContainer.fightArea.update( t );
 		}
 	}
 }
