@@ -3,6 +3,9 @@ package net.wooga.wfighters
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
 	import flash.utils.Dictionary;
 	import net.wooga.wfighters.controller.GameController;
 	import net.wooga.wfighters.controller.InputController;
@@ -16,6 +19,7 @@ package net.wooga.wfighters
 		private var _inputController : InputController;
 		private var _fightArea : FightArea;
 		private var _hpGauge : HPGauge;
+		private var _standardTextFormat : TextFormat;
 		
 		public function GameContainer() 
 		{
@@ -24,7 +28,17 @@ package net.wooga.wfighters
 			pressedKeys = new Dictionary();
 			
 			setup();
+			setupTextFormats();
 			addEventListener( Event.ADDED_TO_STAGE, handleAddedToState );
+		}
+		
+		public function createStandardTextField() : TextField
+		{
+			var textField : TextField = new TextField();
+			textField.defaultTextFormat = standardTextFormat;
+			textField.embedFonts = true;
+			textField.autoSize = TextFieldAutoSize.LEFT;
+			return textField;
 		}
 		
 		public function get inputController() : InputController
@@ -45,6 +59,11 @@ package net.wooga.wfighters
 		public function get hpGauge() : HPGauge
 		{
 			return _hpGauge;
+		}
+		
+		public function get standardTextFormat() : TextFormat
+		{
+			return _standardTextFormat;
 		}
 		
 		private function setup() : void
@@ -76,6 +95,12 @@ package net.wooga.wfighters
 		private function handleEnterFrame( e : Event ) : void
 		{
 			_gameController.update();
+		}
+		
+		private function setupTextFormats() : void
+		{
+			_standardTextFormat = new TextFormat( "Joystix", 20 );
+			_standardTextFormat.color = 0xFFFFFF;
 		}
 	}
 

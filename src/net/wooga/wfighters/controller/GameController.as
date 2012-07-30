@@ -4,6 +4,7 @@ package net.wooga.wfighters.controller
 	import flash.utils.getTimer;
 	import net.wooga.wfighters.controller.gamestate.FightIntroGameState;
 	import net.wooga.wfighters.controller.gamestate.GameState;
+	import net.wooga.wfighters.controller.gamestate.StartGameState;
 	import net.wooga.wfighters.GameContainer;
 	
 	public class GameController 
@@ -17,7 +18,7 @@ package net.wooga.wfighters.controller
 		public function GameController( gameContainer : GameContainer ) 
 		{
 			this.gameContainer = gameContainer;
-			this.changeGameState( new FightIntroGameState( gameContainer ) );
+			this.changeGameState( new StartGameState( gameContainer ) );
 		}
 		
 		public function update() : void

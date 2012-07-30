@@ -4,6 +4,12 @@ package
 	{
 		[Embed(source = "SF Quartzite Bold.ttf", fontName="Quartzite", embedAsCFF = "false")]
 		public static const QuartziteFont : Class;
+		[Embed(source = "JOYSTIX.ttf", fontName="Joystix", embedAsCFF = "false")]
+		public static const JoystixFont : Class;
+		
+		[Embed(source = "title.png")]
+		public static const TitleBitmap : Class;
+		
 		
 		[Embed(source = "hp.png")]
 		public static const HPBitmap : Class;

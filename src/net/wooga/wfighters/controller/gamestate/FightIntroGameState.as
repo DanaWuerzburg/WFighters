@@ -19,6 +19,9 @@ package net.wooga.wfighters.controller.gamestate
 		
 		public override function handleBecomeActive() : void
 		{
+			gameContainer.fightArea.visible = true;
+			gameContainer.hpGauge.visible = true;
+			
 			gameContainer.fightArea.addFighter( fighterOne = new Panda( gameContainer, 0 ) );
 			gameContainer.fightArea.addFighter( fighterTwo = new Panda( gameContainer, 1 ) );
 			
