@@ -4,6 +4,7 @@ package net.wooga.wfighters.controller.gamestate
 	import net.wooga.wfighters.fighter.Fighter;
 	import net.wooga.wfighters.fighter.ControlConfig;
 	import net.wooga.wfighters.fighter.Panda;
+	import net.wooga.wfighters.fighter.Racoon;
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.gui.HPGauge;
 	public class FightIntroGameState extends GameState 
@@ -22,8 +23,8 @@ package net.wooga.wfighters.controller.gamestate
 			gameContainer.fightArea.visible = true;
 			gameContainer.hpGauge.visible = true;
 			
-			gameContainer.fightArea.addFighter( fighterOne = new Panda( gameContainer, 0 ) );
-			gameContainer.fightArea.addFighter( fighterTwo = new Panda( gameContainer, 1 ) );
+			gameContainer.fightArea.addFighter( fighterOne = new Racoon( gameContainer, 0 ) );
+			gameContainer.fightArea.addFighter( fighterTwo = new Racoon( gameContainer, 1 ) );
 			
 			var controlConfig : ControlConfig;
 			controlConfig = new ControlConfig();

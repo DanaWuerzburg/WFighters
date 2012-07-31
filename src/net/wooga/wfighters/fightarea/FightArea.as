@@ -99,19 +99,19 @@ package net.wooga.wfighters.fightarea
 
 			graphics.clear();
 			
-			renderMatrix.tx = cameraRectangle.x - 40 * cameraRectangle.x / 640;
+			renderMatrix.tx = cameraRectangle.x - 60 * cameraRectangle.x / 640;
 			renderMatrix.ty = 0;
 			graphics.beginBitmapFill( skyBitmapData , renderMatrix );
 			graphics.drawRect( renderMatrix.tx, 0, skyBitmapData.width, skyBitmapData.height ); 
 			graphics.endFill();
 			
 			renderMatrix.tx = cameraRectangle.x / 2;
-			renderMatrix.ty = 280;
+			renderMatrix.ty = 0;
 			graphics.beginBitmapFill( backgroundBitmapData , renderMatrix );
-			graphics.drawRect( cameraRectangle.x, 280, 640, 100 ); 
+			graphics.drawRect( cameraRectangle.x, 0, 640, 480 ); 
 			graphics.endFill();
 			
-			foreground.x = -200 * cameraRectangle.x / 640;
+			foreground.x = cameraRectangle.x - ( 1480 - 640 ) * cameraRectangle.x / 640;
 			
 			floor.x = cameraRectangle.x;
 			floor.update( cameraRectangle.x / 1280 );

@@ -45,6 +45,8 @@ package net.wooga.wfighters.fighter
 		private var triggeredKeys : Dictionary = new Dictionary();
 		private var hitPoint : Point = new Point();
 		private var globalHitTestPoint : Point;
+		private var isWalking : Boolean = false;
+		private var walkTime : Number = 0;
 		
 		private var comboTime : Number = 0;
 		
@@ -86,9 +88,45 @@ package net.wooga.wfighters.fighter
 			
 			addChild( spriteset = createSpriteset() );
 			
-			
-			var base : Combo = new Combo();
+			var base : Combo = buildBaseCombo();
+			base.canFail = true;
 			var combo : Combo;
+			
+			base.addCombo( Combo.FORWARD, combo = buildBaseCombo( forward ) )
+			{
+				combo.canFail = true;
+				combo.addCombo( Combo.FORWARD, combo = buildBaseCombo( forward ) )
+				{
+					combo.canFail = true;
+					combo.addCombo( Combo.PUNCH, combo = new Combo( special ) );
+					{
+						combo.canFail = true;
+					}
+				}
+			}
+			
+			_comboHelper = new ComboHelper( base );
+			
+			state = STATE_FREE;
+			damage = 0;
+		}
+		
+		override public function hitTestPoint( hitX : Number, hitY : Number, shapeFlag:Boolean = false ) : Boolean 
+		{
+			hitPoint.x = x;
+			hitPoint.y = y;
+			globalHitTestPoint = localToGlobal( hitPoint );
+			return (
+				hitX > globalHitTestPoint.x && hitX < globalHitTestPoint.x + 100 &&
+				hitY > globalHitTestPoint.x && hitY < globalHitTestPoint.y + 100
+				)
+		}
+		
+		private function buildBaseCombo( callback : Function = null ) : Combo
+		{
+			var base : Combo = new Combo( callback );
+			var combo : Combo;
+			
 			base.addCombo( Combo.PUNCH, combo = new Combo( punch ) );
 			{
 				combo.addCombo( Combo.PUNCH, combo = new Combo( punchPunch ) );
@@ -110,15 +148,17 @@ package net.wooga.wfighters.fighter
 					.addCombo( Combo.KICK, combo = new Combo( jumpKick ) );
 			}
 			
-			_comboHelper = new ComboHelper( base );
-			
-			state = STATE_FREE;
-			damage = 0;
+			return base;
 		}
 		
 		protected function createSpriteset() : Spriteset
 		{
 			return new Spriteset( new <FrameConfig>[] );
+		}
+		
+		private function forward() : void
+		{
+			comboTime = 300;
 		}
 		
 		private function punch() : void
@@ -241,6 +281,11 @@ package net.wooga.wfighters.fighter
 			jumpAttackSuccess = false;
 		}
 		
+		private function special() : void
+		{
+			trace( "special" );
+		}
+		
 		private function endCombo() : void
 		{
 			_comboHelper.reset();
@@ -259,20 +304,74 @@ package net.wooga.wfighters.fighter
 		}
 		
 		public function update( t : int ) : void
-		{			
+		{						
 			switch ( state )
 			{
 				case STATE_FREE:
 				{
+					if ( comboTime > 0 )
+					{
+						comboTime -= t;
+						if ( comboTime <= 0 )
+						{
+							endCombo();
+						}
+					}
 					if ( isKeyPressed( _controlConfig.leftKey ) )
 					{
 						x -= t * MOVE_SPEED;
 						_fightArea.handleFighterPositionChanged( this );
+						if ( !isWalking )
+						{
+							isWalking = true;
+							walkTime = 0;
+						}
 					}
 					else if ( isKeyPressed( _controlConfig.rightKey ) )
 					{
 						x += t * MOVE_SPEED;
 						_fightArea.handleFighterPositionChanged( this );
+						if ( !isWalking )
+						{
+							isWalking = true;
+							walkTime = 0;
+						}
+					}
+					else
+					{
+						isWalking = false;
+					}
+					
+					if ( isWalking )
+					{
+						spriteset.showFrame("walk01");
+					}
+					else
+					{
+						spriteset.showFrame("stand01");
+					}
+					
+					if ( isKeyTriggered( _controlConfig.leftKey ) )
+					{
+						if ( spriteset.scaleX > 0 )
+						{
+							_comboHelper.trigger( Combo.FORWARD );
+						}
+						else
+						{
+							_comboHelper.trigger( Combo.BACK );
+						}
+					}
+					if ( isKeyTriggered( _controlConfig.rightKey ) )
+					{
+						if ( spriteset.scaleX < 0 )
+						{
+							_comboHelper.trigger( Combo.FORWARD );
+						}
+						else
+						{
+							_comboHelper.trigger( Combo.BACK );
+						}
 					}
 					if ( isKeyTriggered( _controlConfig.punchKey ) )
 					{
@@ -291,22 +390,22 @@ package net.wooga.wfighters.fighter
 				}
 				case STATE_COMBO:
 				{
-					comboTime -= t;
-					if ( comboTime <= 0 )
+					if ( comboTime > 0 )
 					{
-						endCombo();
-						state = STATE_FREE;
+						comboTime -= t;
+						if ( comboTime <= 0 )
+						{
+							endCombo();
+							state = STATE_FREE;
+						}
 					}
-					else
+					if ( isKeyTriggered( _controlConfig.punchKey ) )
 					{
-						if ( isKeyTriggered( _controlConfig.punchKey ) )
-						{
-							_comboHelper.trigger( Combo.PUNCH );
-						}
-						if ( isKeyTriggered( _controlConfig.kickKey ) )
-						{
-							_comboHelper.trigger( Combo.KICK );
-						}
+						_comboHelper.trigger( Combo.PUNCH );
+					}
+					if ( isKeyTriggered( _controlConfig.kickKey ) )
+					{
+						_comboHelper.trigger( Combo.KICK );
 					}
 					break;
 				}
@@ -527,11 +626,6 @@ package net.wooga.wfighters.fighter
 			
 			switch ( state )
 			{
-				case STATE_FREE:
-				{
-					spriteset.showFrame( "idle" );
-					break;
-				}
 				case STATE_BLOCK:
 				{
 					blockTime = BLOCK_TIME;
@@ -599,13 +693,13 @@ package net.wooga.wfighters.fighter
 			{
 				if ( x < _opponent.x )
 				{
-					spriteset.scaleX = -1;
-					spriteset.x = 100;
+					spriteset.scaleX = 1;
+					spriteset.x = 0;
 				}
 				else
 				{
-					spriteset.scaleX = 1;
-					spriteset.x = 0;
+					spriteset.scaleX = -1;
+					spriteset.x = 100;
 				}
 			}
 		}

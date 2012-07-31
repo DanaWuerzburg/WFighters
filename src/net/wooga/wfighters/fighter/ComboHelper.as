@@ -17,6 +17,10 @@ package net.wooga.wfighters.fighter
 		public function trigger( trigger : String ) : void
 		{
 			current = current.trigger( trigger );
+			if ( !current )
+			{
+				reset();
+			}
 		}
 		
 		public function reset() : void
