@@ -46,26 +46,20 @@ package net.wooga.wfighters.fighter
 		private var hitPoint : Point = new Point();
 		private var globalHitTestPoint : Point;
 		private var isWalking : Boolean = false;
-		private var walkTime : Number = 0;
+		private var animTime : Number = 0;
+		private var animTimeRest : Number = 0;
 		
 		private var comboTime : Number = 0;
+		private var comboLockTime : Number = 0;
+		private var comboAnims : Vector.<String> = new Vector.<String>();
 		
 		private var jumpTime : Number = 0;
 		private var jumpVector : Vector3D = new Vector3D();
+		private var jumpDir : Number = 0;
 		
 		private var jumpAttackOffset : Vector3D = new Vector3D();
 		private var jumpAttackSuccess : Boolean = false;
-		
-		private var punchTime : Number = 0;
-		private var punchKeyReleased : Boolean = false;
-		
-		private var kickTime : Number = 0;
-		private var kickKeyReleased : Boolean = false;
-		
-		private var jumpPunchTime : Number = 0;
-		
-		private var jumpKickTime : Number = 0;
-		
+				
 		private var blockTime : Number = 0;
 		private var blockDamage : Number = 0;
 		private var blockDisabledTime : Number = 0;
@@ -164,8 +158,11 @@ package net.wooga.wfighters.fighter
 		private function punch() : void
 		{
 			state = STATE_COMBO;
-			comboTime = 400;
-			spriteset.showFrame( "punch0" );
+			comboTime = 600;
+			comboLockTime = 300;
+			comboAnims.length = 0;
+			comboAnims.push( "punch01", "punch02", "punch03" );
+			animTime = 0;
 			parent.setChildIndex( this, parent.numChildren - 1 );
 			hitPoint.x = width / 2 - 100 * spriteset.scaleX;
 			hitPoint.y = 50;
@@ -179,8 +176,11 @@ package net.wooga.wfighters.fighter
 		private function punchPunch() : void
 		{
 			state = STATE_COMBO;
-			comboTime = 400;
-			spriteset.showFrame( "punch1" );
+			comboTime = 800;
+			comboLockTime = 400;
+			comboAnims.length = 0;
+			comboAnims.push( "punch01", "punch02", "punch03" );
+			animTime = 0;
 			parent.setChildIndex( this, parent.numChildren - 1 );
 			hitPoint.x = width / 2 - 100 * spriteset.scaleX;
 			hitPoint.y = 50;
@@ -194,8 +194,11 @@ package net.wooga.wfighters.fighter
 		private function punchPunchPunch() : void
 		{
 			state = STATE_COMBO;
-			comboTime = 800;
-			spriteset.showFrame( "punch2" );
+			comboTime = 1000;
+			comboLockTime = 500;
+			comboAnims.length = 0;
+			comboAnims.push( "punch01", "punch02", "punch03" );
+			animTime = 0;
 			parent.setChildIndex( this, parent.numChildren - 1 );
 			hitPoint.x = width / 2 - 100 * spriteset.scaleX;
 			hitPoint.y = 50;
@@ -209,7 +212,7 @@ package net.wooga.wfighters.fighter
 		private function kick() : void
 		{
 			state = STATE_COMBO;
-			comboTime = 400;
+			comboTime = 600;
 			spriteset.showFrame( "kick0" );
 			parent.setChildIndex( this, parent.numChildren - 1 );
 			hitPoint.x = width / 2 - 100 * spriteset.scaleX;
@@ -224,7 +227,7 @@ package net.wooga.wfighters.fighter
 		private function kickKick() : void
 		{
 			state = STATE_COMBO;
-			comboTime = 400;
+			comboTime = 600;
 			spriteset.showFrame( "kick1" );
 			parent.setChildIndex( this, parent.numChildren - 1 );
 			hitPoint.x = width / 2 - 100 * spriteset.scaleX;
@@ -255,8 +258,9 @@ package net.wooga.wfighters.fighter
 		{
 			state = STATE_JUMP;
 			comboTime = 200;
-			spriteset.showFrame( "jump" );
 			jumpVector.y = -100;
+			jumpVector.x = 0;
+			jumpTime = 0;
 		}
 		
 		private function jumpPunch() : void
@@ -305,6 +309,8 @@ package net.wooga.wfighters.fighter
 		
 		public function update( t : int ) : void
 		{						
+			animTime += t;
+			
 			switch ( state )
 			{
 				case STATE_FREE:
@@ -324,7 +330,7 @@ package net.wooga.wfighters.fighter
 						if ( !isWalking )
 						{
 							isWalking = true;
-							walkTime = 0;
+							animTime = 0;
 						}
 					}
 					else if ( isKeyPressed( _controlConfig.rightKey ) )
@@ -334,21 +340,32 @@ package net.wooga.wfighters.fighter
 						if ( !isWalking )
 						{
 							isWalking = true;
-							walkTime = 0;
+							animTime = 0;
 						}
 					}
-					else
+					else if ( isWalking )
 					{
+						animTime = 0;
 						isWalking = false;
 					}
 					
 					if ( isWalking )
 					{
-						spriteset.showFrame("walk01");
+						animTimeRest = animTime % 400;
+						spriteset.showFrame(
+							animTimeRest < 100 ? "walk01" :
+							animTimeRest < 200 ? "walk02" :
+							animTimeRest < 300 ? "walk03" :
+												 "walk04"
+							);
 					}
 					else
 					{
-						spriteset.showFrame("stand01");
+						animTimeRest = animTime % 500;
+						spriteset.showFrame(
+							animTimeRest < 250 ? "stand01" :
+												 "stand02"
+							);
 					}
 					
 					if ( isKeyTriggered( _controlConfig.leftKey ) )
@@ -390,6 +407,15 @@ package net.wooga.wfighters.fighter
 				}
 				case STATE_COMBO:
 				{
+					for ( var index : uint = 0; index < comboAnims.length; index++ )
+					{
+						if ( animTime < ( index + 1 ) * 200 )
+						{
+							spriteset.showFrame( comboAnims[ index ] );
+							break;
+						}
+					}
+					
 					if ( comboTime > 0 )
 					{
 						comboTime -= t;
@@ -399,11 +425,11 @@ package net.wooga.wfighters.fighter
 							state = STATE_FREE;
 						}
 					}
-					if ( isKeyTriggered( _controlConfig.punchKey ) )
+					if ( comboTime < comboLockTime && isKeyTriggered( _controlConfig.punchKey ) )
 					{
 						_comboHelper.trigger( Combo.PUNCH );
 					}
-					if ( isKeyTriggered( _controlConfig.kickKey ) )
+					if ( comboTime < comboLockTime && isKeyTriggered( _controlConfig.kickKey ) )
 					{
 						_comboHelper.trigger( Combo.KICK );
 					}
@@ -411,16 +437,59 @@ package net.wooga.wfighters.fighter
 				}
 				case STATE_JUMP:
 				{
-					if ( isKeyPressed( _controlConfig.leftKey ) )
+					jumpTime += t;
+					if ( jumpVector.x == 0 && jumpTime < 100 && isKeyPressed( _controlConfig.leftKey ) )
 					{
-						x -= t * MOVE_SPEED;
+						jumpVector.x = -0.3;
 					}
-					else if ( isKeyPressed( _controlConfig.rightKey ) )
+					else if ( jumpVector.x == 0 && jumpTime < 100 && isKeyPressed( _controlConfig.rightKey ) )
 					{
-						x += t * MOVE_SPEED;
+						jumpVector.x = 0.3;
 					}
 					jumpVector.y += t / 4.5;
 					y += jumpVector.y * t * JUMP_SPEED;
+					x += jumpVector.x * t;
+					
+					if ( jumpVector.x == 0 )
+					{
+						animTimeRest = jumpTime % 1000;
+						spriteset.showFrame(
+							animTimeRest < 100 ? "jump01" :
+							animTimeRest < 200 ? "jump02" :
+							animTimeRest < 300 ? "jump03" :
+							animTimeRest < 400 ? "jump04" :
+							animTimeRest < 500 ? "jump05" :
+							animTimeRest < 600 ? "jump06" :
+												 "jump07"
+							);
+					}
+					else if ( ( spriteset.scaleX > 0 && jumpVector.x > 0 ) || ( spriteset.scaleX < 0 && jumpVector.x < 0 ) )
+					{
+						animTimeRest = jumpTime % 1000;
+						spriteset.showFrame(
+							animTimeRest < 100 ? "jumpForward01" :
+							animTimeRest < 200 ? "jumpForward02" :
+							animTimeRest < 300 ? "jumpForward03" :
+							animTimeRest < 400 ? "jumpForward04" :
+							animTimeRest < 500 ? "jumpForward05" :
+							animTimeRest < 600 ? "jumpForward06" :
+												 "jumpForward07"
+							);
+					}
+					else if ( ( spriteset.scaleX > 0 && jumpVector.x < 0 ) || ( spriteset.scaleX < 0 && jumpVector.x > 0 ) ) 
+					{
+						animTimeRest = jumpTime % 1000;
+						spriteset.showFrame(
+							animTimeRest < 100 ? "jumpBack01" :
+							animTimeRest < 200 ? "jumpBack02" :
+							animTimeRest < 300 ? "jumpBack03" :
+							animTimeRest < 400 ? "jumpBack04" :
+							animTimeRest < 500 ? "jumpBack05" :
+							animTimeRest < 600 ? "jumpBack06" :
+												 "jumpBack07"
+							);
+					}
+					
 					_fightArea.handleFighterPositionChanged( this );
 					if ( y > lowestY )
 					{
