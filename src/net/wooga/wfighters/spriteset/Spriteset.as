@@ -4,6 +4,7 @@ package net.wooga.wfighters.spriteset
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Matrix;
+	import flash.geom.Vector3D;
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	public class Spriteset extends Sprite
@@ -33,6 +34,11 @@ package net.wooga.wfighters.spriteset
 				replaceFrame( imageMap[ id ] );
 				currentShownFrame = id;
 			}
+		}
+		
+		public function get currentFrameOffset() : Vector3D
+		{
+			return imageMap[ currentShownFrame ].offset;
 		}
 		
 		private function replaceFrame( frame : FrameConfig ) : void

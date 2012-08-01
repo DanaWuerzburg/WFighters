@@ -105,14 +105,29 @@ package net.wooga.wfighters.fighter
 			damage = 0;
 		}
 		
+		public function reset() : void
+		{
+			state = STATE_FREE;
+			comboTime = 0;
+			comboLockTime = 0;
+			y = lowestY;
+			isWalking = false;
+			endCombo();
+			damageTime = 0;
+			damageLevel = 0;
+			blockTime = 0;
+			blockDisabledTime = 0;
+			blockDamage = 0;
+		}
+		
 		override public function hitTestPoint( hitX : Number, hitY : Number, shapeFlag:Boolean = false ) : Boolean 
 		{
 			hitPoint.x = 0;
 			hitPoint.y = 0;
 			globalHitTestPoint = localToGlobal( hitPoint );
 			return (
-				hitX > globalHitTestPoint.x && hitX < globalHitTestPoint.x + 200 &&
-				hitY > globalHitTestPoint.x && hitY < globalHitTestPoint.y + 200
+				hitX > globalHitTestPoint.x && hitX < globalHitTestPoint.x + width &&
+				hitY > globalHitTestPoint.y && hitY < globalHitTestPoint.y + height
 				)
 		}
 		
@@ -164,8 +179,8 @@ package net.wooga.wfighters.fighter
 			comboAnims.push( "punch01", "punch02", "punch03" );
 			animTime = 0;
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			hitPoint.x = width / 2 + 150 * spriteset.scaleX;
-			hitPoint.y = 50;
+			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
+			hitPoint.y = height / 2;
 			globalHitTestPoint = localToGlobal( hitPoint );
 			if ( _opponent.hitTestPoint( globalHitTestPoint.x, globalHitTestPoint.y ) )
 			{
@@ -182,8 +197,8 @@ package net.wooga.wfighters.fighter
 			comboAnims.push( "punch01", "punch02", "punch03" );
 			animTime = 0;
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			hitPoint.x = width / 2 + 150 * spriteset.scaleX;
-			hitPoint.y = 50;
+			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
+			hitPoint.y = height / 2;
 			globalHitTestPoint = localToGlobal( hitPoint );
 			if ( _opponent.hitTestPoint( globalHitTestPoint.x, globalHitTestPoint.y ) )
 			{
@@ -200,8 +215,8 @@ package net.wooga.wfighters.fighter
 			comboAnims.push( "punch01", "punch02", "punch03" );
 			animTime = 0;
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			hitPoint.x = width / 2 + 150 * spriteset.scaleX;
-			hitPoint.y = 50;
+			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
+			hitPoint.y = height / 2;
 			globalHitTestPoint = localToGlobal( hitPoint );
 			if ( _opponent.hitTestPoint( globalHitTestPoint.x, globalHitTestPoint.y ) )
 			{
@@ -218,8 +233,8 @@ package net.wooga.wfighters.fighter
 			comboAnims.push( "kick01", "kick02" );
 			animTime = 0;
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			hitPoint.x = width / 2 + 200 * spriteset.scaleX;
-			hitPoint.y = 50;
+			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
+			hitPoint.y = height / 2;
 			globalHitTestPoint = localToGlobal( hitPoint );
 			if ( _opponent.hitTestPoint( globalHitTestPoint.x, globalHitTestPoint.y ) )
 			{
@@ -236,8 +251,8 @@ package net.wooga.wfighters.fighter
 			comboAnims.push( "kick01", "kick02" );
 			animTime = 0;
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			hitPoint.x = width / 2 + 200 * spriteset.scaleX;
-			hitPoint.y = 50;
+			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
+			hitPoint.y = height / 2;
 			globalHitTestPoint = localToGlobal( hitPoint );
 			if ( _opponent.hitTestPoint( globalHitTestPoint.x, globalHitTestPoint.y ) )
 			{
@@ -254,8 +269,8 @@ package net.wooga.wfighters.fighter
 			comboAnims.push( "kick01", "kick02" );
 			animTime = 0;
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			hitPoint.x = width / 2 + 200 * spriteset.scaleX;
-			hitPoint.y = 50;
+			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
+			hitPoint.y = height / 2;
 			globalHitTestPoint = localToGlobal( hitPoint );
 			if ( _opponent.hitTestPoint( globalHitTestPoint.x, globalHitTestPoint.y ) )
 			{
@@ -267,6 +282,7 @@ package net.wooga.wfighters.fighter
 		{
 			state = STATE_JUMP;
 			comboTime = 200;
+			comboLockTime = 200;
 			jumpVector.y = -100;
 			jumpVector.x = 0;
 			jumpTime = 0;
@@ -276,10 +292,11 @@ package net.wooga.wfighters.fighter
 		{
 			state = STATE_JUMP_ATTACK;
 			comboTime = 200;
+			comboLockTime = 200;
 			spriteset.showFrame( "jumppunch01" );
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			jumpAttackOffset.x = width / 2 + 200 * spriteset.scaleX;
-			jumpAttackOffset.y = 50;
+			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
+			hitPoint.y = height / 2;
 			jumpAttackSuccess = false;
 		}
 		
@@ -287,16 +304,22 @@ package net.wooga.wfighters.fighter
 		{
 			state = STATE_JUMP_ATTACK;
 			comboTime = 200;
+			comboLockTime = 200;
 			spriteset.showFrame( "jumpkick01" );
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			jumpAttackOffset.x = width / 2 + 200 * spriteset.scaleX;
-			jumpAttackOffset.y = 100;
+			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
+			hitPoint.y = height / 2;
 			jumpAttackSuccess = false;
 		}
 		
 		private function special() : void
 		{
-			trace( "special" );
+			state = STATE_COMBO;
+			comboTime = 1000;
+			comboLockTime = 0;
+			comboAnims.length = 0;
+			comboAnims.push( "special01", "special02" );
+			
 		}
 		
 		private function endCombo() : void
@@ -379,7 +402,7 @@ package net.wooga.wfighters.fighter
 					
 					if ( isKeyTriggered( _controlConfig.leftKey ) )
 					{
-						if ( spriteset.scaleX > 0 )
+						if ( spriteset.scaleX < 0 )
 						{
 							_comboHelper.trigger( Combo.FORWARD );
 						}
@@ -390,7 +413,7 @@ package net.wooga.wfighters.fighter
 					}
 					if ( isKeyTriggered( _controlConfig.rightKey ) )
 					{
-						if ( spriteset.scaleX < 0 )
+						if ( spriteset.scaleX > 0 )
 						{
 							_comboHelper.trigger( Combo.FORWARD );
 						}
