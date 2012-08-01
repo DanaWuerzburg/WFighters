@@ -7,12 +7,13 @@ package
 		[Embed(source = "JOYSTIX.ttf", fontName="Joystix", embedAsCFF = "false")]
 		public static const JoystixFont : Class;
 		
-		[Embed(source = "title.png")]
-		public static const TitleBitmap : Class;
-		
 		
 		[Embed(source = "hp.png")]
 		public static const HPBitmap : Class;
+		
+		/* Start screen */
+		[Embed(source = "startScreen/start-screen.png")]
+		public static const StartScreenBitmap : Class;
 		
 		
 		[Embed(source = "floor.png")]

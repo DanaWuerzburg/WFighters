@@ -21,7 +21,7 @@ package net.wooga.wfighters.controller.gamestate
 		{
 			super.handleBecomeActive();
 			
-			titleBitmap = new Assets.TitleBitmap() as Bitmap;
+			titleBitmap = new Assets.StartScreenBitmap() as Bitmap;
 			gameContainer.addChild( titleBitmap );
 			
 			textField = gameContainer.createStandardTextField();
