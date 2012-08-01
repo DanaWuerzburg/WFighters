@@ -10,9 +10,11 @@ package net.wooga.wfighters.fighter
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
-	import net.wooga.wfighters.controller.gamestate.KOGameState;
-	import net.wooga.wfighters.fightarea.FightArea;
+	
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.controller.gamestate.KOGameState;
+	import net.wooga.wfighters.events.FighterKOdEvent;
+	import net.wooga.wfighters.fightarea.FightArea;
 	import net.wooga.wfighters.spriteset.FrameConfig;
 	import net.wooga.wfighters.spriteset.Spriteset;
 	
@@ -789,7 +791,7 @@ package net.wooga.wfighters.fighter
 					koVector.x = _opponent.x > x ? -20 : 20;
 					koVector.y = -70;
 					downTime = 0;
-					gameContainer.gameController.changeGameState( new KOGameState( gameContainer ) );
+					gameContainer.dispatchEvent( new FighterKOdEvent( _id ) );
 					break;
 				}
 			}

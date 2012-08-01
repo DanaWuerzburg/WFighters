@@ -7,8 +7,11 @@ package net.wooga.wfighters
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	import flash.utils.Dictionary;
+	
 	import net.wooga.wfighters.controller.GameController;
 	import net.wooga.wfighters.controller.InputController;
+	import net.wooga.wfighters.controller.gameconfig.GameConfigurationController;
+	import net.wooga.wfighters.controller.player.PlayerStatsController;
 	import net.wooga.wfighters.fightarea.FightArea;
 	import net.wooga.wfighters.gui.HPGauge;
 	
@@ -17,6 +20,8 @@ package net.wooga.wfighters
 		private var pressedKeys : Dictionary;
 		private var _gameController : GameController;
 		private var _inputController : InputController;
+		private var _playerStatsController : PlayerStatsController;
+		private var _gameConfigurationController : GameConfigurationController;
 		private var _fightArea : FightArea;
 		private var _hpGauge : HPGauge;
 		private var _standardTextFormat : TextFormat;
@@ -41,6 +46,13 @@ package net.wooga.wfighters
 			return textField;
 		}
 		
+		public function resetGame() : void
+		{
+			stage.removeEventListener( Event.ENTER_FRAME, handleEnterFrame );
+			
+			init();
+		}
+		
 		public function get inputController() : InputController
 		{
 			return _inputController;
@@ -49,6 +61,16 @@ package net.wooga.wfighters
 		public function get gameController() : GameController
 		{
 			return _gameController;
+		}
+		
+		public function get playerStatsController() : PlayerStatsController
+		{
+			return _playerStatsController;
+		}
+		
+		public function get gameConfigurationController() : GameConfigurationController
+		{
+			return _gameConfigurationController;
 		}
 		
 		public function get fightArea() : FightArea
@@ -77,6 +99,11 @@ package net.wooga.wfighters
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, handleAddedToState );
 			
+			init();
+		}
+		
+		private function init() : void
+		{
 			_fightArea = new FightArea();
 			addChild( _fightArea );
 			_hpGauge = new HPGauge();
@@ -84,7 +111,8 @@ package net.wooga.wfighters
 			
 			_gameController = new GameController( this );
 			_inputController = new InputController();
-			
+			_playerStatsController = new PlayerStatsController();
+			_gameConfigurationController = new GameConfigurationController();
 			
 			stage.addEventListener( KeyboardEvent.KEY_DOWN, _inputController.handleKeyDown );
 			stage.addEventListener( KeyboardEvent.KEY_UP, _inputController.handleKeyUp );

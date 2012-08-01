@@ -1,6 +1,9 @@
 package net.wooga.wfighters.controller.gamestate
 {
+	import flash.events.IEventDispatcher;
+	
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.events.FighterKOdEvent;
 	
 	public class FightingGameState extends GameState
 	{
@@ -12,6 +15,8 @@ package net.wooga.wfighters.controller.gamestate
 		public override function handleBecomeActive() : void
 		{
 			trace("Fighting game state active");
+			
+			gameContainer.addEventListener( FighterKOdEvent.TYPE_NAME, onFighterKOd);
 		}
 		
 		public override function handleResignActive() : void
@@ -22,8 +27,11 @@ package net.wooga.wfighters.controller.gamestate
 		public override function update( t : int ) : void
 		{
 			gameContainer.fightArea.update( t );
-			
-			// TODO: Check for player KO here rather than in Fighter class
+		}
+		
+		private function onFighterKOd( event : FighterKOdEvent ) : void
+		{
+			gameContainer.gameController.changeGameState( new KOGameState( gameContainer, event.playerId ) );
 		}
 	}
 }

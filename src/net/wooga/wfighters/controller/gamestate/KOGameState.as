@@ -19,9 +19,13 @@ package net.wooga.wfighters.controller.gamestate
 		private var textField : TextField;
 		private var time : Number = 0;
 		
-		public function KOGameState( gameContainer : GameContainer )
+		private var koPlayerId : uint;
+		
+		public function KOGameState( gameContainer : GameContainer, koPlayerId : uint )
 		{
 			super( gameContainer );
+			
+			this.koPlayerId = koPlayerId;
 			
 			animationLayer = new Sprite();
 
@@ -94,7 +98,7 @@ package net.wooga.wfighters.controller.gamestate
 			}
 			else if ( time >= 3000 )
 			{
-				gameContainer.gameController.changeGameState( new EndOfRoundGameState( gameContainer ) );
+				gameContainer.gameController.changeGameState( new EndOfRoundGameState( gameContainer, koPlayerId ) );
 			}
 			
 			gradientMask.drawEffect( textField.width, textField.height, 5, time );

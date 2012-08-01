@@ -7,7 +7,7 @@ package net.wooga.wfighters.controller.gamestate
 	 */
 	public class BeginRoundGameState extends GameState
 	{
-		var roundIntroAnimationFinished : Boolean = false;
+		private var roundIntroAnimationFinished : Boolean = false;
 		
 		public function BeginRoundGameState( gameContainer : GameContainer )
 		{

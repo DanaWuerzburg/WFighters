@@ -61,9 +61,9 @@ package net.wooga.wfighters.fightarea
 			fighterList[0].x = FIGHTER_ONE_START_X;
 			fighterList[1].x = FIGHTER_TWO_START_X;
 			
-			for each ( var fighter : Fighter in fighterList )
+			for each ( var resetFighter : Fighter in fighterList )
 			{
-				handleFighterPositionChanged( fighter );
+				handleFighterPositionChanged( resetFighter );
 			}
 		}
 		
