@@ -26,6 +26,7 @@ package net.wooga.wfighters.fighter
 		private static const STATE_DAMAGE : String = "STATE_DAMAGE";
 		private static const STATE_DOWN : String = "STATE_DOWN";
 		private static const STATE_KO : String = "STATE_KO";
+		private static const STATE_LOCKED : String = "STATE_LOCKED";
 		
 		private static const MAX_DAMAGE : Number = 100;
 		private static const MAX_DAMAGE_LEVEL : Number = 4000;
@@ -604,6 +605,7 @@ package net.wooga.wfighters.fighter
 				{
 					if ( y < lowestY || downVector.y < 0 )
 					{
+						spriteset.showFrame( downVector.y > -t ? "ko02" : "ko01" );
 						downVector.y += t / 4.5;
 						y += downVector.y * t * JUMP_SPEED;
 						x += downVector.x * t * JUMP_SPEED;
@@ -611,7 +613,12 @@ package net.wooga.wfighters.fighter
 					}
 					if ( downTime > 0 )
 					{
+						spriteset.showFrame( downTime > 150 ? "ko04" : "ko03" );
 						downTime -= t;
+						downVector.y += t / 4.5;
+						y += downVector.y * t * JUMP_SPEED;
+						x += downVector.x * t * JUMP_SPEED / 2;
+						_fightArea.handleFighterPositionChanged( this );
 						if ( downTime <= 0 )
 						{
 							state = STATE_FREE;
@@ -619,8 +626,9 @@ package net.wooga.wfighters.fighter
 					}
 					else if ( y >= lowestY )
 					{
-						spriteset.showFrame( "ko" );
-						downTime = 1000;
+						spriteset.showFrame( "ko03" );
+						downVector.y = -40;
+						downTime = 300;
 					}
 					break;
 				}
@@ -628,14 +636,30 @@ package net.wooga.wfighters.fighter
 				{
 					if ( y < lowestY || koVector.y < 0 )
 					{
+						spriteset.showFrame( koVector.y > -t ? "ko02" : "ko01" );
 						koVector.y += t / 4.5;
 						y += koVector.y * t * JUMP_SPEED;
 						x += koVector.x * t * JUMP_SPEED;
 						_fightArea.handleFighterPositionChanged( this );
 					}
-					if ( y >= lowestY )
+					if ( downTime > 0 )
 					{
-						spriteset.showFrame( "ko" );
+						spriteset.showFrame( downTime > 150 ? "ko04" : "ko03" );
+						downTime -= t;
+						koVector.y += t / 4.5;
+						y += koVector.y * t * JUMP_SPEED;
+						x += koVector.x * t * JUMP_SPEED / 2;
+						_fightArea.handleFighterPositionChanged( this );
+						if ( downTime <= 0 )
+						{
+							state = STATE_LOCKED;
+						}
+					}
+					else if ( y >= lowestY )
+					{
+						spriteset.showFrame( "ko03" );
+						koVector.y = -40;
+						downTime = 300;
 					}
 					break;
 				}
@@ -736,14 +760,14 @@ package net.wooga.wfighters.fighter
 				case STATE_BLOCK:
 				{
 					blockTime = BLOCK_TIME;
-					spriteset.showFrame( "block" );
+					spriteset.showFrame( "block01" );
 					break;
 				}
 				case STATE_DAMAGE:
 				{
 					damageTime = DAMAGE_TIME;
 					spriteset.showFrame( "hit01" );
-					damageLevel += 1000;
+					damageLevel += 4000;
 					if ( damageLevel > MAX_DAMAGE_LEVEL )
 					{
 						damageLevel = 0;
@@ -753,17 +777,18 @@ package net.wooga.wfighters.fighter
 				}
 				case STATE_DOWN:
 				{
-					spriteset.showFrame( "down" );
-					downVector.x = _opponent.x > x ? -20 : 20;
+					spriteset.showFrame( "ko01" );
+					downVector.x = _opponent.x > x ? -10 : 10;
 					downVector.y = -70;
 					downTime = 0;
 					break;
 				}
 				case STATE_KO:
 				{
-					spriteset.showFrame( "down" );
+					spriteset.showFrame( "ko01" );
 					koVector.x = _opponent.x > x ? -20 : 20;
 					koVector.y = -70;
+					downTime = 0;
 					gameContainer.gameController.changeGameState( new KOGameState( gameContainer ) );
 					break;
 				}

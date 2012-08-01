@@ -49,13 +49,15 @@ package net.wooga.wfighters.fighter
 				new FrameConfig( "jumpBack05",		new Assets.RacoonJumpBack05Bitmap(),		new Vector3D( -80, 90 ) ),
 				new FrameConfig( "jumpBack06",		new Assets.RacoonJumpBack06Bitmap(),		new Vector3D( -80, 90 ) ),
 				new FrameConfig( "jumpBack07",		new Assets.RacoonJumpBack07Bitmap(),		new Vector3D( -80, 90 ) ),
-				new FrameConfig( "block",			new Assets.RacoonBlockBitmap(),				new Vector3D( -80, 90 ) ),
+				new FrameConfig( "block01",			new Assets.RacoonBlockBitmap(),				new Vector3D( -80, 90 ) ),
 				new FrameConfig( "hit01",			new Assets.RacoonHit01Bitmap(), 			new Vector3D( -80, 90 ) ),
 				new FrameConfig( "hit02",			new Assets.RacoonHit02Bitmap(),			 	new Vector3D( -80, 90 ) ),
 				new FrameConfig( "special01",		new Assets.RacoonFireball01Bitmap(),		new Vector3D( -80, 90 ) ),
 				new FrameConfig( "special02",		new Assets.RacoonFireball02Bitmap(),		new Vector3D( -80, 90 ) ),
-				new FrameConfig( "down",			new Assets.PandaDownBitmap(),			 	new Vector3D( -80, 90 ) ),
-				new FrameConfig( "ko",				new Assets.PandaKOBitmap(),					new Vector3D( -80, 90 ) ),
+				new FrameConfig( "ko01",			new Assets.RacoonKo01Bitmap(),			 	new Vector3D( -80, 90 ) ),
+				new FrameConfig( "ko02",			new Assets.RacoonKo02Bitmap(),			 	new Vector3D( -80, 90 ) ),
+				new FrameConfig( "ko03",			new Assets.RacoonKo03Bitmap(),			 	new Vector3D( -80, 90 ) ),
+				new FrameConfig( "ko04",			new Assets.RacoonKo04Bitmap(),			 	new Vector3D( -80, 90 ) )
 			] );
 		}
 	}
