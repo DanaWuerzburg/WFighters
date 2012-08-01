@@ -44,6 +44,11 @@ package net.wooga.wfighters.fightarea
 			updateCamera();
 		}
 		
+		public function reset() : void
+		{
+			fighterList.length = 0;
+		}
+		
 		public function addFighter( fighter : Fighter ) : void
 		{
 			fighterList.push( fighter );

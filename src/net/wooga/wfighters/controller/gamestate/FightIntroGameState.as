@@ -23,28 +23,30 @@ package net.wooga.wfighters.controller.gamestate
 			gameContainer.fightArea.visible = true;
 			gameContainer.hpGauge.visible = true;
 			
+			gameContainer.fightArea.reset();
 			gameContainer.fightArea.addFighter( fighterOne = new Racoon( gameContainer, 0 ) );
 			gameContainer.fightArea.addFighter( fighterTwo = new Racoon( gameContainer, 1 ) );
 			
 			var controlConfig : ControlConfig;
 			controlConfig = new ControlConfig();
-			controlConfig.upKey =		Keyboard.W;
-			controlConfig.downKey =		Keyboard.S;
-			controlConfig.leftKey =		Keyboard.A;
-			controlConfig.rightKey =	Keyboard.D;
-			controlConfig.punchKey =	Keyboard.F;
-			controlConfig.kickKey =		Keyboard.G;
+			controlConfig.upKey =		Keyboard.NUMPAD_8;
+			controlConfig.downKey =		Keyboard.NUMPAD_2;
+			controlConfig.leftKey =		Keyboard.NUMPAD_4;
+			controlConfig.rightKey =	Keyboard.NUMPAD_6;
+			controlConfig.punchKey =	Keyboard.C;
+			controlConfig.kickKey =		Keyboard.NUMBER_5;
 			fighterOne.controlConfig = controlConfig;
+			fighterOne.x = 300;
 			
 			controlConfig = new ControlConfig();
-			controlConfig.upKey =		Keyboard.UP;
-			controlConfig.downKey =		Keyboard.DOWN;
-			controlConfig.leftKey =		Keyboard.LEFT;
-			controlConfig.rightKey =	Keyboard.RIGHT;
-			controlConfig.punchKey =	Keyboard.J;
-			controlConfig.kickKey =		Keyboard.K;
+			controlConfig.upKey =		Keyboard.R;
+			controlConfig.downKey =		Keyboard.F;
+			controlConfig.leftKey =		Keyboard.D;
+			controlConfig.rightKey =	Keyboard.G;
+			controlConfig.punchKey =	Keyboard.RIGHTBRACKET;
+			controlConfig.kickKey =		Keyboard.NUMBER_6;
 			fighterTwo.controlConfig = controlConfig;
-			fighterTwo.x = 200;
+			fighterTwo.x = 800;
 			
 			fighterOne.opponent = fighterTwo;
 			fighterTwo.opponent = fighterOne;
