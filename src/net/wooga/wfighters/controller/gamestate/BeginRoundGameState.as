@@ -16,7 +16,6 @@ package net.wooga.wfighters.controller.gamestate
 		
 		private var timeElapsed : int = 0;
 		private var roundIntroAnimationFinished : Boolean = false;
-		private var roundNumberImage : BitmapData;
 		private var roundImage : Sprite;
 		
 		public function BeginRoundGameState( gameContainer : GameContainer )
@@ -57,6 +56,7 @@ package net.wooga.wfighters.controller.gamestate
 		private function setUpRoundNumberImage() : void
 		{
 			var roundNumber : uint = calcRoundNumber();
+			var roundNumberImage : BitmapData;
 			switch( roundNumber )
 			{
 				case 1:
