@@ -25,34 +25,92 @@ package
 		[Embed(source = "background.png")]
 		public static const BackgroundBitmap : Class;
 		
-		[Embed(source = "panda.png")]
-		public static const PandaIdleBitmap : Class;
-		[Embed(source = "panda_punch_0.png")]
-		public static const PandaPunch0Bitmap : Class;
-		[Embed(source = "panda_punch_1.png")]
-		public static const PandaPunch1Bitmap : Class;
-		[Embed(source = "panda_punch_2.png")]
-		public static const PandaPunch2Bitmap : Class;
-		[Embed(source = "panda_kick_0.png")]
-		public static const PandaKick0Bitmap : Class;
-		[Embed(source = "panda_kick_1.png")]
-		public static const PandaKick1Bitmap : Class;
-		[Embed(source = "panda_kick_2.png")]
-		public static const PandaKick2Bitmap : Class;
-		[Embed(source = "panda_jumppunch.png")]
-		public static const PandaJumpPunchBitmap : Class;
-		[Embed(source = "panda_jumpkick.png")]
-		public static const PandaJumpKickBitmap : Class;
-		[Embed(source = "panda_jump.png")]
-		public static const PandaJumpBitmap : Class;
-		[Embed(source = "panda_block.png")]
+		[Embed(source = "panda/pandaBlock.png")]
 		public static const PandaBlockBitmap : Class;
-		[Embed(source = "panda_damage.png")]
-		public static const PandaDamageBitmap : Class;
-		[Embed(source = "panda_down.png")]
-		public static const PandaDownBitmap : Class;
-		[Embed(source = "panda_ko.png")]
-		public static const PandaKOBitmap : Class;
+		[Embed(source = "panda/pandaFireball01.png")]
+		public static const PandaFireball01Bitmap : Class;
+		[Embed(source = "panda/pandaFireball02.png")]
+		public static const PandaFireball02Bitmap : Class;
+		[Embed(source = "panda/pandaHit01.png")]
+		public static const PandaHit01Bitmap : Class;
+		[Embed(source = "panda/pandaHit02.png")]
+		public static const PandaHit02Bitmap : Class;
+		[Embed(source = "panda/pandaJump01.png")]
+		public static const PandaJump01Bitmap : Class;
+		[Embed(source = "panda/pandaJump02.png")]
+		public static const PandaJump02Bitmap : Class;
+		[Embed(source = "panda/pandaJump03.png")]
+		public static const PandaJump03Bitmap : Class;
+		[Embed(source = "panda/pandaJump04.png")]
+		public static const PandaJump04Bitmap : Class;
+		[Embed(source = "panda/pandaJump05.png")]
+		public static const PandaJump05Bitmap : Class;
+		[Embed(source = "panda/pandaJump06.png")]
+		public static const PandaJump06Bitmap : Class;
+		[Embed(source = "panda/pandaJump07.png")]
+		public static const PandaJump07Bitmap : Class;
+		[Embed(source = "panda/pandaJumpBack01.png")]
+		public static const PandaJumpBack01Bitmap : Class;
+		[Embed(source = "panda/pandaJumpBack02.png")]
+		public static const PandaJumpBack02Bitmap : Class;
+		[Embed(source = "panda/pandaJumpBack03.png")]
+		public static const PandaJumpBack03Bitmap : Class;
+		[Embed(source = "panda/pandaJumpBack04.png")]
+		public static const PandaJumpBack04Bitmap : Class;
+		[Embed(source = "panda/pandaJumpBack05.png")]
+		public static const PandaJumpBack05Bitmap : Class;
+		[Embed(source = "panda/pandaJumpBack06.png")]
+		public static const PandaJumpBack07Bitmap : Class;
+		[Embed(source = "panda/pandaJumpBack07.png")]
+		public static const PandaJumpBack06Bitmap : Class;
+		[Embed(source = "panda/pandaJumpFoward01.png")]
+		public static const PandaJumpFoward01Bitmap : Class;
+		[Embed(source = "panda/pandaJumpFoward02.png")]
+		public static const PandaJumpFoward02Bitmap : Class;
+		[Embed(source = "panda/pandaJumpFoward03.png")]
+		public static const PandaJumpFoward03Bitmap : Class;
+		[Embed(source = "panda/pandaJumpFoward04.png")]
+		public static const PandaJumpFoward04Bitmap : Class;
+		[Embed(source = "panda/pandaJumpFoward05.png")]
+		public static const PandaJumpFoward05Bitmap : Class;
+		[Embed(source = "panda/pandaJumpFoward06.png")]
+		public static const PandaJumpFoward06Bitmap : Class;
+		[Embed(source = "panda/pandaJumpFoward07.png")]
+		public static const PandaJumpFoward07Bitmap : Class;
+		[Embed(source = "panda/pandaJumpKick01.png")]
+		public static const PandaJumpKick01Bitmap : Class;
+		[Embed(source = "panda/pandaJumpPunch01.png")]
+		public static const PandaJumpPunch01Bitmap : Class;
+		[Embed(source = "panda/pandaKick01.png")]
+		public static const PandaKick01Bitmap : Class;
+		[Embed(source = "panda/pandaKick02.png")]
+		public static const PandaKick02Bitmap : Class;
+		[Embed(source = "panda/pandaKo01.png")]
+		public static const PandaKo01Bitmap : Class;
+		[Embed(source = "panda/pandaKo02.png")]
+		public static const PandaKo02Bitmap : Class;
+		[Embed(source = "panda/pandaKo03.png")]
+		public static const PandaKo03Bitmap : Class;
+		[Embed(source = "panda/pandaKo04.png")]
+		public static const PandaKo04Bitmap : Class;
+		[Embed(source = "panda/pandaPunch01.png")]
+		public static const PandaPunch01Bitmap : Class;
+		[Embed(source = "panda/pandaPunch02.png")]
+		public static const PandaPunch02Bitmap : Class;
+		[Embed(source = "panda/pandaPunch03.png")]
+		public static const PandaPunch03Bitmap : Class;
+		[Embed(source = "panda/pandaStand01.png")]
+		public static const PandaStand01Bitmap : Class;
+		[Embed(source = "panda/pandaStand02.png")]
+		public static const PandaStand02Bitmap : Class;
+		[Embed(source = "panda/pandaWalk01.png")]
+		public static const PandaWalk01Bitmap : Class;
+		[Embed(source = "panda/pandaWalk02.png")]
+		public static const PandaWalk02Bitmap : Class;
+		[Embed(source = "panda/pandaWalk03.png")]
+		public static const PandaWalk03Bitmap : Class;
+		[Embed(source = "panda/pandaWalk04.png")]
+		public static const PandaWalk04Bitmap : Class;
 		
 		[Embed(source = "raccoon/raccoonBlock.png")]
 		public static const RacoonBlockBitmap : Class;
@@ -140,5 +198,18 @@ package
 		public static const RacoonWalk03Bitmap : Class;
 		[Embed(source = "raccoon/raccoonWalk04.png")]
 		public static const RacoonWalk04Bitmap : Class;
+		
+		[Embed(source = "raccoon/fireball01.png")]
+		public static const Fireball01Bitmap : Class;
+		[Embed(source = "raccoon/fireball02.png")]
+		public static const Fireball02Bitmap : Class;
+		[Embed(source = "raccoon/fireball03.png")]
+		public static const Fireball03Bitmap : Class;
+		[Embed(source = "raccoon/fireball04.png")]
+		public static const Fireball04Bitmap : Class;
+		[Embed(source = "raccoon/fireball05.png")]
+		public static const Fireball05Bitmap : Class;
+		[Embed(source = "raccoon/fireball06.png")]
+		public static const Fireball06Bitmap : Class;
 	}
 }

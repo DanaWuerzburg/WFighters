@@ -60,6 +60,19 @@ package net.wooga.wfighters.fighter
 				new FrameConfig( "ko04",			new Assets.RacoonKo04Bitmap(),			 	new Vector3D( -80, 90 ) )
 			] );
 		}
+		
+		protected override function createBulletSpriteset() : Spriteset
+		{
+			return new Spriteset( new <FrameConfig>
+			[
+				new FrameConfig( "bullet01",			new Assets.Fireball01Bitmap() ),
+				new FrameConfig( "bullet02",			new Assets.Fireball02Bitmap() ),
+				new FrameConfig( "bullet03",			new Assets.Fireball03Bitmap() ),
+				new FrameConfig( "bullet04",			new Assets.Fireball04Bitmap() ),
+				new FrameConfig( "bullet05",			new Assets.Fireball05Bitmap() ),
+				new FrameConfig( "bullet06",			new Assets.Fireball06Bitmap() )
+			] );
+		}
 	}
 
 }

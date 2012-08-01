@@ -96,7 +96,7 @@ package net.wooga.wfighters.controller.gamestate
 				
 				gradientMask.scaleY = textField.scaleY = shadowTextField.scaleY = 0;	
 			}
-			else if ( time >= 3000 )
+			else if ( time >= 5000 )
 			{
 				gameContainer.gameController.changeGameState( new EndOfRoundGameState( gameContainer, koPlayerId ) );
 			}

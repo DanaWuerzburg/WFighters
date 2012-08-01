@@ -76,6 +76,8 @@ package net.wooga.wfighters.fighter
 		private var koVector : Vector3D = new Vector3D();
 		
 		private var spriteset : Spriteset;
+		private var bullets : Vector.<Bullet> = new Vector.<Bullet>();
+		private var deadBullets : Vector.<Bullet> = new Vector.<Bullet>();
 		
 		public function Fighter( gameContainer : GameContainer, id : uint ) 
 		{
@@ -126,12 +128,12 @@ package net.wooga.wfighters.fighter
 		
 		override public function hitTestPoint( hitX : Number, hitY : Number, shapeFlag:Boolean = false ) : Boolean 
 		{
-			hitPoint.x = 0;
-			hitPoint.y = 0;
+			hitPoint.x = -spriteset.currentFrameOffset.x;
+			hitPoint.y = spriteset.currentFrameOffset.y;
 			globalHitTestPoint = localToGlobal( hitPoint );
 			return (
-				hitX > globalHitTestPoint.x && hitX < globalHitTestPoint.x + width &&
-				hitY > globalHitTestPoint.y && hitY < globalHitTestPoint.y + height
+				hitX > globalHitTestPoint.x && hitX < globalHitTestPoint.x + 100 &&
+				hitY > globalHitTestPoint.y && hitY < globalHitTestPoint.y + 150
 				)
 		}
 		
@@ -165,6 +167,11 @@ package net.wooga.wfighters.fighter
 		}
 		
 		protected function createSpriteset() : Spriteset
+		{
+			return new Spriteset( new <FrameConfig>[] );
+		}
+		
+		protected function createBulletSpriteset() : Spriteset
 		{
 			return new Spriteset( new <FrameConfig>[] );
 		}
@@ -299,8 +306,8 @@ package net.wooga.wfighters.fighter
 			comboLockTime = 200;
 			spriteset.showFrame( "jumppunch01" );
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
-			hitPoint.y = height / 2;
+			jumpAttackOffset.x = width / 2 + width / 2 * spriteset.scaleX;
+			jumpAttackOffset.y = height / 2;
 			jumpAttackSuccess = false;
 		}
 		
@@ -311,8 +318,8 @@ package net.wooga.wfighters.fighter
 			comboLockTime = 200;
 			spriteset.showFrame( "jumpkick01" );
 			parent.setChildIndex( this, parent.numChildren - 1 );
-			hitPoint.x = width / 2 + width / 2 * spriteset.scaleX;
-			hitPoint.y = height / 2;
+			jumpAttackOffset.x = width / 2 + width / 2 * spriteset.scaleX;
+			jumpAttackOffset.y = height / 2;
 			jumpAttackSuccess = false;
 		}
 		
@@ -323,7 +330,7 @@ package net.wooga.wfighters.fighter
 			comboLockTime = 0;
 			comboAnims.length = 0;
 			comboAnims.push( "special01", "special02" );
-			
+			addBullet();
 		}
 		
 		private function endCombo() : void
@@ -345,6 +352,8 @@ package net.wooga.wfighters.fighter
 		
 		public function update( t : int ) : void
 		{						
+			updateBullets( t );
+			
 			animTime += t;
 			
 			switch ( state )
@@ -922,6 +931,49 @@ package net.wooga.wfighters.fighter
 		private function get damage() : Number
 		{
 			return _damage;
+		}
+		
+		private function addBullet() : void
+		{
+			var bullet : Bullet = new Bullet( createBulletSpriteset() );
+			bullet.scaleX = spriteset.scaleX;
+			bullet.x = x - width / 2 * spriteset.scaleX + 50;
+			bullet.y = y + spriteset.currentFrameOffset.y + 100;
+			parent.addChild( bullet );
+			bullets.push( bullet );
+		}
+		
+		private function updateBullets( t : uint ) : void
+		{
+			var index : uint = 0;
+			var length : uint = bullets.length;
+			var bullet : Bullet;
+			for ( index = 0; index < length; index++ )
+			{
+				bullet = bullets[ index ];
+				bullet.update( t );
+				bullet.x += t * bullet.scaleX;
+				hitPoint.x = bullet.x;
+				hitPoint.y = bullet.y;
+				globalHitTestPoint = parent.localToGlobal( hitPoint );
+				if ( _opponent.hitTestPoint( globalHitTestPoint.x, globalHitTestPoint.y ) )
+				{
+					_opponent.receiveDamage();
+					destroyBullet( bullet );
+				}
+			}
+			
+			while ( deadBullets.length )
+			{
+				bullet = deadBullets.pop();
+				parent.removeChild( bullet );
+				bullets.splice( bullets.indexOf( bullet ), 1 );
+			}
+		}
+		
+		private function destroyBullet ( bullet : Bullet ) : void
+		{
+			deadBullets.push( bullet );
 		}
 	}
 }
