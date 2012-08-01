@@ -29,6 +29,7 @@ package net.wooga.wfighters.controller.gamestate
 		
 		public override function handleBecomeActive() : void
 		{
+			trace("Entered KO game state");
 			gameContainer.addChild( animationLayer );
 			
 			var font : Font = new Assets.QuartziteFont();
@@ -86,10 +87,14 @@ package net.wooga.wfighters.controller.gamestate
 				gradientMask.x = textField.x = shadowTextField.x = 320 - textField.width / 2;
 				gradientMask.y = textField.y = shadowTextField.y = 240 - textField.height / 2;
 			}
-			else if ( time >= 2300 )
+			else if ( time >= 2300 && time < 3000 )
 			{
 				
-				gradientMask.scaleY = textField.scaleY = shadowTextField.scaleY = 0;
+				gradientMask.scaleY = textField.scaleY = shadowTextField.scaleY = 0;	
+			}
+			else if ( time >= 3000 )
+			{
+				gameContainer.gameController.changeGameState( new EndOfRoundGameState( gameContainer ) );
 			}
 			
 			gradientMask.drawEffect( textField.width, textField.height, 5, time );

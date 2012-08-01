@@ -54,7 +54,7 @@ package net.wooga.wfighters.controller.gamestate
 			{
 				if ( time >= 1000 )
 				{
-					gameContainer.gameController.changeGameState( new FightIntroGameState( gameContainer ) );
+					gameContainer.gameController.changeGameState( new ConfigureFightersGameState( gameContainer ) );
 				}
 				else
 				{

@@ -1,19 +1,21 @@
 package net.wooga.wfighters.controller.gamestate 
 {
 	import flash.ui.Keyboard;
-	import net.wooga.wfighters.fighter.Fighter;
+	
+	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.fightarea.FightArea;
 	import net.wooga.wfighters.fighter.ControlConfig;
+	import net.wooga.wfighters.fighter.Fighter;
 	import net.wooga.wfighters.fighter.Panda;
 	import net.wooga.wfighters.fighter.Racoon;
-	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.gui.HPGauge;
-	public class FightIntroGameState extends GameState 
+	
+	public class ConfigureFightersGameState extends GameState 
 	{		
-		private var introTime : Number = 0;
 		private var fighterOne : Fighter;
 		private var fighterTwo : Fighter;
 		
-		public function FightIntroGameState( gameContainer : GameContainer )
+		public function ConfigureFightersGameState( gameContainer : GameContainer )
 		{
 			super( gameContainer );
 		}
@@ -36,7 +38,7 @@ package net.wooga.wfighters.controller.gamestate
 			controlConfig.punchKey =	Keyboard.C;
 			controlConfig.kickKey =		Keyboard.NUMBER_5;
 			fighterOne.controlConfig = controlConfig;
-			fighterOne.x = 300;
+			fighterOne.x = FightArea.FIGHTER_ONE_START_X;
 			
 			controlConfig = new ControlConfig();
 			controlConfig.upKey =		Keyboard.R;
@@ -46,10 +48,12 @@ package net.wooga.wfighters.controller.gamestate
 			controlConfig.punchKey =	Keyboard.RIGHTBRACKET;
 			controlConfig.kickKey =		Keyboard.NUMBER_6;
 			fighterTwo.controlConfig = controlConfig;
-			fighterTwo.x = 800;
+			fighterTwo.x = FightArea.FIGHTER_TWO_START_X;
 			
 			fighterOne.opponent = fighterTwo;
 			fighterTwo.opponent = fighterOne;
+			
+			gameContainer.gameController.changeGameState( new BeginRoundGameState( gameContainer ) );
 		}
 		
 		public override function handleResignActive() : void
@@ -59,8 +63,7 @@ package net.wooga.wfighters.controller.gamestate
 		
 		public override function update( t : int ) : void
 		{
-			introTime += t;
-			gameContainer.fightArea.update( t );
+
 		}
 	}
 }

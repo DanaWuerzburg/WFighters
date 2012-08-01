@@ -2,7 +2,7 @@ package net.wooga.wfighters.controller
 {
 	import flash.display.Stage;
 	import flash.utils.getTimer;
-	import net.wooga.wfighters.controller.gamestate.FightIntroGameState;
+	import net.wooga.wfighters.controller.gamestate.ConfigureFightersGameState;
 	import net.wooga.wfighters.controller.gamestate.GameState;
 	import net.wooga.wfighters.controller.gamestate.StartGameState;
 	import net.wooga.wfighters.GameContainer;

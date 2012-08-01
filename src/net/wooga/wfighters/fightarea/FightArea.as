@@ -9,9 +9,12 @@ package net.wooga.wfighters.fightarea
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
+	
 	import net.wooga.wfighters.fighter.Fighter;
 	public class FightArea extends Sprite
 	{
+		public static const FIGHTER_ONE_START_X : int = 300;
+		public static const FIGHTER_TWO_START_X : int = 800;
 		
 		private var fighterList : Vector.<Fighter> = new Vector.<Fighter>();
 		
@@ -47,6 +50,21 @@ package net.wooga.wfighters.fightarea
 		public function reset() : void
 		{
 			fighterList.length = 0;
+		}
+		
+		public function resetFighters() : void
+		{
+			for each ( var fighter : Fighter in fighterList )
+			{
+				fighter.reset();
+			}
+			fighterList[0].x = FIGHTER_ONE_START_X;
+			fighterList[1].x = FIGHTER_TWO_START_X;
+			
+			for each ( var fighter : Fighter in fighterList )
+			{
+				handleFighterPositionChanged( fighter );
+			}
 		}
 		
 		public function addFighter( fighter : Fighter ) : void

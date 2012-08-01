@@ -118,6 +118,7 @@ package net.wooga.wfighters.fighter
 			blockTime = 0;
 			blockDisabledTime = 0;
 			blockDamage = 0;
+			damage = 0;
 		}
 		
 		override public function hitTestPoint( hitX : Number, hitY : Number, shapeFlag:Boolean = false ) : Boolean 
