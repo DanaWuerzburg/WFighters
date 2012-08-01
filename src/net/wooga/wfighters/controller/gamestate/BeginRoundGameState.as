@@ -3,7 +3,7 @@ package net.wooga.wfighters.controller.gamestate
 	import net.wooga.wfighters.GameContainer;
 	
 	/**
-	 * Handles beginning a round, e.g. "ready... fight!"
+	 * Handles beginning a round, e.g. "round one... fight!"
 	 */
 	public class BeginRoundGameState extends GameState
 	{

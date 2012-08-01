@@ -9,14 +9,14 @@ package net.wooga.wfighters.controller.gamestate
 	{
 		public function FightingGameState(gameContainer:GameContainer)
 		{
-			super(gameContainer);
+			super( gameContainer );
 		}
 		
 		public override function handleBecomeActive() : void
 		{
 			trace("Fighting game state active");
 			
-			gameContainer.addEventListener( FighterKOdEvent.TYPE_NAME, onFighterKOd);
+			gameContainer.addEventListener( FighterKOdEvent.TYPE_NAME, onFighterKOd );
 		}
 		
 		public override function handleResignActive() : void
@@ -31,6 +31,7 @@ package net.wooga.wfighters.controller.gamestate
 		
 		private function onFighterKOd( event : FighterKOdEvent ) : void
 		{
+			gameContainer.removeEventListener( FighterKOdEvent.TYPE_NAME, onFighterKOd );
 			gameContainer.gameController.changeGameState( new KOGameState( gameContainer, event.playerId ) );
 		}
 	}

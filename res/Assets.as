@@ -2,12 +2,13 @@ package
 {
 	public class Assets 
 	{
+		/* Fonts */
 		[Embed(source = "SF Quartzite Bold.ttf", fontName="Quartzite", embedAsCFF = "false")]
 		public static const QuartziteFont : Class;
 		[Embed(source = "JOYSTIX.ttf", fontName="Joystix", embedAsCFF = "false")]
 		public static const JoystixFont : Class;
 		
-		
+		/* PLACEHOLDER: top GUI */
 		[Embed(source = "hp.png")]
 		public static const HPBitmap : Class;
 		
@@ -15,7 +16,27 @@ package
 		[Embed(source = "startScreen/start-screen.png")]
 		public static const StartScreenBitmap : Class;
 		
+		/* Game Screen */
+		[Embed(source = "gameScreen/fight.png")]
+		public static const FightBitmap : Class;
+		[Embed(source = "gameScreen/KO-center.png")]
+		public static const KOCenterBitmap : Class;
+		[Embed(source = "gameScreen/lifebar-base.png")]
+		public static const LifebarBaseBitmap : Class;
+		[Embed(source = "gameScreen/lifebar-fill.png")]
+		public static const LifebarFillBitmap : Class;
+		[Embed(source = "gameScreen/lifebar-frame.png")]
+		public static const LifebarFrameBitmap : Class;
+		[Embed(source = "gameScreen/round1.png")]
+		public static const RoundOneBitmap : Class;
+		[Embed(source = "gameScreen/round2.png")]
+		public static const RoundTwoBitmap : Class;
+		[Embed(source = "gameScreen/round3.png")]
+		public static const RoundThreeBitmap : Class;
+		[Embed(source = "gameScreen/star.png")]
+		public static const RoundsWonIconBitmap : Class;
 		
+		/* Environment */
 		[Embed(source = "floor.png")]
 		public static const FloorBitmap : Class;
 		[Embed(source = "sky.png")]
@@ -25,6 +46,7 @@ package
 		[Embed(source = "background.png")]
 		public static const BackgroundBitmap : Class;
 		
+		/* Panda */
 		[Embed(source = "panda/pandaBlock.png")]
 		public static const PandaBlockBitmap : Class;
 		[Embed(source = "panda/pandaFireball01.png")]
@@ -112,6 +134,7 @@ package
 		[Embed(source = "panda/pandaWalk04.png")]
 		public static const PandaWalk04Bitmap : Class;
 		
+		/* Raccoon */
 		[Embed(source = "raccoon/raccoonBlock.png")]
 		public static const RacoonBlockBitmap : Class;
 		[Embed(source = "raccoon/raccoonFireball01.png")]
@@ -199,17 +222,18 @@ package
 		[Embed(source = "raccoon/raccoonWalk04.png")]
 		public static const RacoonWalk04Bitmap : Class;
 		
-		[Embed(source = "raccoon/fireball01.png")]
+		/* Fireball */
+		[Embed(source = "fireball/fireball01.png")]
 		public static const Fireball01Bitmap : Class;
-		[Embed(source = "raccoon/fireball02.png")]
+		[Embed(source = "fireball/fireball02.png")]
 		public static const Fireball02Bitmap : Class;
-		[Embed(source = "raccoon/fireball03.png")]
+		[Embed(source = "fireball/fireball03.png")]
 		public static const Fireball03Bitmap : Class;
-		[Embed(source = "raccoon/fireball04.png")]
+		[Embed(source = "fireball/fireball04.png")]
 		public static const Fireball04Bitmap : Class;
-		[Embed(source = "raccoon/fireball05.png")]
+		[Embed(source = "fireball/fireball05.png")]
 		public static const Fireball05Bitmap : Class;
-		[Embed(source = "raccoon/fireball06.png")]
+		[Embed(source = "fireball/fireball06.png")]
 		public static const Fireball06Bitmap : Class;
 	}
 }
