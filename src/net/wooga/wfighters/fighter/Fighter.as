@@ -808,7 +808,7 @@ package net.wooga.wfighters.fighter
 		
 		private function updateCollision() : void
 		{
-			if ( _opponent && hitTestObject( _opponent ) )
+			if ( _opponent && Math.abs( y - _opponent.y ) < 100 )
 			{
 				if ( x > _opponent.x && x - _opponent.x < 100)
 				{
