@@ -38,6 +38,24 @@ package net.wooga.wfighters.controller
 		{
 			_sounds = new Dictionary();
 			_sounds[ Sounds.START_GAME ] = Assets.createSound( Assets.GuilesThemeSound );
+			_sounds[ Sounds.MENU_OK1 ] = Assets.createSound( Assets.MenuOk1Sound );
+			_sounds[ Sounds.MENU_OK2 ] = Assets.createSound( Assets.MenuOk2Sound );
+			_sounds[ Sounds.MENU_SELECT ] = Assets.createSound( Assets.MenuSelectSound );
+			_sounds[ Sounds.VERSUS_DRAMATIC_DRUM ] = Assets.createSound( Assets.VersusDramaticDrumSound );
+			_sounds[ Sounds.VERSUS_BOOM ] = Assets.createSound( Assets.VersusBoomSound );
+			_sounds[ Sounds.VERSUS_BOOM ] = Assets.createSound( Assets.VersusBoomSound );
+			_sounds[ Sounds.FIGHT_PUNCH01 ] = Assets.createSound( Assets.FightPunch01Sound );
+			_sounds[ Sounds.FIGHT_PUNCH02 ] = Assets.createSound( Assets.FightPunch02Sound );
+			_sounds[ Sounds.FIGHT_PUNCH03 ] = Assets.createSound( Assets.FightPunch03Sound );
+			_sounds[ Sounds.FIGHT_PUNCH04 ] = Assets.createSound( Assets.FightPunch04Sound );
+			_sounds[ Sounds.FIGHT_PUNCH05 ] = Assets.createSound( Assets.FightPunch05Sound );
+			_sounds[ Sounds.FIGHT_PUNCH06 ] = Assets.createSound( Assets.FightPunch06Sound );
+			_sounds[ Sounds.FIGHT_PUNCH07 ] = Assets.createSound( Assets.FightPunch07Sound );
+			_sounds[ Sounds.FIGHT_PUNCH08 ] = Assets.createSound( Assets.FightPunch08Sound );
+			_sounds[ Sounds.FIGHT_PUNCH09 ] = Assets.createSound( Assets.FightPunch09Sound );
+			_sounds[ Sounds.FIGHT_GROUND01 ] = Assets.createSound( Assets.FightGround01Sound );
+			_sounds[ Sounds.FIGHT_GROUND02 ] = Assets.createSound( Assets.FightGround02Sound );
+			_sounds[ Sounds.FIGHT_GROUND03 ] = Assets.createSound( Assets.FightGround03Sound );
 		}
 	}
 }

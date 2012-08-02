@@ -72,6 +72,7 @@ package net.wooga.wfighters.controller.gamestate
 				
 				if ( gameContainer.inputController.isAnyKeyPressed() )
 				{
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.MENU_OK2 ) );
 					fadeOut = true;
 					time = 0;
 				}

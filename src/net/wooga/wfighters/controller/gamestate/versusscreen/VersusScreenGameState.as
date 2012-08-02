@@ -9,6 +9,8 @@ package net.wooga.wfighters.controller.gamestate.versusscreen
 	import net.wooga.wfighters.controller.gamestate.characterselect.CharacterSet;
 	import net.wooga.wfighters.controller.gamestate.GameState;
 	import net.wooga.wfighters.controller.gamestate.vsmatch.ConfigureFightersGameState;
+	import net.wooga.wfighters.controller.Sounds;
+	import net.wooga.wfighters.events.PlaySoundEvent;
 	import net.wooga.wfighters.GameContainer;
 	
 	public class VersusScreenGameState extends GameState 
@@ -23,6 +25,7 @@ package net.wooga.wfighters.controller.gamestate.versusscreen
 		private var player2 : CharacterSet;
 		private var player1Text : TextField;
 		private var player2Text : TextField;
+		private var soundStep : int = 0;
 		
 		private var time : Number;
 		
@@ -96,6 +99,7 @@ package net.wooga.wfighters.controller.gamestate.versusscreen
 			vs.visible = false;
 			
 			time = 0;
+			soundStep = 0;
 			
 		}
 		
@@ -122,29 +126,45 @@ package net.wooga.wfighters.controller.gamestate.versusscreen
 			player2Bitmap.visible = true;
 			player2Bitmap.x = Math.max( 740, 2640 - ( time / 200 ) * 900 );
 			
-			if ( time > 1000 && time < 3000 )
+			if ( soundStep == 0 && time > 100 )
+			{
+				gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.VERSUS_DRAMATIC_DRUM ) );
+				soundStep++;
+			}
+			else if ( soundStep == 1 && time > 300 )
+			{
+				gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.VERSUS_DRAMATIC_DRUM ) );
+				soundStep++;
+			}
+			else if ( soundStep == 2 && time > 1300 )
+			{
+				gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.VERSUS_BOOM ) );
+				soundStep++;
+			}
+			
+			if ( time > 1300 && time < 3000 )
 			{
 				sunContainer.visible = true;
 				fire.visible = true;
 				player1Text.visible = true;
 				player2Text.visible = true;
-				player1Text.alpha = player2Text.alpha = sunContainer.alpha = fire.alpha = Math.min( 1, ( time - 1000 ) / 200 );
+				player1Text.alpha = player2Text.alpha = sunContainer.alpha = fire.alpha = Math.min( 1, ( time - 1300 ) / 200 );
 				vs.visible = true;
-				vs.alpha = Math.min( 1, ( time - 1000 ) / 200 );
+				vs.alpha = Math.min( 1, ( time - 1300 ) / 200 );
 				vs.scaleX = 2 - vs.alpha;
 				vs.scaleY = 2 - vs.alpha;
 				vs.x = 320 - vs.width / 2;
 				vs.y = 180 - vs.height / 2;
 			}
-			else if ( time > 3000 && time < 4000 )
+			else if ( time > 5000 && time < 6000 )
 			{
-				player1Text.alpha = player2Text.alpha = player2Bitmap.alpha = player1Bitmap.alpha = sunContainer.alpha = fire.alpha = vs.alpha = 1 - Math.min( 1, ( time - 3000 ) / 200 );
+				player1Text.alpha = player2Text.alpha = player2Bitmap.alpha = player1Bitmap.alpha = sunContainer.alpha = fire.alpha = vs.alpha = 1 - Math.min( 1, ( time - 5000 ) / 200 );
 				vs.scaleX = 4 - vs.alpha * 3;
 				vs.scaleY = 4 - vs.alpha * 3;
 				vs.x = 320 - vs.width / 2;
 				vs.y = 180 - vs.height / 2;
 			}
-			else if ( time > 4000 )
+			else if ( time > 6000 )
 			{
 				gameContainer.gameController.changeGameState(
 					new ConfigureFightersGameState(

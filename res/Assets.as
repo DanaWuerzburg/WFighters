@@ -32,6 +32,42 @@ package
 		[Embed(source = "sound/sf2-guilestheme.mp3")]
 		public static const GuilesThemeSound : Class;
 		
+		/* SFX */
+		[Embed(source = "sound/sfx/menu_ok.mp3")]
+		public static const MenuOk1Sound : Class;
+		[Embed(source = "sound/sfx/menu_ok2.mp3")]
+		public static const MenuOk2Sound : Class;
+		[Embed(source = "sound/sfx/menu_select.mp3")]
+		public static const MenuSelectSound : Class;
+		[Embed(source = "sound/sfx/dramatic_drum.mp3")]
+		public static const VersusDramaticDrumSound : Class;
+		[Embed(source = "sound/sfx/boom.mp3")]
+		public static const VersusBoomSound : Class;
+		[Embed(source = "sound/sfx/punch01.mp3")]
+		public static const FightPunch01Sound : Class;
+		[Embed(source = "sound/sfx/punch02.mp3")]
+		public static const FightPunch02Sound : Class;
+		[Embed(source = "sound/sfx/punch03.mp3")]
+		public static const FightPunch03Sound : Class;
+		[Embed(source = "sound/sfx/punch04.mp3")]
+		public static const FightPunch04Sound : Class;
+		[Embed(source = "sound/sfx/punch05.mp3")]
+		public static const FightPunch05Sound : Class;
+		[Embed(source = "sound/sfx/punch06.mp3")]
+		public static const FightPunch06Sound : Class;
+		[Embed(source = "sound/sfx/punch07.mp3")]
+		public static const FightPunch07Sound : Class;
+		[Embed(source = "sound/sfx/punch08.mp3")]
+		public static const FightPunch08Sound : Class;
+		[Embed(source = "sound/sfx/punch09.mp3")]
+		public static const FightPunch09Sound : Class;
+		[Embed(source = "sound/sfx/ground01.mp3")]
+		public static const FightGround01Sound : Class;
+		[Embed(source = "sound/sfx/ground02.mp3")]
+		public static const FightGround02Sound : Class;
+		[Embed(source = "sound/sfx/ground03.mp3")]
+		public static const FightGround03Sound : Class;
+		
 		/* Fonts */
 		[Embed(source = "SF Quartzite Bold.ttf", fontName="Quartzite", embedAsCFF = "false")]
 		public static const QuartziteFont : Class;

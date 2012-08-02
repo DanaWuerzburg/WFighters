@@ -3,11 +3,14 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.filters.ColorMatrixFilter;
+	import flash.media.Sound;
 	import flash.text.TextField;
 	import net.wooga.wfighters.controller.gamestate.versusscreen.VersusScreenGameState;
 	import net.wooga.wfighters.controller.gamestate.vsmatch.ConfigureFightersGameState;
 	import net.wooga.wfighters.controller.gamestate.GameState;
 	import net.wooga.wfighters.controller.InputController;
+	import net.wooga.wfighters.controller.Sounds;
+	import net.wooga.wfighters.events.PlaySoundEvent;
 	import net.wooga.wfighters.fighter.Panda;
 	import net.wooga.wfighters.fighter.Racoon;
 	import net.wooga.wfighters.GameContainer;
@@ -254,6 +257,7 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 					{
 						playerOneLocked = true;
 						characterSetList[ selection1p ].smallPreview.filters = [ playerOneFilter ];
+						gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.MENU_OK1 ) );
 					}
 				}
 			}
@@ -282,6 +286,7 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 					{
 						playerTwoLocked = true;
 						characterSetList[ selection2p ].smallPreview.filters = [ playerTwoFilter ];
+						gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.MENU_OK1 ) );
 					}
 				}
 			}
@@ -313,6 +318,8 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 			characterName1.text = characterSetList[ selection1p ].name;
 			characterName1.x = 20;
 			characterName1.y = 400;
+			
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.MENU_SELECT ) );
 		}
 		
 		private function changeSelection2P( offset : int ) : void
@@ -332,6 +339,8 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 			characterName2.text = characterSetList[ selection2p ].name;
 			characterName2.x = 620 - characterName2.width;
 			characterName2.y = 400;
+			
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.MENU_SELECT ) );
 		}
 		
 		private function updatePlayerSelectionFrames( stateTime : Number ) : void
