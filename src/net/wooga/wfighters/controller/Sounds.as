@@ -46,6 +46,7 @@ package net.wooga.wfighters.controller
 		public static const FIGHT_GROUND01 : String = "FIGHT_GROUND01";
 		public static const FIGHT_GROUND02 : String = "FIGHT_GROUND02";
 		public static const FIGHT_GROUND03 : String = "FIGHT_GROUND03";
+		public static const FIGHT_BLOCK : String = "FIGHT_BLOCK";
 		
 	}
 }

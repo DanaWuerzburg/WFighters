@@ -100,6 +100,8 @@ package
 		public static const FightGround02Sound : Class;
 		[Embed(source = "sound/sfx/ground03.mp3")]
 		public static const FightGround03Sound : Class;
+		[Embed(source = "sound/sfx/block.mp3")]
+		public static const FightBlockSound : Class;
 		
 		/* Fonts */
 		[Embed(source = "SF Quartzite Bold.ttf", fontName="Quartzite", embedAsCFF = "false")]

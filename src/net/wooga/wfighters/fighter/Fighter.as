@@ -800,6 +800,7 @@ package net.wooga.wfighters.fighter
 			{
 				case STATE_BLOCK:
 				{
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.FIGHT_BLOCK ) );
 					blockTime = BLOCK_TIME;
 					spriteset.showFrame( "block01" );
 					break;

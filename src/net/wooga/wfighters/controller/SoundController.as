@@ -83,6 +83,7 @@ package net.wooga.wfighters.controller
 			_sounds[ Sounds.FIGHT_GROUND01 ] = Assets.createSound( Assets.FightGround01Sound );
 			_sounds[ Sounds.FIGHT_GROUND02 ] = Assets.createSound( Assets.FightGround02Sound );
 			_sounds[ Sounds.FIGHT_GROUND03 ] = Assets.createSound( Assets.FightGround03Sound );
+			_sounds[ Sounds.FIGHT_BLOCK ] = Assets.createSound( Assets.FightBlockSound );
 		}
 	}
 }
