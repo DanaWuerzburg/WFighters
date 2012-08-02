@@ -4,12 +4,14 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 	import flash.text.TextField;
 	
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.controller.Sounds;
 	import net.wooga.wfighters.controller.gamestate.GameState;
 	import net.wooga.wfighters.controller.gamestate.StartGameState;
+	import net.wooga.wfighters.events.PlaySoundEvent;
 	
 	public class VsMatchEndState extends GameState
 	{
-		private const TIME_UNTIL_EXIT : int = 3000;
+		private const TIME_UNTIL_EXIT : int = 6000;
 		
 		private var _winningPlayerId : uint;
 		private var _timeElapsed : int;
@@ -27,9 +29,8 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 		}
 		
 		public override function handleBecomeActive() : void
-		{
-			trace("Player " + _winningPlayerId + " has won!");
-			
+		{	
+			playWinSound();
 			gameContainer.inputController.inputEnabled = false;
 			gameContainer.addChild( _drawingArea );
 		}
@@ -61,6 +62,22 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			
 			_textField.x = (gameContainer.stage.stageWidth / 2) - (_textField.width / 2);
 			_textField.y = (gameContainer.stage.stageHeight / 2) - (_textField.height / 2);
+		}
+		
+		private function playWinSound() : void
+		{
+			switch( _winningPlayerId )
+			{
+				case 0:
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_PLAYER_ONE_WINS ) );
+					break;
+				case 1:
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_PLAYER_TWO_WINS ) );
+					break;
+				default:
+					trace("Unknown winning player id at end of match: " + _winningPlayerId);
+					break;
+			}
 		}
 	}
 }
