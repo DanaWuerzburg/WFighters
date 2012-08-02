@@ -7,16 +7,20 @@ package net.wooga.wfighters.gui
 	import net.wooga.wfighters.math.GameMath;
 	
 	public class HealthGauge extends Sprite
-	{
+	{	
 		private const BASE_OFFSET_FROM_FRAME_CORNER : Number = 2;
 		
 		private var lifebarFrame : Bitmap;
 		private var lifebarBase : Bitmap;
 		private var lifebarFill : Bitmap;
 		
-		public function HealthGauge()
+		private var _fillDirection : HealthGaugeFillDirection;
+		
+		public function HealthGauge( fillDirection : HealthGaugeFillDirection )
 		{
 			super();
+			
+			_fillDirection = fillDirection;
 			
 			init();
 		}
@@ -24,7 +28,22 @@ package net.wooga.wfighters.gui
 		public function set percentHealth( value : Number ) : void
 		{
 			value = GameMath.clamp( value, 0, 1 );
-			lifebarFill.width = lifebarBase.width * value;
+			lifebarFill.width = lifebarBase.width * (1 - value);
+			
+			switch( _fillDirection )
+			{
+				case HealthGaugeFillDirection.SHRINK_LEFT:
+					lifebarFill.x = lifebarBase.x + lifebarBase.width - lifebarFill.width;
+					break;
+				case HealthGaugeFillDirection.SHRINK_RIGHT:
+					lifebarFill.x = lifebarBase.x;
+					break;
+				default:
+					trace("ERROR: Unknown health gauge fill direction.");
+					break;
+			}
+				
+			
 		}
 		
 		private function init() : void
@@ -49,8 +68,8 @@ package net.wooga.wfighters.gui
 			
 			lifebarFill.x = lifebarBase.x;
 			lifebarFill.y = lifebarBase.y;
-			lifebarFill.width = lifebarBase.width;
 			lifebarFill.height = lifebarBase.height;
+			percentHealth = 1.0;
 			
 			addChild( lifebarBase );
 			addChild( lifebarFill );

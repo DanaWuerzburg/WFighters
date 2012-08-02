@@ -50,11 +50,11 @@ package net.wooga.wfighters.gui
 		
 		private function createHealthGauges() : void
 		{
-			var leftGauge : HealthGauge = new HealthGauge();
+			var leftGauge : HealthGauge = new HealthGauge( HealthGaugeFillDirection.SHRINK_RIGHT );
 			leftGauge.x = _koCenter.x - leftGauge.width + GAUGE_OFFSET_X;
 			leftGauge.y = GAUGE_Y;
 			
-			var rightGauge : HealthGauge = new HealthGauge();
+			var rightGauge : HealthGauge = new HealthGauge( HealthGaugeFillDirection.SHRINK_LEFT );
 			rightGauge.x = _koCenter.x + _koCenter.width - GAUGE_OFFSET_X;
 			rightGauge.y = GAUGE_Y;
 			
