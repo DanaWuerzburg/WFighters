@@ -53,10 +53,13 @@ package net.wooga.wfighters
 			return textField;
 		}
 		
-		public function createBigTextField() : TextField
+		public function createBigTextField( color : Object = 0xFFFFFF ) : TextField
 		{
 			var textField : TextField = new TextField();
-			textField.defaultTextFormat = bigTextFormat;
+			var textFormat : TextFormat = bigTextFormat;
+			textFormat.color = color;
+			
+			textField.defaultTextFormat = textFormat;
 			textField.embedFonts = true;
 			textField.autoSize = TextFieldAutoSize.LEFT;
 			return textField;
