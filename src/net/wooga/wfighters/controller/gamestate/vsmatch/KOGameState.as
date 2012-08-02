@@ -8,9 +8,12 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
+	
 	import net.wooga.wfighters.GameContainer;
-	import net.wooga.wfighters.gui.GradientEffect;
+	import net.wooga.wfighters.controller.Sounds;
 	import net.wooga.wfighters.controller.gamestate.GameState;
+	import net.wooga.wfighters.events.PlaySoundEvent;
+	import net.wooga.wfighters.gui.GradientEffect;
 	
 	public class KOGameState extends GameState 
 	{
@@ -69,6 +72,8 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			gradientMask.scaleX = textField.scaleX = shadowTextField.scaleX = 2;
 			gradientMask.x = textField.x = shadowTextField.x = 320 - textField.width / 2;
 			gradientMask.y = textField.y = shadowTextField.y = 240 - textField.height / 2;
+			
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_KO ) );
 		}
 		
 		public override function handleResignActive() : void
