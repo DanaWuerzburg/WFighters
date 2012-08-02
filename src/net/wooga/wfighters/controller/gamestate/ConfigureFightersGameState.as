@@ -23,7 +23,7 @@ package net.wooga.wfighters.controller.gamestate
 		public override function handleBecomeActive() : void
 		{
 			gameContainer.fightArea.visible = true;
-			gameContainer.hpGauge.visible = true;
+			gameContainer.fightHud.visible = true;
 			
 			gameContainer.fightArea.reset();
 			gameContainer.fightArea.addFighter( fighterOne = new Racoon( gameContainer, 0 ) );

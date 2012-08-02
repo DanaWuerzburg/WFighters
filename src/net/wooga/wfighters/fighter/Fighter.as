@@ -13,6 +13,7 @@ package net.wooga.wfighters.fighter
 	
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.controller.gamestate.KOGameState;
+	import net.wooga.wfighters.events.FighterHealthChanged;
 	import net.wooga.wfighters.events.FighterKOdEvent;
 	import net.wooga.wfighters.fightarea.FightArea;
 	import net.wooga.wfighters.spriteset.FrameConfig;
@@ -925,7 +926,7 @@ package net.wooga.wfighters.fighter
 			{
 				state = STATE_KO;
 			}
-			gameContainer.hpGauge.setHp( _id, ( MAX_DAMAGE - damage ) / MAX_DAMAGE );
+			gameContainer.dispatchEvent( new FighterHealthChanged( _id, ( MAX_DAMAGE - damage ) / MAX_DAMAGE ) );
 		}
 		
 		private function get damage() : Number
