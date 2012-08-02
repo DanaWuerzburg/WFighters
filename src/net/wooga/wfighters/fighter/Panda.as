@@ -7,10 +7,18 @@ package net.wooga.wfighters.fighter
 
 	public class Panda extends Fighter 
 	{	
+		public static const NAME : String = "KenDa";
+		
+		public override function get name() : String
+		{
+			return NAME;
+		}
+		
 		public function Panda( gameCointainer : GameContainer, id : uint )
 		{
 			super( gameCointainer, id );
 		}
+		
 		protected override function createSpriteset() : Spriteset
 		{
 			return new Spriteset( new <FrameConfig>

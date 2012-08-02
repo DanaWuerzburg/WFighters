@@ -37,6 +37,9 @@ package
 		public static const QuartziteFont : Class;
 		[Embed(source = "JOYSTIX.ttf", fontName="Joystix", embedAsCFF = "false")]
 		public static const JoystixFont : Class;
+		[Embed(source = "grilcb__poprawiony-1.ttf", fontName="grilcb", embedAsCFF = "false")]
+		public static const GrilcbFont : Class;
+		
 		
 		/* PLACEHOLDER: top GUI */
 		[Embed(source = "hp.png")]
@@ -91,7 +94,18 @@ package
 		public static const CharacterSelectPreviewBig08Bitmap : Class;
 		[Embed(source = "characterselect/preview-big-9.png")]
 		public static const CharacterSelectPreviewBig09Bitmap : Class;
+		[Embed(source = "characterselect/1P.png")]
+		public static const CharacterSelect1PBitmap : Class;
+		[Embed(source = "characterselect/2P.png")]
+		public static const CharacterSelect2PBitmap : Class;
 		
+		/* Versus screen */
+		[Embed(source = "versusscreen/KO-sunray.png")]
+		public static const VersusScreenSunBitmap : Class;
+		[Embed(source = "versusscreen/VS.png")]
+		public static const VersusScreenVSBitmap : Class;
+		[Embed(source = "versusscreen/VS-fire-particle.png")]
+		public static const VersusScreenFireBitmap : Class;
 		
 		/* Game Screen */
 		[Embed(source = "gamescreen/fight.png")]

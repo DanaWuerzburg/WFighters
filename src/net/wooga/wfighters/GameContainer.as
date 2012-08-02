@@ -30,6 +30,7 @@ package net.wooga.wfighters
 		private var _soundController : SoundController;
 		private var _fightArea : FightArea;
 		private var _standardTextFormat : TextFormat;
+		private var _bigTextFormat : TextFormat;
 		private var _fightHud : FightHUD;
 		
 		public function GameContainer() 
@@ -47,6 +48,15 @@ package net.wooga.wfighters
 		{
 			var textField : TextField = new TextField();
 			textField.defaultTextFormat = standardTextFormat;
+			textField.embedFonts = true;
+			textField.autoSize = TextFieldAutoSize.LEFT;
+			return textField;
+		}
+		
+		public function createBigTextField() : TextField
+		{
+			var textField : TextField = new TextField();
+			textField.defaultTextFormat = bigTextFormat;
 			textField.embedFonts = true;
 			textField.autoSize = TextFieldAutoSize.LEFT;
 			return textField;
@@ -99,6 +109,11 @@ package net.wooga.wfighters
 			return _standardTextFormat;
 		}
 		
+		public function get bigTextFormat() : TextFormat
+		{
+			return _bigTextFormat;
+		}
+		
 		private function setup() : void
 		{
 			graphics.beginFill( 0x000000 );
@@ -146,6 +161,9 @@ package net.wooga.wfighters
 		{
 			_standardTextFormat = new TextFormat( "Joystix", 20 );
 			_standardTextFormat.color = 0xFFFFFF;
+			
+			_bigTextFormat = new TextFormat( "grilcb", 40 );
+			_bigTextFormat.color = 0xFFFFFF;
 		}
 	}
 

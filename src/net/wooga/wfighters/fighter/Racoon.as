@@ -7,6 +7,13 @@ package net.wooga.wfighters.fighter
 
 	public class Racoon extends Fighter 
 	{	
+		public static const NAME : String = "PaYu";
+		
+		public override function get name() : String
+		{
+			return NAME;
+		}
+		
 		public function Racoon( gameCointainer : GameContainer, id : uint )
 		{
 			super( gameCointainer, id );
