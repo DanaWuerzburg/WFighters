@@ -33,27 +33,56 @@ package
 		public static const HPBitmap : Class;
 		
 		/* Start screen */
-		[Embed(source = "startScreen/start-screen.png")]
+		[Embed(source = "startscreen/start-screen.png")]
 		public static const StartScreenBitmap : Class;
 		
+		/* Character select */
+		[Embed(source = "characterselect/menu-bg.png")]
+		public static const CharacterSelectBackgroundBitmap : Class;
+		[Embed(source = "characterselect/frame-1p.png")]
+		public static const CharacterSelectFrame1PBitmap : Class;
+		[Embed(source = "characterselect/frame-2p.png")]
+		public static const CharacterSelectFrame2PBitmap : Class;
+		[Embed(source = "characterselect/frame-1p2p.png")]
+		public static const CharacterSelectFrame1P2PBitmap : Class;
+		[Embed(source = "characterselect/preview-small-1.png")]
+		public static const CharacterSelectPreviewSmall01Bitmap : Class;
+		[Embed(source = "characterselect/preview-small-2.png")]
+		public static const CharacterSelectPreviewSmall02Bitmap : Class;
+		[Embed(source = "characterselect/preview-small-3.png")]
+		public static const CharacterSelectPreviewSmall03Bitmap : Class;
+		[Embed(source = "characterselect/preview-small-4.png")]
+		public static const CharacterSelectPreviewSmall04Bitmap : Class;
+		[Embed(source = "characterselect/preview-small-5.png")]
+		public static const CharacterSelectPreviewSmall05Bitmap : Class;
+		[Embed(source = "characterselect/preview-small-6.png")]
+		public static const CharacterSelectPreviewSmall06Bitmap : Class;
+		[Embed(source = "characterselect/preview-small-7.png")]
+		public static const CharacterSelectPreviewSmall07Bitmap : Class;
+		[Embed(source = "characterselect/preview-small-8.png")]
+		public static const CharacterSelectPreviewSmall08Bitmap : Class;
+		[Embed(source = "characterselect/preview-small-9.png")]
+		public static const CharacterSelectPreviewSmall09Bitmap : Class;
+		
+		
 		/* Game Screen */
-		[Embed(source = "gameScreen/fight.png")]
+		[Embed(source = "gamescreen/fight.png")]
 		public static const FightBitmap : Class;
-		[Embed(source = "gameScreen/KO-center.png")]
+		[Embed(source = "gamescreen/KO-center.png")]
 		public static const KOCenterBitmap : Class;
-		[Embed(source = "gameScreen/lifebar-base.png")]
+		[Embed(source = "gamescreen/lifebar-base.png")]
 		public static const LifebarBaseBitmap : Class;
-		[Embed(source = "gameScreen/lifebar-fill.png")]
+		[Embed(source = "gamescreen/lifebar-fill.png")]
 		public static const LifebarFillBitmap : Class;
-		[Embed(source = "gameScreen/lifebar-frame.png")]
+		[Embed(source = "gamescreen/lifebar-frame.png")]
 		public static const LifebarFrameBitmap : Class;
-		[Embed(source = "gameScreen/round1.png")]
+		[Embed(source = "gamescreen/round1.png")]
 		public static const RoundOneBitmap : Class;
-		[Embed(source = "gameScreen/round2.png")]
+		[Embed(source = "gamescreen/round2.png")]
 		public static const RoundTwoBitmap : Class;
-		[Embed(source = "gameScreen/round3.png")]
+		[Embed(source = "gamescreen/round3.png")]
 		public static const RoundThreeBitmap : Class;
-		[Embed(source = "gameScreen/star.png")]
+		[Embed(source = "gamescreen/star.png")]
 		public static const RoundsWonIconBitmap : Class;
 		
 		/* Environment */
