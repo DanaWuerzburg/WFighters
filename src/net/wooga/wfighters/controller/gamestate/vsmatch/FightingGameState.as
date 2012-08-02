@@ -5,8 +5,10 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 	import flash.events.IEventDispatcher;
 	
 	import net.wooga.wfighters.GameContainer;
-	import net.wooga.wfighters.events.FighterKOdEvent;
+	import net.wooga.wfighters.controller.Sounds;
 	import net.wooga.wfighters.controller.gamestate.GameState;
+	import net.wooga.wfighters.events.FighterKOdEvent;
+	import net.wooga.wfighters.events.PlaySoundEvent;
 	
 	public class FightingGameState extends GameState
 	{
@@ -28,6 +30,8 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			
 			setUpFightGraphic();
 			gameContainer.addChild( fightGraphic );
+			
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_FIGHT ) );
 		}
 		
 		public override function handleResignActive() : void
