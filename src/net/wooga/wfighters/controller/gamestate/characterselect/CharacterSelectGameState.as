@@ -2,7 +2,7 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 {
 	import flash.display.Bitmap;
 	import flash.filters.ColorMatrixFilter;
-	import net.wooga.wfighters.controller.gamestate.ConfigureFightersGameState;
+	import net.wooga.wfighters.controller.gamestate.vsmatch.ConfigureFightersGameState;
 	import net.wooga.wfighters.controller.gamestate.GameState;
 	import net.wooga.wfighters.controller.InputController;
 	import net.wooga.wfighters.fighter.Panda;

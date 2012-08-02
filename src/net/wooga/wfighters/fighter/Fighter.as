@@ -12,7 +12,7 @@ package net.wooga.wfighters.fighter
 	import flash.utils.Dictionary;
 	
 	import net.wooga.wfighters.GameContainer;
-	import net.wooga.wfighters.controller.gamestate.KOGameState;
+	import net.wooga.wfighters.controller.gamestate.vsmatch.KOGameState;
 	import net.wooga.wfighters.events.FighterHealthChangedEvent;
 	import net.wooga.wfighters.events.FighterKOdEvent;
 	import net.wooga.wfighters.fightarea.FightArea;

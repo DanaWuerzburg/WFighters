@@ -1,6 +1,8 @@
-package net.wooga.wfighters.controller.gamestate
+package net.wooga.wfighters.controller.gamestate.vsmatch
 {
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.controller.gamestate.GameState;
+	import net.wooga.wfighters.controller.gamestate.StartGameState;
 	
 	public class VsMatchEndState extends GameState
 	{

@@ -1,4 +1,4 @@
-package net.wooga.wfighters.controller.gamestate 
+package net.wooga.wfighters.controller.gamestate.vsmatch 
 {
 	import flash.display.Sprite;
 	import flash.filters.BitmapFilterQuality;
@@ -10,6 +10,7 @@ package net.wooga.wfighters.controller.gamestate
 	import flash.text.TextFormat;
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.gui.GradientEffect;
+	import net.wooga.wfighters.controller.gamestate.GameState;
 	
 	public class KOGameState extends GameState 
 	{

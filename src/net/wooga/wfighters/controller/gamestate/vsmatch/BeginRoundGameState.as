@@ -1,4 +1,4 @@
-package net.wooga.wfighters.controller.gamestate
+package net.wooga.wfighters.controller.gamestate.vsmatch
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -6,6 +6,7 @@ package net.wooga.wfighters.controller.gamestate
 	
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.controller.player.PlayerStatsController;
+	import net.wooga.wfighters.controller.gamestate.GameState;
 	
 	/**
 	 * Handles beginning a round, e.g. "round one... fight!"

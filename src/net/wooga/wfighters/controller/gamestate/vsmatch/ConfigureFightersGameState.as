@@ -1,4 +1,4 @@
-package net.wooga.wfighters.controller.gamestate 
+package net.wooga.wfighters.controller.gamestate.vsmatch 
 {
 	import flash.ui.Keyboard;
 	import net.wooga.wfighters.controller.InputController;
@@ -8,6 +8,7 @@ package net.wooga.wfighters.controller.gamestate
 	import net.wooga.wfighters.fighter.Fighter;
 	import net.wooga.wfighters.fighter.Panda;
 	import net.wooga.wfighters.fighter.Racoon;
+	import net.wooga.wfighters.controller.gamestate.GameState;
 	
 	public class ConfigureFightersGameState extends GameState 
 	{		

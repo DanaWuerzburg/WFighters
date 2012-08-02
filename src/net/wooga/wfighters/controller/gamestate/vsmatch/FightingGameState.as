@@ -1,4 +1,4 @@
-package net.wooga.wfighters.controller.gamestate
+package net.wooga.wfighters.controller.gamestate.vsmatch
 {
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
@@ -6,6 +6,7 @@ package net.wooga.wfighters.controller.gamestate
 	
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.events.FighterKOdEvent;
+	import net.wooga.wfighters.controller.gamestate.GameState;
 	
 	public class FightingGameState extends GameState
 	{

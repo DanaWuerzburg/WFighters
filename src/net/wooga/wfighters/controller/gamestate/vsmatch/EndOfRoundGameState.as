@@ -1,7 +1,8 @@
-package net.wooga.wfighters.controller.gamestate
+package net.wooga.wfighters.controller.gamestate.vsmatch
 {
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.events.FighterWonRoundEvent;
+	import net.wooga.wfighters.controller.gamestate.GameState;
 	
 	public class EndOfRoundGameState extends GameState
 	{
