@@ -6,21 +6,23 @@ package net.wooga.wfighters.gui
 	import flash.events.Event;
 	
 	import net.wooga.wfighters.events.FighterHealthChangedEvent;
+	import net.wooga.wfighters.events.FighterWonRoundEvent;
 	
 	public class FightHUD extends Sprite
 	{
 		// Positions
-		private const KO_CENTER_Y : Number = 40;
+		private const KO_CENTER_Y : Number = 28;
 		private const GAUGE_Y : Number = KO_CENTER_Y + 5;
 		private const GAUGE_OFFSET_X : Number = 3;
+		private const ROUND_METER_Y : Number = KO_CENTER_Y - 27;
 		
 		// Indices
-		private const HEALTH_GAUGE_LEFT : uint = 0;
-		private const HEALTH_GAUGE_RIGHT : uint = 1;
+		private const PLAYER_LEFT : uint = 0;
+		private const PLAYER_RIGHT : uint = 1;
 		
 		private var _koCenter : Bitmap;
 		private var _healthGauges : Vector.<HealthGauge>;
-		
+		private var _roundsWonMeters : Vector.<RoundsWonMeter>;
 		
 		public function FightHUD()
 		{
@@ -35,7 +37,7 @@ package net.wooga.wfighters.gui
 			
 			createKOCenter();
 			createHealthGauges();
-			// Set up rounds won markers??
+			setUpRoundsWonMarkers();
 		}
 		
 		private function createKOCenter() : void
@@ -59,8 +61,8 @@ package net.wooga.wfighters.gui
 			rightGauge.y = GAUGE_Y;
 			
 			_healthGauges = new Vector.<HealthGauge>( 2 );
-			_healthGauges[ HEALTH_GAUGE_LEFT ] = leftGauge;
-			_healthGauges[ HEALTH_GAUGE_RIGHT ] = rightGauge;
+			_healthGauges[ PLAYER_LEFT ] = leftGauge;
+			_healthGauges[ PLAYER_RIGHT ] = rightGauge;
 			
 			for each( var gauge : HealthGauge in _healthGauges )
 			{
@@ -70,9 +72,36 @@ package net.wooga.wfighters.gui
 			stage.addEventListener( FighterHealthChangedEvent.TYPE_NAME, onHealthChanged );
 		}
 		
+		private function setUpRoundsWonMarkers() : void
+		{
+			var leftMeter : RoundsWonMeter = new RoundsWonMeter();
+			leftMeter.y = ROUND_METER_Y;
+			leftMeter.x = _healthGauges[ PLAYER_LEFT ].x;
+			
+			var rightMeter : RoundsWonMeter = new RoundsWonMeter();
+			rightMeter.y = ROUND_METER_Y;
+			rightMeter.x = _healthGauges[ PLAYER_RIGHT ].x;
+			
+			_roundsWonMeters = new Vector.<RoundsWonMeter>( 2 );
+			_roundsWonMeters[ PLAYER_LEFT ] = leftMeter;
+			_roundsWonMeters[ PLAYER_RIGHT ] = rightMeter;
+			
+			for each( var meter : RoundsWonMeter in _roundsWonMeters )
+			{
+				addChild( meter );
+			}
+			
+			stage.addEventListener( FighterWonRoundEvent.TYPE_NAME, onRoundWon );
+		}
+		
 		private function onHealthChanged( event : FighterHealthChangedEvent ) : void
 		{
 			_healthGauges[ event.playerId ].percentHealth = event.currentHealthPercent;
+		}
+		
+		private function onRoundWon( event : FighterWonRoundEvent ) : void
+		{
+			_roundsWonMeters[ event.playerId ].roundsWon += 1;
 		}
 	}
 }
