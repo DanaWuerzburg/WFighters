@@ -1,6 +1,7 @@
 package net.wooga.wfighters.controller.gamestate.characterselect 
 {
 	import flash.display.Bitmap;
+	import flash.display.Sprite;
 	import flash.filters.ColorMatrixFilter;
 	import net.wooga.wfighters.controller.gamestate.vsmatch.ConfigureFightersGameState;
 	import net.wooga.wfighters.controller.gamestate.GameState;
@@ -39,6 +40,10 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 													  0, 0, 0, 2, 0 ];
 		private var playerOneFilter : ColorMatrixFilter = new ColorMatrixFilter( playerOneColorMatrix );
 		private var playerTwoFilter : ColorMatrixFilter = new ColorMatrixFilter( playerTwoColorMatrix );
+		private var playerOneLastBigBitmap : Bitmap;
+		private var playerTwoLastBigBitmap : Bitmap;
+		private var playerOneCurrentBigBitmap : Bitmap;
+		private var playerTwoCurrentBigBitmap : Bitmap;
 		
 		public function CharacterSelectGameState( gameContainer:GameContainer ) 
 		{
@@ -49,15 +54,15 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 			selectionFrameP1P2 = new Assets.CharacterSelectFrame1P2PBitmap();
 			selectionFrameP2 = new Assets.CharacterSelectFrame2PBitmap();
 			
-			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall01Bitmap, null, Racoon ) );
-			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall02Bitmap, null, Panda ) );
-			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall03Bitmap, null, null ) );
-			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall04Bitmap, null, null ) );
-			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall05Bitmap, null, null ) );
-			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall06Bitmap, null, null ) );
-			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall07Bitmap, null, null ) );
-			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall08Bitmap, null, null ) );
-			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall09Bitmap, null, null ) );
+			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall01Bitmap, Assets.CharacterSelectPreviewBig01Bitmap, Racoon ) );
+			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall02Bitmap, Assets.CharacterSelectPreviewBig02Bitmap, Panda ) );
+			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall03Bitmap, Assets.CharacterSelectPreviewBig03Bitmap, null ) );
+			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall04Bitmap, Assets.CharacterSelectPreviewBig04Bitmap, null ) );
+			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall05Bitmap, Assets.CharacterSelectPreviewBig05Bitmap, null ) );
+			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall06Bitmap, Assets.CharacterSelectPreviewBig06Bitmap, null ) );
+			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall07Bitmap, Assets.CharacterSelectPreviewBig07Bitmap, null ) );
+			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall08Bitmap, Assets.CharacterSelectPreviewBig08Bitmap, null ) );
+			characterSetList.push( new CharacterSet( new Assets.CharacterSelectPreviewSmall09Bitmap, Assets.CharacterSelectPreviewBig09Bitmap, null ) );
 			
 		}
 		
@@ -86,6 +91,7 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 			state = STATE_FADE_IN;
 			stateTime = 0;
 			selection1p = 0;
+			changeSelection1P( 0 );
 			selection2p = 1;
 			playerOneLocked = false;
 			playerTwoLocked = false;
@@ -106,6 +112,28 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 				case STATE_FADE_IN: updateFadeIn( t ); break;
 				case STATE_SELECT: updateSelect( t ); break;
 				case STATE_FADE_OUT: updateFadeOut( t ); break;
+			}
+			
+			if ( playerOneLastBigBitmap )
+			{
+				playerOneLastBigBitmap.alpha = Math.max(0, playerOneLastBigBitmap.alpha - t / 1000 );
+				if ( playerOneLastBigBitmap.alpha == 0 )
+				{
+					gameContainer.removeChild( playerOneLastBigBitmap );
+					playerOneLastBigBitmap = null;
+				}
+			}
+			if ( playerTwoLastBigBitmap )
+			{
+				playerTwoLastBigBitmap.alpha = Math.max(0, playerTwoLastBigBitmap.alpha - t / 1000 );
+			}
+			if ( playerOneCurrentBigBitmap )
+			{
+				playerOneCurrentBigBitmap.alpha = Math.min(1, playerOneCurrentBigBitmap.alpha + t / 1000 );
+			}
+			if ( playerTwoCurrentBigBitmap )
+			{
+				playerTwoCurrentBigBitmap.alpha = Math.min(1, playerTwoCurrentBigBitmap.alpha + t / 1000 );
 			}
 		}
 		
@@ -140,23 +168,23 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 			{
 				if ( gameContainer.inputController.isKeyTriggered( InputController.CONTROL_CONFIG_1.upKey ) )
 				{
-					if ( selection1p >= 3 ) selection1p -= 3;
+					if ( selection1p >= 3 ) changeSelection1P( -3 );
 				}
 				else if ( gameContainer.inputController.isKeyTriggered( InputController.CONTROL_CONFIG_1.downKey ) )
 				{
-					if ( selection1p < 6 ) selection1p += 3;
+					if ( selection1p < 6 ) changeSelection1P( 3 );
 				}
 				else if ( gameContainer.inputController.isKeyTriggered( InputController.CONTROL_CONFIG_1.leftKey ) )
 				{
-					if ( int( selection1p % 3 ) > 0 ) selection1p--;
+					if ( int( selection1p % 3 ) > 0 ) changeSelection1P(-1 );
 				}
 				else if ( gameContainer.inputController.isKeyTriggered( InputController.CONTROL_CONFIG_1.rightKey ) )
 				{
-					if ( int( selection1p % 3 ) < 2 ) selection1p++;
+					if ( int( selection1p % 3 ) < 2 ) changeSelection1P( 1 );
 				}
 				else if ( gameContainer.inputController.isKeyTriggered( InputController.CONTROL_CONFIG_1.punchKey ) )
 				{
-					if ( selection1p != selection2p || !playerTwoLocked )
+					if ( ( selection1p != selection2p || !playerTwoLocked ) && characterSetList[ selection1p ].characterClass != null )
 					{
 						playerOneLocked = true;
 						characterSetList[ selection1p ].smallPreview.filters = [ playerOneFilter ];
@@ -184,7 +212,7 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 				}
 				else if ( gameContainer.inputController.isKeyTriggered( InputController.CONTROL_CONFIG_2.punchKey ) )
 				{
-					if ( selection1p != selection2p || !playerOneLocked )
+					if ( ( selection1p != selection2p || !playerOneLocked ) && characterSetList[ selection2p ].characterClass != null )
 					{
 						playerTwoLocked = true;
 						characterSetList[ selection2p ].smallPreview.filters = [ playerTwoFilter ];
@@ -201,6 +229,19 @@ package net.wooga.wfighters.controller.gamestate.characterselect
  				selectionFrameP2.visible = false;
 				selectionFrameP1P2.visible = false;
 			}
+		}
+		
+		private function changeSelection1P( offset : int ) : void
+		{
+			if ( playerOneLastBigBitmap )
+			{
+				gameContainer.removeChild( playerOneLastBigBitmap );
+			}
+			playerOneLastBigBitmap = playerOneCurrentBigBitmap;
+			selection1p += offset;
+			playerOneCurrentBigBitmap = Assets.createBitmap( characterSetList[ selection1p ].bigPreviewClass );
+			playerOneCurrentBigBitmap.alpha = 0;
+			gameContainer.addChild( playerOneCurrentBigBitmap );
 		}
 		
 		private function updatePlayerSelectionFrames( stateTime : Number ) : void

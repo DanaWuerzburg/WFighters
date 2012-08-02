@@ -63,6 +63,24 @@ package
 		public static const CharacterSelectPreviewSmall08Bitmap : Class;
 		[Embed(source = "characterselect/preview-small-9.png")]
 		public static const CharacterSelectPreviewSmall09Bitmap : Class;
+		[Embed(source = "characterselect/preview-big-1.png")]
+		public static const CharacterSelectPreviewBig01Bitmap : Class;
+		[Embed(source = "characterselect/preview-big-2.png")]
+		public static const CharacterSelectPreviewBig02Bitmap : Class;
+		[Embed(source = "characterselect/preview-big-3.png")]
+		public static const CharacterSelectPreviewBig03Bitmap : Class;
+		[Embed(source = "characterselect/preview-big-4.png")]
+		public static const CharacterSelectPreviewBig04Bitmap : Class;
+		[Embed(source = "characterselect/preview-big-5.png")]
+		public static const CharacterSelectPreviewBig05Bitmap : Class;
+		[Embed(source = "characterselect/preview-big-6.png")]
+		public static const CharacterSelectPreviewBig06Bitmap : Class;
+		[Embed(source = "characterselect/preview-big-7.png")]
+		public static const CharacterSelectPreviewBig07Bitmap : Class;
+		[Embed(source = "characterselect/preview-big-8.png")]
+		public static const CharacterSelectPreviewBig08Bitmap : Class;
+		[Embed(source = "characterselect/preview-big-9.png")]
+		public static const CharacterSelectPreviewBig09Bitmap : Class;
 		
 		
 		/* Game Screen */

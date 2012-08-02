@@ -4,13 +4,13 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 	public class CharacterSet 
 	{
 		public var smallPreview : Bitmap;
-		public var bigPreview : Bitmap;
+		public var bigPreviewClass : Class;
 		public var characterClass : Class;
 		
-		public function CharacterSet( smallPreview : Bitmap, bigPreview : Bitmap, characterClass : Class ) 
+		public function CharacterSet( smallPreview : Bitmap, bigPreviewClass : Class, characterClass : Class ) 
 		{
 			this.smallPreview = smallPreview;
-			this.bigPreview = bigPreview;
+			this.bigPreviewClass = bigPreviewClass;
 			this.characterClass = characterClass;
 		}	
 	}
