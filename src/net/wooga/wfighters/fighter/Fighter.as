@@ -10,6 +10,8 @@ package net.wooga.wfighters.fighter
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
+	import net.wooga.wfighters.controller.Sounds;
+	import net.wooga.wfighters.events.PlaySoundEvent;
 	
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.controller.gamestate.vsmatch.KOGameState;
@@ -78,6 +80,22 @@ package net.wooga.wfighters.fighter
 		private var spriteset : Spriteset;
 		private var bullets : Vector.<Bullet> = new Vector.<Bullet>();
 		private var deadBullets : Vector.<Bullet> = new Vector.<Bullet>();
+		private var punchSounds : Vector.<String> = new <String>[
+			Sounds.FIGHT_PUNCH01,
+			Sounds.FIGHT_PUNCH02,
+			Sounds.FIGHT_PUNCH03,
+			Sounds.FIGHT_PUNCH04,
+			Sounds.FIGHT_PUNCH05,
+			Sounds.FIGHT_PUNCH06,
+			Sounds.FIGHT_PUNCH07,
+			Sounds.FIGHT_PUNCH08,
+			Sounds.FIGHT_PUNCH09,
+			];
+		private var groundSounds : Vector.<String> = new <String>[
+			Sounds.FIGHT_GROUND01,
+			Sounds.FIGHT_GROUND02,
+			Sounds.FIGHT_GROUND03
+			];
 		
 		public function Fighter( gameContainer : GameContainer, id : uint ) 
 		{
@@ -537,6 +555,7 @@ package net.wooga.wfighters.fighter
 					if ( y > lowestY )
 					{
 						y = lowestY;
+						gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomGroundSound() ) );
 						state = STATE_FREE;
 						endCombo();
 					}
@@ -582,6 +601,7 @@ package net.wooga.wfighters.fighter
 					if ( y > lowestY )
 					{
 						y = lowestY;
+						gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomGroundSound() ) );
 						state = STATE_FREE;
 						endCombo();
 					}
@@ -615,7 +635,7 @@ package net.wooga.wfighters.fighter
 					if ( y < lowestY || downVector.y < 0 )
 					{
 						spriteset.showFrame( downVector.y > -t ? "ko02" : "ko01" );
-						downVector.y += t / 4.5;
+						if ( y < lowestY ) downVector.y += t / 4.5;
 						y += downVector.y * t * JUMP_SPEED;
 						x += downVector.x * t * JUMP_SPEED;
 						_fightArea.handleFighterPositionChanged( this );
@@ -624,10 +644,14 @@ package net.wooga.wfighters.fighter
 					{
 						spriteset.showFrame( downTime > 150 ? "ko04" : "ko03" );
 						downTime -= t;
-						downVector.y += t / 4.5;
+						if ( y < lowestY ) downVector.y += t / 4.5;
 						y += downVector.y * t * JUMP_SPEED;
 						x += downVector.x * t * JUMP_SPEED / 2;
 						_fightArea.handleFighterPositionChanged( this );
+						if ( y > lowestY )
+						{
+							downVector.y = 0;
+						}
 						if ( downTime <= 0 )
 						{
 							state = STATE_FREE;
@@ -655,10 +679,14 @@ package net.wooga.wfighters.fighter
 					{
 						spriteset.showFrame( downTime > 150 ? "ko04" : "ko03" );
 						downTime -= t;
-						koVector.y += t / 4.5;
+						if ( y < lowestY ) koVector.y += t / 4.5;
 						y += koVector.y * t * JUMP_SPEED;
 						x += koVector.x * t * JUMP_SPEED / 2;
 						_fightArea.handleFighterPositionChanged( this );
+						if ( y > lowestY )
+						{
+							koVector.y = 0;
+						}
 						if ( downTime <= 0 )
 						{
 							state = STATE_LOCKED;
@@ -680,12 +708,16 @@ package net.wooga.wfighters.fighter
 				if ( y > lowestY )
 				{
 					y = lowestY;
+					trace( 1 );
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomGroundSound() ) );
 				}
 				_fightArea.handleFighterPositionChanged( this );
 			}
 			else if ( y > lowestY )
 			{
 				y = lowestY;
+				gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomGroundSound() ) );
+				trace( 2 );
 			}
 			
 			if ( blockDamage > 0 )
@@ -774,6 +806,7 @@ package net.wooga.wfighters.fighter
 				}
 				case STATE_DAMAGE:
 				{
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomPunchSound() ) );
 					damageTime = DAMAGE_TIME;
 					spriteset.showFrame( "hit01" );
 					damageLevel += 4000;
@@ -972,6 +1005,16 @@ package net.wooga.wfighters.fighter
 		private function destroyBullet ( bullet : Bullet ) : void
 		{
 			deadBullets.push( bullet );
+		}
+		
+		private function getRandomPunchSound() : String
+		{
+			return punchSounds[ int( Math.random() * 9 ) ];
+		}
+		
+		private function getRandomGroundSound() : String
+		{
+			return groundSounds[ int( Math.random() * 3 ) ];
 		}
 	}
 }
