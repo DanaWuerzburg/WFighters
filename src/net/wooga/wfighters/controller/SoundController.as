@@ -37,13 +37,41 @@ package net.wooga.wfighters.controller
 		private function loadSounds() : void
 		{
 			_sounds = new Dictionary();
-			_sounds[ Sounds.START_GAME ] = Assets.createSound( Assets.GuilesThemeSound );
+			
+			/* Voiceover */
+			_sounds[ Sounds.WOOGA_FIGHTER ] = Assets.createSound( Assets.WoogaFighterSound );
+			_sounds[ Sounds.WOOGA_GROUP ] = Assets.createSound( Assets.WoogaGroupSound );
+			
+			/* Voiceover - Announcer */
+			_sounds[ Sounds.ANNOUNCER_KENDA ] = Assets.createSound( Assets.AnnouncerKendaSound );
+			_sounds[ Sounds.ANNOUNCER_RAYU ] = Assets.createSound( Assets.AnnouncerRayuSound );
+			
+			_sounds[ Sounds.ANNOUNCER_VERSUS ] = Assets.createSound( Assets.AnnouncerVersusSound );
+			
+			_sounds[ Sounds.ANNOUNCER_ROUND_ONE ] = Assets.createSound( Assets.AnnouncerRoundOneSound );
+			_sounds[ Sounds.ANNOUNCER_ROUND_TWO ] = Assets.createSound( Assets.AnnouncerRoundTwoSound );
+			_sounds[ Sounds.ANNOUNCER_ROUND_THREE ] = Assets.createSound( Assets.AnnouncerRoundThreeSound );
+			_sounds[ Sounds.ANNOUNCER_ROUND_FOUR ] = Assets.createSound( Assets.AnnouncerRoundFourSound );
+			_sounds[ Sounds.ANNOUNCER_ROUND_FIVE ] = Assets.createSound( Assets.AnnouncerRoundFiveSound );
+			_sounds[ Sounds.ANNOUNCER_FIGHT ] = Assets.createSound( Assets.AnnouncerFightSound );
+			
+			_sounds[ Sounds.ANNOUNCER_KO_LONGER ] = Assets.createSound( Assets.AnnouncerKOLongerSound );
+			_sounds[ Sounds.ANNOUNCER_KO ] = Assets.createSound( Assets.AnnouncerKOSound );
+			
+			_sounds[ Sounds.ANNOUNCER_PLAYER_ONE_WINS ] = Assets.createSound( Assets.AnnouncerPlayerOneWinsSound );
+			_sounds[ Sounds.ANNOUNCER_PLAYER_TWO_WINS ] = Assets.createSound( Assets.AnnouncerPlayerTwoWinsSound );
+			
+			/* Menu */
 			_sounds[ Sounds.MENU_OK1 ] = Assets.createSound( Assets.MenuOk1Sound );
 			_sounds[ Sounds.MENU_OK2 ] = Assets.createSound( Assets.MenuOk2Sound );
 			_sounds[ Sounds.MENU_SELECT ] = Assets.createSound( Assets.MenuSelectSound );
+			
+			/* Versus screen */
 			_sounds[ Sounds.VERSUS_DRAMATIC_DRUM ] = Assets.createSound( Assets.VersusDramaticDrumSound );
 			_sounds[ Sounds.VERSUS_BOOM ] = Assets.createSound( Assets.VersusBoomSound );
 			_sounds[ Sounds.VERSUS_BOOM ] = Assets.createSound( Assets.VersusBoomSound );
+			
+			/* Fight */
 			_sounds[ Sounds.FIGHT_PUNCH01 ] = Assets.createSound( Assets.FightPunch01Sound );
 			_sounds[ Sounds.FIGHT_PUNCH02 ] = Assets.createSound( Assets.FightPunch02Sound );
 			_sounds[ Sounds.FIGHT_PUNCH03 ] = Assets.createSound( Assets.FightPunch03Sound );

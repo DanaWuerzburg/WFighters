@@ -1,8 +1,29 @@
 package net.wooga.wfighters.controller
 {
 	public class Sounds
-	{
-		public static const START_GAME : String = "start_game";
+	{	
+		/* Voiceover */
+		public static const WOOGA_FIGHTER : String = "WOOGA_FIGHTER";
+		public static const WOOGA_GROUP : String = "WOOGA_GROUP";
+		
+		/* Voiceover - Announcer */
+		public static const ANNOUNCER_KENDA : String = "ANNOUNCER_KENDA";
+		public static const ANNOUNCER_RAYU : String = "ANNOUNCER_RAYU";
+		
+		public static const ANNOUNCER_VERSUS : String = "ANNOUNCER_VERSUS";
+		
+		public static const ANNOUNCER_ROUND_ONE : String = "ANNOUNCER_ROUND_ONE";
+		public static const ANNOUNCER_ROUND_TWO : String = "ANNOUNCER_ROUND_TWO";
+		public static const ANNOUNCER_ROUND_THREE : String = "ANNOUNCER_ROUND_THREE";
+		public static const ANNOUNCER_ROUND_FOUR : String = "ANNOUNCER_ROUND_FOUR";
+		public static const ANNOUNCER_ROUND_FIVE : String = "ANNOUNCER_ROUND_FIVE";
+		public static const ANNOUNCER_FIGHT : String = "ANNOUNCER_FIGHT";
+		
+		public static const ANNOUNCER_KO_LONGER : String = "ANNOUNCER_KO_LONGER";
+		public static const ANNOUNCER_KO : String = "ANNOUNCER_KO";
+		
+		public static const ANNOUNCER_PLAYER_ONE_WINS : String = "ANNOUNCER_PLAYER_ONE_WINS";
+		public static const ANNOUNCER_PLAYER_TWO_WINS : String = "ANNOUNCER_PLAYER_TWO_WINS";
 		
 		/* Menu */
 		public static const MENU_OK1 : String = "MENU_OK1";

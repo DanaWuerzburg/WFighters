@@ -28,9 +28,44 @@ package
 			return graphic;
 		}
 		
-		/* Sounds */
-		[Embed(source = "sound/sf2-guilestheme.mp3")]
-		public static const GuilesThemeSound : Class;
+		/* Voiceover */
+		[Embed(source="sound/voiceover/woogafighter.mp3")]
+		public static const WoogaFighterSound : Class;
+		[Embed(source="sound/voiceover/woogagroup.mp3")]
+		public static const WoogaGroupSound : Class;
+		
+		/* Voiceover - Announcer */
+		[Embed(source="sound/voiceover/announcer/announcer_kenda.mp3")]
+		public static const AnnouncerKendaSound : Class;
+		[Embed(source="sound/voiceover/announcer/announcer_rayu.mp3")]
+		public static const AnnouncerRayuSound : Class;
+		
+		[Embed(source="sound/voiceover/announcer/announcer_versus.mp3")]
+		public static const AnnouncerVersusSound : Class;
+		
+		[Embed(source="sound/voiceover/announcer/announcer_roundone.mp3")]
+		public static const AnnouncerRoundOneSound : Class;
+		[Embed(source="sound/voiceover/announcer/announcer_roundtwo.mp3")]
+		public static const AnnouncerRoundTwoSound : Class;
+		[Embed(source="sound/voiceover/announcer/announcer_roundthree.mp3")]
+		public static const AnnouncerRoundThreeSound : Class;
+		[Embed(source="sound/voiceover/announcer/announcer_roundfour.mp3")]
+		public static const AnnouncerRoundFourSound : Class;
+		[Embed(source="sound/voiceover/announcer/announcer_roundfive.mp3")]
+		public static const AnnouncerRoundFiveSound : Class;
+		[Embed(source="sound/voiceover/announcer/announcer_fight.mp3")]
+		public static const AnnouncerFightSound : Class;
+		
+		[Embed(source="sound/voiceover/announcer/announcer_ko_longer.mp3")]
+		public static const AnnouncerKOLongerSound : Class;
+		[Embed(source="sound/voiceover/announcer/announcer_ko.mp3")]
+		public static const AnnouncerKOSound : Class;
+		
+		[Embed(source="sound/voiceover/announcer/announcer_playeronewins.mp3")]
+		public static const AnnouncerPlayerOneWinsSound : Class;
+		[Embed(source="sound/voiceover/announcer/announcer_playertwowins.mp3")]
+		public static const AnnouncerPlayerTwoWinsSound : Class;
+		
 		
 		/* SFX */
 		[Embed(source = "sound/sfx/menu_ok.mp3")]
