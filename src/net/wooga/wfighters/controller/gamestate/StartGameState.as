@@ -38,6 +38,8 @@ package net.wooga.wfighters.controller.gamestate
 			gameContainer.fightHud.visible = false;
 			
 			time = 0;
+			
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.WOOGA_FIGHTER ) );
 		}
 		
 		override public function handleResignActive():void 

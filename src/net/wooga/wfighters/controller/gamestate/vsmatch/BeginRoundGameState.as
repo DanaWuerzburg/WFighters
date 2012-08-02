@@ -5,8 +5,10 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 	import flash.display.Sprite;
 	
 	import net.wooga.wfighters.GameContainer;
-	import net.wooga.wfighters.controller.player.PlayerStatsController;
+	import net.wooga.wfighters.controller.Sounds;
 	import net.wooga.wfighters.controller.gamestate.GameState;
+	import net.wooga.wfighters.controller.player.PlayerStatsController;
+	import net.wooga.wfighters.events.PlaySoundEvent;
 	
 	/**
 	 * Handles beginning a round, e.g. "round one... fight!"
@@ -59,12 +61,25 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			{
 				case 1:
 					roundImage = Assets.createBitmap( Assets.RoundOneBitmap );
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_ROUND_ONE ) );
 					break;
 				case 2:
 					roundImage = Assets.createBitmap( Assets.RoundTwoBitmap );
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_ROUND_TWO ) );
 					break;
 				case 3:
 					roundImage = Assets.createBitmap( Assets.RoundThreeBitmap );
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_ROUND_THREE ) );
+					break;
+				case 4:
+					trace("WARNING: Need a round 4 image");
+					roundImage = new Bitmap(); // Use dummy data so the game doesn't crash
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_ROUND_FOUR ) );
+					break;
+				case 5:
+					trace("Warning: Need a round 5 image");
+					roundImage = new Bitmap(); // Use dummy data so the game doesn't crash
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_ROUND_FIVE ) );
 					break;
 				default:
 					trace("ERROR: Round " + roundNumber + " out of range in BeginRoundGameState.handleBecomeActive");

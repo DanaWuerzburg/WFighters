@@ -6,12 +6,15 @@ package net.wooga.wfighters.controller.gamestate.versusscreen
 	import flash.filters.BlurFilter;
 	import flash.filters.GlowFilter;
 	import flash.text.TextField;
-	import net.wooga.wfighters.controller.gamestate.characterselect.CharacterSet;
-	import net.wooga.wfighters.controller.gamestate.GameState;
-	import net.wooga.wfighters.controller.gamestate.vsmatch.ConfigureFightersGameState;
-	import net.wooga.wfighters.controller.Sounds;
-	import net.wooga.wfighters.events.PlaySoundEvent;
+	
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.controller.Sounds;
+	import net.wooga.wfighters.controller.gamestate.GameState;
+	import net.wooga.wfighters.controller.gamestate.characterselect.CharacterSet;
+	import net.wooga.wfighters.controller.gamestate.vsmatch.ConfigureFightersGameState;
+	import net.wooga.wfighters.events.PlaySoundEvent;
+	import net.wooga.wfighters.fighter.Panda;
+	import net.wooga.wfighters.fighter.Racoon;
 	
 	public class VersusScreenGameState extends GameState 
 	{
@@ -141,6 +144,21 @@ package net.wooga.wfighters.controller.gamestate.versusscreen
 				gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.VERSUS_BOOM ) );
 				soundStep++;
 			}
+			else if ( soundStep == 3 && time > 1500 )
+			{
+				playCharacterNameSound( player1 );
+				soundStep++;
+			}
+			else if ( soundStep == 4 && time > 2500 )
+			{
+				gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_VERSUS ) );
+				soundStep++;
+			}
+			else if ( soundStep == 5 && time > 3500 )
+			{
+				playCharacterNameSound( player2 );
+				soundStep++;
+			}
 			
 			if ( time > 1300 && time < 3000 )
 			{
@@ -173,6 +191,22 @@ package net.wooga.wfighters.controller.gamestate.versusscreen
 						player2.characterClass
 						)
 					);
+			}
+		}
+		
+		private function playCharacterNameSound( characterSet : CharacterSet ) : void
+		{
+			switch( characterSet.characterClass )
+			{
+				case Racoon:
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_RAYU ) );
+					break;
+				case Panda:
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_KENDA ) );
+					break;
+				default:
+					trace("Unknown character set for voiceover: " + characterSet.name );
+					break;
 			}
 		}
 	}
