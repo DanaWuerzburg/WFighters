@@ -17,9 +17,6 @@ package net.wooga.wfighters.controller.gamestate
 		public override function handleBecomeActive() : void
 		{
 			trace("Entered end of round game state after player " + koPlayerId + " was KO'd");
-			
-			// TODO: Display "round over"
-			
 			checkWinConditions();
 		}
 		
@@ -43,13 +40,17 @@ package net.wooga.wfighters.controller.gamestate
 			
 			if( roundsWon >= roundsNeededToWin )
 			{
-				// TODO: transition to a game ended state
-				trace("Player " + winningPlayerId + " has won with " + roundsWon + " wins!");
+				endMatch( winningPlayerId );
 			}
 			else
 			{
 				resetFightForNewRound();
 			}
+		}
+		
+		private function endMatch( winningPlayerId : uint ) : void
+		{
+			gameContainer.gameController.changeGameState( new VsMatchEndState( gameContainer, winningPlayerId ) );
 		}
 		
 		private function resetFightForNewRound() : void
