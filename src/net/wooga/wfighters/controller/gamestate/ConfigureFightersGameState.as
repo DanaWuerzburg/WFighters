@@ -8,7 +8,6 @@ package net.wooga.wfighters.controller.gamestate
 	import net.wooga.wfighters.fighter.Fighter;
 	import net.wooga.wfighters.fighter.Panda;
 	import net.wooga.wfighters.fighter.Racoon;
-	import net.wooga.wfighters.gui.HPGauge;
 	
 	public class ConfigureFightersGameState extends GameState 
 	{		

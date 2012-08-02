@@ -17,7 +17,6 @@ package net.wooga.wfighters
 	import net.wooga.wfighters.controller.player.PlayerStatsController;
 	import net.wooga.wfighters.fightarea.FightArea;
 	import net.wooga.wfighters.gui.FightHUD;
-	import net.wooga.wfighters.gui.HPGauge;
 	
 	public class GameContainer extends Sprite
 	{

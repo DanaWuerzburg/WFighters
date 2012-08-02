@@ -7,7 +7,18 @@ package net.wooga.wfighters.gui
 	
 	public class FightHUD extends Sprite
 	{
-		private var _koCenter : Sprite;
+		// Positions
+		private const KO_CENTER_Y : Number = 40;
+		private const GAUGE_Y : Number = KO_CENTER_Y + 5;
+		private const GAUGE_OFFSET_X : Number = 3;
+		
+		// Indices
+		private const HEALTH_GAUGE_LEFT : uint = 0;
+		private const HEALTH_GAUGE_RIGHT : uint = 1;
+		
+		private var _koCenter : Bitmap;
+		private var _healthGauges : Vector.<HealthGauge>;
+		
 		
 		public function FightHUD()
 		{
@@ -21,22 +32,38 @@ package net.wooga.wfighters.gui
 			removeEventListener( Event.ADDED_TO_STAGE, init );
 			
 			createKOCenter();
-			// Create HP gauges
+			createHealthGauges();
 			// Set up rounds won markers??
 		}
 		
 		private function createKOCenter() : void
 		{
-			var imageData : BitmapData = (new Assets.KOCenterBitmap() as Bitmap).bitmapData;
-			_koCenter = new Sprite();
-			_koCenter.graphics.beginBitmapFill( imageData );
-			_koCenter.graphics.drawRect( 0, 0, imageData.width, imageData.height );
-			_koCenter.graphics.endFill();
+			_koCenter = Assets.createBitmap( Assets.KOCenterBitmap );
 			
 			_koCenter.x = (stage.stageWidth / 2) - (_koCenter.width / 2);
-			_koCenter.y = 40;
+			_koCenter.y = KO_CENTER_Y;
 			
 			addChild( _koCenter );
+		}
+		
+		private function createHealthGauges() : void
+		{
+			var leftGauge : HealthGauge = new HealthGauge();
+			leftGauge.x = _koCenter.x - leftGauge.width + GAUGE_OFFSET_X;
+			leftGauge.y = GAUGE_Y;
+			
+			var rightGauge : HealthGauge = new HealthGauge();
+			rightGauge.x = _koCenter.x + _koCenter.width - GAUGE_OFFSET_X;
+			rightGauge.y = GAUGE_Y;
+			
+			_healthGauges = new Vector.<HealthGauge>( 2 );
+			_healthGauges[ HEALTH_GAUGE_LEFT ] = leftGauge;
+			_healthGauges[ HEALTH_GAUGE_RIGHT ] = rightGauge;
+			
+			for each( var gauge : HealthGauge in _healthGauges )
+			{
+				addChild( gauge );
+			}
 		}
 	}
 }
