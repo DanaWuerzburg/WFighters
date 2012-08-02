@@ -24,7 +24,7 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 		{
 			trace("Fighting game state active");
 			
-			gameContainer.addEventListener( FighterKOdEvent.TYPE_NAME, onFighterKOd );
+			gameContainer.stage.addEventListener( FighterKOdEvent.TYPE_NAME, onFighterKOd );
 			
 			setUpFightGraphic();
 			gameContainer.addChild( fightGraphic );
@@ -47,7 +47,7 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 		
 		private function onFighterKOd( event : FighterKOdEvent ) : void
 		{
-			gameContainer.removeEventListener( FighterKOdEvent.TYPE_NAME, onFighterKOd );
+			gameContainer.stage.removeEventListener( FighterKOdEvent.TYPE_NAME, onFighterKOd );
 			gameContainer.gameController.changeGameState( new KOGameState( gameContainer, event.playerId ) );
 		}
 		

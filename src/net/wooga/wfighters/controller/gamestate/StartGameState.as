@@ -4,6 +4,7 @@ package net.wooga.wfighters.controller.gamestate
 	import flash.text.TextField;
 	
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.controller.Sounds;
 	import net.wooga.wfighters.controller.gamestate.characterselect.CharacterSelectGameState;
 	import net.wooga.wfighters.events.PlaySoundEvent;
 	
@@ -37,8 +38,6 @@ package net.wooga.wfighters.controller.gamestate
 			gameContainer.fightHud.visible = false;
 			
 			time = 0;
-			
-			gameContainer.stage.dispatchEvent( new PlaySoundEvent( "test" ) );
 		}
 		
 		override public function handleResignActive():void 

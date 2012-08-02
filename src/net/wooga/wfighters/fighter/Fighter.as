@@ -798,7 +798,7 @@ package net.wooga.wfighters.fighter
 					koVector.x = _opponent.x > x ? -20 : 20;
 					koVector.y = -70;
 					downTime = 0;
-					gameContainer.dispatchEvent( new FighterKOdEvent( _id ) );
+					gameContainer.stage.dispatchEvent( new FighterKOdEvent( _id ) );
 					break;
 				}
 			}

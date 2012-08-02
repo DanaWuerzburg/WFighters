@@ -3,12 +3,18 @@ package
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
+	import flash.media.Sound;
 
 	public class Assets 
 	{
 		public static function createBitmap( bitmapClass : Class ) : Bitmap
 		{
 			return new bitmapClass() as Bitmap;
+		}
+		
+		public static function createSound( soundClass : Class ) : Sound
+		{
+			return new soundClass() as Sound;
 		}
 		
 		// TODO: test
@@ -21,6 +27,10 @@ package
 			graphic.graphics.endFill();
 			return graphic;
 		}
+		
+		/* Sounds */
+		[Embed(source = "sound/sf2-guilestheme.mp3")]
+		public static const GuilesThemeSound : Class;
 		
 		/* Fonts */
 		[Embed(source = "SF Quartzite Bold.ttf", fontName="Quartzite", embedAsCFF = "false")]
