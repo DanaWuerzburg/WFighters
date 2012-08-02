@@ -11,7 +11,7 @@ package net.wooga.wfighters.controller.gamestate
 	{
 		private const FIGHT_TEXT_DURATION : int = 1500;
 		
-		private var fightGraphic : Sprite;
+		private var fightGraphic : Bitmap;
 		private var elapsedTime : int = 0;
 		
 		public function FightingGameState(gameContainer:GameContainer)
@@ -52,12 +52,7 @@ package net.wooga.wfighters.controller.gamestate
 		
 		private function setUpFightGraphic() : void
 		{
-			var fightImage : Bitmap = new Assets.FightBitmap() as Bitmap;
-			
-			fightGraphic = new Sprite();
-			fightGraphic.graphics.beginBitmapFill( fightImage.bitmapData );
-			fightGraphic.graphics.drawRect( 0, 0, fightImage.bitmapData.width, fightImage.bitmapData.height );
-			fightGraphic.graphics.endFill();
+			fightGraphic = Assets.createBitmap( Assets.FightBitmap );
 			
 			var stageCenterX : Number = gameContainer.stage.stageWidth / 2;
 			var stageCenterY : Number = gameContainer.stage.stageHeight / 2;

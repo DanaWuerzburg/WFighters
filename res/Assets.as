@@ -1,7 +1,27 @@
 package  
 {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.Sprite;
+
 	public class Assets 
 	{
+		public static function createBitmap( bitmapClass : Class ) : Bitmap
+		{
+			return new bitmapClass() as Bitmap;
+		}
+		
+		// TODO: test
+		public static function generateSpriteFromBitmap( bitmapClass : Class ) : Sprite
+		{
+			var bitmapData : BitmapData = (new bitmapClass() as Bitmap).bitmapData;
+			var graphic : Sprite = new Sprite();
+			graphic.graphics.beginBitmapFill( bitmapData );
+			graphic.graphics.drawRect( 0, 0, bitmapData.width, bitmapData.height );
+			graphic.graphics.endFill();
+			return graphic;
+		}
+		
 		/* Fonts */
 		[Embed(source = "SF Quartzite Bold.ttf", fontName="Quartzite", embedAsCFF = "false")]
 		public static const QuartziteFont : Class;

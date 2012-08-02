@@ -32,7 +32,7 @@ package net.wooga.wfighters.controller.gamestate
 			gameContainer.addChild( textField );
 			
 			gameContainer.fightArea.visible = false;
-			gameContainer.hpGauge.visible = false;
+			gameContainer.fightHud.visible = false;
 			
 			time = 0;
 		}

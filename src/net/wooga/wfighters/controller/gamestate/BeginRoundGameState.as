@@ -16,13 +16,11 @@ package net.wooga.wfighters.controller.gamestate
 		
 		private var timeElapsed : int = 0;
 		private var roundIntroAnimationFinished : Boolean = false;
-		private var roundImage : Sprite;
+		private var roundImage : Bitmap;
 		
 		public function BeginRoundGameState( gameContainer : GameContainer )
 		{
 			super( gameContainer );
-			
-			roundImage = new Sprite();
 		}
 		
 		public override function handleBecomeActive() : void
@@ -56,32 +54,27 @@ package net.wooga.wfighters.controller.gamestate
 		private function setUpRoundNumberImage() : void
 		{
 			var roundNumber : uint = calcRoundNumber();
-			var roundNumberImage : BitmapData;
 			switch( roundNumber )
 			{
 				case 1:
-					roundNumberImage = (new Assets.RoundOneBitmap() as Bitmap).bitmapData;
+					roundImage = Assets.createBitmap( Assets.RoundOneBitmap );
 					break;
 				case 2:
-					roundNumberImage = (new Assets.RoundTwoBitmap() as Bitmap).bitmapData;
+					roundImage = Assets.createBitmap( Assets.RoundTwoBitmap );
 					break;
 				case 3:
-					roundNumberImage = (new Assets.RoundThreeBitmap() as Bitmap).bitmapData;
+					roundImage = Assets.createBitmap( Assets.RoundThreeBitmap );
 					break;
 				default:
 					trace("ERROR: Round " + roundNumber + " out of range in BeginRoundGameState.handleBecomeActive");
-					roundNumberImage = new BitmapData( 0, 0 ); // Use dummy data so the game doesn't crash
+					roundImage = new Bitmap(); // Use dummy data so the game doesn't crash
 					break;
 			}
 			
-			roundImage.graphics.beginBitmapFill( roundNumberImage );
-			roundImage.graphics.drawRect( 0, 0, roundNumberImage.width, roundNumberImage.height );
-			roundImage.graphics.endFill();
-			
 			var stageCenterX : Number = gameContainer.stage.stageWidth / 2;
 			var stageCenterY : Number = gameContainer.stage.stageHeight / 2;
-			var halfImageWidth : Number = roundNumberImage.width / 2;
-			var halfImageHeight : Number = roundNumberImage.height / 2;
+			var halfImageWidth : Number = roundImage.width / 2;
+			var halfImageHeight : Number = roundImage.height / 2;
 			roundImage.x = stageCenterX - halfImageWidth;
 			roundImage.y = stageCenterY - halfImageHeight;
 		}

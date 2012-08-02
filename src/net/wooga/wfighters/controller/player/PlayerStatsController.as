@@ -1,20 +1,26 @@
 package net.wooga.wfighters.controller.player 
 {
+	import flash.events.IEventDispatcher;
+	
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.events.FighterWonRoundEvent;
 	
 	public class PlayerStatsController 
 	{
 		private const NUM_PLAYERS : uint = 2;
 		
 		private var playerData : Vector.<PlayerData>;
+		private var eventDispatcher : IEventDispatcher;
 		
-		public function PlayerStatsController() 
+		public function PlayerStatsController( eventDispatcher : IEventDispatcher ) 
 		{
+			this.eventDispatcher = eventDispatcher;
 			init();
 		}
 		
 		public function reset() : void
 		{
+			eventDispatcher.removeEventListener( FighterWonRoundEvent.TYPE_NAME, onRoundWon );
 			init();
 		}
 		
@@ -23,24 +29,19 @@ package net.wooga.wfighters.controller.player
 			return playerData[ playerId ].roundsWon;
 		}
 		
-		public function setRoundsWon( playerId : uint, roundsWon : uint ) : void
-		{
-			playerData[ playerId ].roundsWon = roundsWon;
-		}
-		
-		/** Adds one to the number of rounds a player has won. (Convenience function.) */
-		public function incrementRoundsWon( playerId : uint ) : void
-		{
-			var roundsWon : uint = getRoundsWon( playerId ) + 1;
-			setRoundsWon( playerId, roundsWon );
-		}
-		
 		private function init() : void
 		{
 			playerData = new Vector.<PlayerData>( NUM_PLAYERS );
 			
 			for( var i : uint = 0; i < NUM_PLAYERS; ++i )
 				playerData[i] = new PlayerData();
+			
+			eventDispatcher.addEventListener( FighterWonRoundEvent.TYPE_NAME, onRoundWon );
+		}
+		
+		private function onRoundWon( event : FighterWonRoundEvent ) : void
+		{
+			playerData[ event.playerId ].roundsWon += 1;
 		}
 	}
 }

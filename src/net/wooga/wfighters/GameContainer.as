@@ -1,8 +1,11 @@
 package net.wooga.wfighters 
 {
 	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
@@ -12,8 +15,9 @@ package net.wooga.wfighters
 	import net.wooga.wfighters.controller.InputController;
 	import net.wooga.wfighters.controller.gameconfig.GameConfigurationController;
 	import net.wooga.wfighters.controller.player.PlayerStatsController;
+	import net.wooga.wfighters.events.FighterWonRoundEvent;
 	import net.wooga.wfighters.fightarea.FightArea;
-	import net.wooga.wfighters.gui.HPGauge;
+	import net.wooga.wfighters.gui.FightHUD;
 	
 	public class GameContainer extends Sprite
 	{
@@ -23,8 +27,8 @@ package net.wooga.wfighters
 		private var _playerStatsController : PlayerStatsController;
 		private var _gameConfigurationController : GameConfigurationController;
 		private var _fightArea : FightArea;
-		private var _hpGauge : HPGauge;
 		private var _standardTextFormat : TextFormat;
+		private var _fightHud : FightHUD;
 		
 		public function GameContainer() 
 		{
@@ -78,9 +82,9 @@ package net.wooga.wfighters
 			return _fightArea;
 		}
 		
-		public function get hpGauge() : HPGauge
+		public function get fightHud() : FightHUD
 		{
-			return _hpGauge;
+			return _fightHud;
 		}
 		
 		public function get standardTextFormat() : TextFormat
@@ -99,6 +103,10 @@ package net.wooga.wfighters
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, handleAddedToState );
 			
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
+			stage.fullScreenSourceRect = new Rectangle( 0, 0, 640, 480 );
+			
 			init();
 		}
 		
@@ -106,12 +114,13 @@ package net.wooga.wfighters
 		{
 			_fightArea = new FightArea();
 			addChild( _fightArea );
-			_hpGauge = new HPGauge();
-			addChild( _hpGauge );
+			
+			_fightHud = new FightHUD();
+			addChild( _fightHud );
 			
 			_gameController = new GameController( this );
 			_inputController = new InputController();
-			_playerStatsController = new PlayerStatsController();
+			_playerStatsController = new PlayerStatsController( this.stage );
 			_gameConfigurationController = new GameConfigurationController();
 			
 			stage.addEventListener( KeyboardEvent.KEY_DOWN, _inputController.handleKeyDown );

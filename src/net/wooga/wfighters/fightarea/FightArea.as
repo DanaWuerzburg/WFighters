@@ -11,6 +11,8 @@ package net.wooga.wfighters.fightarea
 	import flash.net.URLRequest;
 	
 	import net.wooga.wfighters.fighter.Fighter;
+	import net.wooga.wfighters.gui.FightHUD;
+
 	public class FightArea extends Sprite
 	{
 		public static const FIGHTER_ONE_START_X : int = 300;
@@ -138,7 +140,6 @@ package net.wooga.wfighters.fightarea
 			
 			floor.x = cameraRectangle.x;
 			floor.update( cameraRectangle.x / 1280 );
-			
-		}		
+		}
 	}
 }
