@@ -15,6 +15,7 @@ package net.wooga.wfighters
 	import net.wooga.wfighters.controller.InputController;
 	import net.wooga.wfighters.controller.gameconfig.GameConfigurationController;
 	import net.wooga.wfighters.controller.player.PlayerStatsController;
+	import net.wooga.wfighters.events.FighterWonRoundEvent;
 	import net.wooga.wfighters.fightarea.FightArea;
 	import net.wooga.wfighters.gui.FightHUD;
 	
@@ -119,7 +120,7 @@ package net.wooga.wfighters
 			
 			_gameController = new GameController( this );
 			_inputController = new InputController();
-			_playerStatsController = new PlayerStatsController();
+			_playerStatsController = new PlayerStatsController( this.stage );
 			_gameConfigurationController = new GameConfigurationController();
 			
 			stage.addEventListener( KeyboardEvent.KEY_DOWN, _inputController.handleKeyDown );

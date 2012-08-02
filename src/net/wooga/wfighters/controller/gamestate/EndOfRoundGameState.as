@@ -1,6 +1,7 @@
 package net.wooga.wfighters.controller.gamestate
 {
 	import net.wooga.wfighters.GameContainer;
+	import net.wooga.wfighters.events.FighterWonRoundEvent;
 	
 	public class EndOfRoundGameState extends GameState
 	{
@@ -35,7 +36,7 @@ package net.wooga.wfighters.controller.gamestate
 		private function checkWinConditions() : void
 		{
 			var winningPlayerId:uint = (koPlayerId == 1) ? 0 : 1;
-			gameContainer.playerStatsController.incrementRoundsWon( winningPlayerId );
+			gameContainer.stage.dispatchEvent( new FighterWonRoundEvent( winningPlayerId ) );
 			
 			var roundsWon : uint = gameContainer.playerStatsController.getRoundsWon( winningPlayerId );
 			const roundsNeededToWin : uint = gameContainer.gameConfigurationController.roundsPerMatch;
