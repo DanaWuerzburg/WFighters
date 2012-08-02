@@ -13,6 +13,7 @@ package net.wooga.wfighters
 	
 	import net.wooga.wfighters.controller.GameController;
 	import net.wooga.wfighters.controller.InputController;
+	import net.wooga.wfighters.controller.SoundController;
 	import net.wooga.wfighters.controller.gameconfig.GameConfigurationController;
 	import net.wooga.wfighters.controller.player.PlayerStatsController;
 	import net.wooga.wfighters.events.FighterWonRoundEvent;
@@ -26,6 +27,7 @@ package net.wooga.wfighters
 		private var _inputController : InputController;
 		private var _playerStatsController : PlayerStatsController;
 		private var _gameConfigurationController : GameConfigurationController;
+		private var _soundController : SoundController;
 		private var _fightArea : FightArea;
 		private var _standardTextFormat : TextFormat;
 		private var _fightHud : FightHUD;
@@ -123,6 +125,7 @@ package net.wooga.wfighters
 			_fightHud = new FightHUD();
 			addChild( _fightHud );
 			
+			_soundController = new SoundController( this.stage );
 			_gameController = new GameController( this );
 			_inputController = new InputController();
 			_playerStatsController = new PlayerStatsController( this.stage );
