@@ -74,13 +74,13 @@ package net.wooga.wfighters.gui
 		
 		private function setUpRoundsWonMarkers() : void
 		{
-			var leftMeter : RoundsWonMeter = new RoundsWonMeter();
+			var leftMeter : RoundsWonMeter = new RoundsWonMeter( RoundsWonMeterGrowthDirection.RIGHT );
 			leftMeter.y = ROUND_METER_Y;
 			leftMeter.x = _healthGauges[ PLAYER_LEFT ].x;
 			
-			var rightMeter : RoundsWonMeter = new RoundsWonMeter();
+			var rightMeter : RoundsWonMeter = new RoundsWonMeter( RoundsWonMeterGrowthDirection.LEFT );
 			rightMeter.y = ROUND_METER_Y;
-			rightMeter.x = _healthGauges[ PLAYER_RIGHT ].x;
+			rightMeter.x = _healthGauges[ PLAYER_RIGHT ].x + _healthGauges[ PLAYER_RIGHT ].width;
 			
 			_roundsWonMeters = new Vector.<RoundsWonMeter>( 2 );
 			_roundsWonMeters[ PLAYER_LEFT ] = leftMeter;
