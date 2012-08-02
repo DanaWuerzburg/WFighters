@@ -45,7 +45,6 @@ package net.wooga.wfighters.fighter
 		private var _opponent : Fighter;
 		private var _damage : Number = 0;
 		private var _comboHelper : ComboHelper;
-		private var triggeredKeys : Dictionary = new Dictionary();
 		private var hitPoint : Point = new Point();
 		private var globalHitTestPoint : Point;
 		private var isWalking : Boolean = false;
@@ -345,9 +344,7 @@ package net.wooga.wfighters.fighter
 		
 		private function isKeyTriggered( key : uint ) : Boolean
 		{
-			var wasPressed : Boolean = triggeredKeys[ key ];
-			triggeredKeys[ key ] = isKeyPressed( key );
-			return !wasPressed && triggeredKeys[ key ];
+			return gameContainer.inputController.isKeyTriggered( key );
 		}
 		
 		public function update( t : int ) : void
@@ -953,8 +950,8 @@ package net.wooga.wfighters.fighter
 				bullet = bullets[ index ];
 				bullet.update( t );
 				bullet.x += t * bullet.scaleX;
-				hitPoint.x = bullet.x;
-				hitPoint.y = bullet.y;
+				hitPoint.x = bullet.x + ( spriteset.scaleX > 0 ? bullet.width : 0 );
+				hitPoint.y = bullet.y + bullet.height / 2;
 				globalHitTestPoint = parent.localToGlobal( hitPoint );
 				if ( _opponent.hitTestPoint( globalHitTestPoint.x, globalHitTestPoint.y ) )
 				{

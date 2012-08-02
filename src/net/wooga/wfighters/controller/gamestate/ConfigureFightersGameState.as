@@ -1,10 +1,10 @@
 package net.wooga.wfighters.controller.gamestate 
 {
 	import flash.ui.Keyboard;
+	import net.wooga.wfighters.controller.InputController;
 	
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.fightarea.FightArea;
-	import net.wooga.wfighters.fighter.ControlConfig;
 	import net.wooga.wfighters.fighter.Fighter;
 	import net.wooga.wfighters.fighter.Panda;
 	import net.wooga.wfighters.fighter.Racoon;
@@ -14,10 +14,14 @@ package net.wooga.wfighters.controller.gamestate
 	{		
 		private var fighterOne : Fighter;
 		private var fighterTwo : Fighter;
+		private var playerOneFighter : Class;
+		private var playerTwoFighter : Class;
 		
-		public function ConfigureFightersGameState( gameContainer : GameContainer )
+		public function ConfigureFightersGameState( gameContainer : GameContainer, playerOne : Class, playerTwo : Class )
 		{
 			super( gameContainer );
+			playerOneFighter = playerOne;
+			playerTwoFighter = playerTwo;
 		}
 		
 		public override function handleBecomeActive() : void
@@ -26,28 +30,13 @@ package net.wooga.wfighters.controller.gamestate
 			gameContainer.hpGauge.visible = true;
 			
 			gameContainer.fightArea.reset();
-			gameContainer.fightArea.addFighter( fighterOne = new Racoon( gameContainer, 0 ) );
-			gameContainer.fightArea.addFighter( fighterTwo = new Panda( gameContainer, 1 ) );
+			gameContainer.fightArea.addFighter( fighterOne = new playerOneFighter( gameContainer, 0 ) );
+			gameContainer.fightArea.addFighter( fighterTwo = new playerTwoFighter( gameContainer, 1 ) );
 			
-			var controlConfig : ControlConfig;
-			controlConfig = new ControlConfig();
-			controlConfig.upKey =		Keyboard.NUMPAD_8;
-			controlConfig.downKey =		Keyboard.NUMPAD_2;
-			controlConfig.leftKey =		Keyboard.NUMPAD_4;
-			controlConfig.rightKey =	Keyboard.NUMPAD_6;
-			controlConfig.punchKey =	Keyboard.C;
-			controlConfig.kickKey =		Keyboard.NUMBER_5;
-			fighterOne.controlConfig = controlConfig;
+			fighterOne.controlConfig = InputController.CONTROL_CONFIG_1;
 			fighterOne.x = FightArea.FIGHTER_ONE_START_X;
 			
-			controlConfig = new ControlConfig();
-			controlConfig.upKey =		Keyboard.R;
-			controlConfig.downKey =		Keyboard.F;
-			controlConfig.leftKey =		Keyboard.D;
-			controlConfig.rightKey =	Keyboard.G;
-			controlConfig.punchKey =	Keyboard.RIGHTBRACKET;
-			controlConfig.kickKey =		Keyboard.NUMBER_6;
-			fighterTwo.controlConfig = controlConfig;
+			fighterTwo.controlConfig = InputController.CONTROL_CONFIG_2;
 			fighterTwo.x = FightArea.FIGHTER_TWO_START_X;
 			
 			fighterOne.opponent = fighterTwo;

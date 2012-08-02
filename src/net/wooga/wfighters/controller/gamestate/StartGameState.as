@@ -2,6 +2,7 @@ package net.wooga.wfighters.controller.gamestate
 {
 	import flash.display.Bitmap;
 	import flash.text.TextField;
+	import net.wooga.wfighters.controller.gamestate.characterselect.CharacterSelectGameState;
 	import net.wooga.wfighters.GameContainer;
 	
 	public class StartGameState extends GameState 
@@ -54,7 +55,7 @@ package net.wooga.wfighters.controller.gamestate
 			{
 				if ( time >= 1000 )
 				{
-					gameContainer.gameController.changeGameState( new ConfigureFightersGameState( gameContainer ) );
+					gameContainer.gameController.changeGameState( new CharacterSelectGameState( gameContainer ) );
 				}
 				else
 				{
