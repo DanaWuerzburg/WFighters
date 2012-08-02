@@ -56,8 +56,6 @@ package
 		[Embed(source="sound/voiceover/announcer/announcer_fight.mp3")]
 		public static const AnnouncerFightSound : Class;
 		
-		[Embed(source="sound/voiceover/announcer/announcer_ko_longer.mp3")]
-		public static const AnnouncerKOLongerSound : Class;
 		[Embed(source="sound/voiceover/announcer/announcer_ko.mp3")]
 		public static const AnnouncerKOSound : Class;
 		

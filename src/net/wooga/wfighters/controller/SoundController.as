@@ -55,7 +55,6 @@ package net.wooga.wfighters.controller
 			_sounds[ Sounds.ANNOUNCER_ROUND_FIVE ] = Assets.createSound( Assets.AnnouncerRoundFiveSound );
 			_sounds[ Sounds.ANNOUNCER_FIGHT ] = Assets.createSound( Assets.AnnouncerFightSound );
 			
-			_sounds[ Sounds.ANNOUNCER_KO_LONGER ] = Assets.createSound( Assets.AnnouncerKOLongerSound );
 			_sounds[ Sounds.ANNOUNCER_KO ] = Assets.createSound( Assets.AnnouncerKOSound );
 			
 			_sounds[ Sounds.ANNOUNCER_PLAYER_ONE_WINS ] = Assets.createSound( Assets.AnnouncerPlayerOneWinsSound );

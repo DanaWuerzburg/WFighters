@@ -19,7 +19,6 @@ package net.wooga.wfighters.controller
 		public static const ANNOUNCER_ROUND_FIVE : String = "ANNOUNCER_ROUND_FIVE";
 		public static const ANNOUNCER_FIGHT : String = "ANNOUNCER_FIGHT";
 		
-		public static const ANNOUNCER_KO_LONGER : String = "ANNOUNCER_KO_LONGER";
 		public static const ANNOUNCER_KO : String = "ANNOUNCER_KO";
 		
 		public static const ANNOUNCER_PLAYER_ONE_WINS : String = "ANNOUNCER_PLAYER_ONE_WINS";
