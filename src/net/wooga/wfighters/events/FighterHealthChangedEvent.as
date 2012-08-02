@@ -2,14 +2,14 @@ package net.wooga.wfighters.events
 {
 	import flash.events.Event;
 	
-	public class FighterHealthChanged extends Event
+	public class FighterHealthChangedEvent extends Event
 	{
 		public static const TYPE_NAME : String = "FighterHealthChanged";
 		
 		private var _playerId : uint;
 		private var _healthPercent : Number;
 		
-		public function FighterHealthChanged( playerId : uint, currentHealthPercent : Number )
+		public function FighterHealthChangedEvent( playerId : uint, currentHealthPercent : Number )
 		{
 			super( TYPE_NAME, false, false );
 			

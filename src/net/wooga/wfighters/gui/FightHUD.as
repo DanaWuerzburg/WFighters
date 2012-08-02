@@ -5,6 +5,8 @@ package net.wooga.wfighters.gui
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import net.wooga.wfighters.events.FighterHealthChangedEvent;
+	
 	public class FightHUD extends Sprite
 	{
 		// Positions
@@ -64,6 +66,13 @@ package net.wooga.wfighters.gui
 			{
 				addChild( gauge );
 			}
+			
+			stage.addEventListener( FighterHealthChangedEvent.TYPE_NAME, onHealthChanged );
+		}
+		
+		private function onHealthChanged( event : FighterHealthChangedEvent ) : void
+		{
+			_healthGauges[ event.playerId ].percentHealth = event.currentHealthPercent;
 		}
 	}
 }

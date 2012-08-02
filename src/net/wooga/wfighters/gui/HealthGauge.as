@@ -4,6 +4,8 @@ package net.wooga.wfighters.gui
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	
+	import net.wooga.wfighters.math.GameMath;
+	
 	public class HealthGauge extends Sprite
 	{
 		private const BASE_OFFSET_FROM_FRAME_CORNER : Number = 2;
@@ -17,6 +19,12 @@ package net.wooga.wfighters.gui
 			super();
 			
 			init();
+		}
+		
+		public function set percentHealth( value : Number ) : void
+		{
+			value = GameMath.clamp( value, 0, 1 );
+			lifebarFill.width = lifebarBase.width * value;
 		}
 		
 		private function init() : void
@@ -39,7 +47,13 @@ package net.wooga.wfighters.gui
 			lifebarBase.x = lifebarFrame.x + BASE_OFFSET_FROM_FRAME_CORNER;
 			lifebarBase.y = lifebarFrame.y + BASE_OFFSET_FROM_FRAME_CORNER;
 			
+			lifebarFill.x = lifebarBase.x;
+			lifebarFill.y = lifebarBase.y;
+			lifebarFill.width = lifebarBase.width;
+			lifebarFill.height = lifebarBase.height;
+			
 			addChild( lifebarBase );
+			addChild( lifebarFill );
 			addChild( lifebarFrame );
 		}
 	}
