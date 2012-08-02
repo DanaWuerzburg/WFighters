@@ -54,6 +54,11 @@ package net.wooga.wfighters
 		{
 			stage.removeEventListener( Event.ENTER_FRAME, handleEnterFrame );
 			
+			while( this.numChildren > 0 )
+			{
+				removeChildAt( 0 );
+			}
+			
 			init();
 		}
 		
