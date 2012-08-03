@@ -15,16 +15,21 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 	import net.wooga.wfighters.controller.gamestate.GameState;
 	import net.wooga.wfighters.events.PlaySoundEvent;
 	import net.wooga.wfighters.gui.GradientEffect;
+	import net.wooga.wfighters.math.GameMath;
 	
 	public class KOGameState extends GameState 
 	{
 		private const KO_TEXT_CENTER_Y : Number = 150;
+		private const KO_SUNRAY_ROTATION_SPEED : Number = 10;
+		private const KO_EFFECT_FADEOUT_START_TIME : int = 3000;
+		private const KO_EFFECT_FADEOUT_LENGTH : int = 500;
+		private const KO_SCREEN_EXIT_TIME : int = 5000;
 		
 		private var animationLayer : Sprite;
 		private var time : Number = 0;
 		private var koText : Bitmap;
-		private var koSunray : Bitmap;
 		private var koParticles : Bitmap;
+		private var sunrayContainer : Sprite;
 		
 		private var koPlayerId : uint;
 		
@@ -40,8 +45,6 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 		public override function handleBecomeActive() : void
 		{
 			trace("Entered KO game state");
-			
-			
 			
 			gameContainer.fightArea.koLayer.addChild( animationLayer );
 			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_KO ) );
@@ -59,7 +62,17 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			koText.x = (gameContainer.stage.stageWidth / 2) - (koText.width / 2);
 			koText.y = KO_TEXT_CENTER_Y - (koText.height / 2);
 			
-			if ( time >= 5000 )
+			sunrayContainer.rotation += (t / 1000.0) * KO_SUNRAY_ROTATION_SPEED;
+			
+			if ( time >= KO_EFFECT_FADEOUT_START_TIME )
+			{
+				var dtFadeout : Number = time - KO_EFFECT_FADEOUT_START_TIME;				
+				var opacity : Number = GameMath.lerp( 1, 0, dtFadeout / KO_EFFECT_FADEOUT_LENGTH );
+				
+				animationLayer.alpha = opacity;
+			}
+			
+			if ( time >= KO_SCREEN_EXIT_TIME )
 			{
 				gameContainer.gameController.changeGameState( new EndOfRoundGameState( gameContainer, koPlayerId ) );
 			}
@@ -70,11 +83,19 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 		private function loadImages() : void
 		{
 			koText = Assets.createBitmap( Assets.KOTextBitmap );
-			koSunray = Assets.createBitmap( Assets.KOSunrayBitmap );
 			koParticles = Assets.createBitmap( Assets.KOParticlesBitmap );
 			
+			// Load sunray and put inside a sprite container so we can rotate around the center rather than top-left corner
+			var koSunray : Bitmap = Assets.createBitmap( Assets.KOSunrayBitmap );
+			koSunray.x = -(koSunray.width / 2);
+			koSunray.y = -(koSunray.height / 2);
+			sunrayContainer = new Sprite();
+			sunrayContainer.addChild( koSunray );
+			sunrayContainer.x = gameContainer.stage.stageWidth / 2;
+			sunrayContainer.y = gameContainer.stage.stageHeight / 2;
+			
 			animationLayer = new Sprite();
-			animationLayer.addChild( koSunray );
+			animationLayer.addChild( sunrayContainer );
 			animationLayer.addChild( koParticles );
 			animationLayer.addChild( koText );
 		}
