@@ -39,7 +39,7 @@ package net.wooga.wfighters.controller.gamestate
 			
 			time = 0;
 			
-			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.WOOGA_FIGHTER ) );
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.WOOGA_FIGHTER, 0.8 ) );
 		}
 		
 		override public function handleResignActive():void 

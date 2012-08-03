@@ -11,6 +11,7 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 	import net.wooga.wfighters.controller.InputController;
 	import net.wooga.wfighters.controller.Sounds;
 	import net.wooga.wfighters.events.PlaySoundEvent;
+	import net.wooga.wfighters.events.StopSoundEvent;
 	import net.wooga.wfighters.fighter.Panda;
 	import net.wooga.wfighters.fighter.Racoon;
 	import net.wooga.wfighters.GameContainer;
@@ -131,6 +132,8 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 			gameContainer.addChild( characterName1 );
 			gameContainer.addChild( characterName2 );
 			gameContainer.addChild( textCharacterSelect );
+			
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.CHARACTER_SELECT, 0.5 ) );
 		}
 		
 		public override function handleResignActive() : void
@@ -153,6 +156,8 @@ package net.wooga.wfighters.controller.gamestate.characterselect
 			gameContainer.removeChild( characterName1 );
 			gameContainer.removeChild( characterName2 );
 			gameContainer.removeChild( textCharacterSelect );
+			
+			gameContainer.stage.dispatchEvent( new StopSoundEvent( Sounds.CHARACTER_SELECT ) );
 		}
 		
 		public override function update( t : int ) : void

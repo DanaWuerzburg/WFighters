@@ -122,6 +122,12 @@ package
 		[Embed(source = "sound/sfx/block.mp3")]
 		public static const FightBlockSound : Class;
 		
+		/* Music */
+		[Embed(source = "sound/music/Marvel_Super_Heroes_Vs_Street_Fighter_MessatsuGou-Techno_OC_ReMix_Edited.mp3")]
+		public static const CharacterSelectSound : Class;
+		[Embed(source = "sound/music/Street_Fighter_2_China_Street_Beat_OC_ReMix_Edited.mp3")]
+		public static const StageSound : Class;
+		
 		/* Fonts */
 		[Embed(source = "SF Quartzite Bold.ttf", fontName="Quartzite", embedAsCFF = "false")]
 		public static const QuartziteFont : Class;
@@ -436,5 +442,19 @@ package
 		public static const Fireball05Bitmap : Class;
 		[Embed(source = "fireball/fireball06.png")]
 		public static const Fireball06Bitmap : Class;
+		
+		/* DiamondDash */
+		[Embed(source = "panda/fireball01.png")]
+		public static const DiamondDash01Bitmap : Class;
+		[Embed(source = "panda/fireball02.png")]
+		public static const DiamondDash02Bitmap : Class;
+		[Embed(source = "panda/fireball03.png")]
+		public static const DiamondDash03Bitmap : Class;
+		[Embed(source = "panda/fireball04.png")]
+		public static const DiamondDash04Bitmap : Class;
+		[Embed(source = "panda/fireball05.png")]
+		public static const DiamondDash05Bitmap : Class;
+		[Embed(source = "panda/fireball06.png")]
+		public static const DiamondDash06Bitmap : Class;
 	}
 }

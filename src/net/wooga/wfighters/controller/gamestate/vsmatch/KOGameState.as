@@ -9,6 +9,7 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
+	import net.wooga.wfighters.events.StopSoundEvent;
 	
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.controller.Sounds;
@@ -57,6 +58,7 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			
 			gameContainer.fightArea.koLayer.addChild( animationLayer );
 			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_KO ) );
+			gameContainer.stage.dispatchEvent( new StopSoundEvent( Sounds.STAGE_BGM ) );
 		}
 		
 		public override function handleResignActive() : void

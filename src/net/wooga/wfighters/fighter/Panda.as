@@ -74,12 +74,12 @@ package net.wooga.wfighters.fighter
 		{
 			return new Spriteset( new <FrameConfig>
 			[
-				new FrameConfig( "bullet01",			new Assets.Fireball01Bitmap() ),
-				new FrameConfig( "bullet02",			new Assets.Fireball02Bitmap() ),
-				new FrameConfig( "bullet03",			new Assets.Fireball03Bitmap() ),
-				new FrameConfig( "bullet04",			new Assets.Fireball04Bitmap() ),
-				new FrameConfig( "bullet05",			new Assets.Fireball05Bitmap() ),
-				new FrameConfig( "bullet06",			new Assets.Fireball06Bitmap() )
+				new FrameConfig( "bullet01",			new Assets.DiamondDash01Bitmap() ),
+				new FrameConfig( "bullet02",			new Assets.DiamondDash02Bitmap() ),
+				new FrameConfig( "bullet03",			new Assets.DiamondDash03Bitmap() ),
+				new FrameConfig( "bullet04",			new Assets.DiamondDash04Bitmap() ),
+				new FrameConfig( "bullet05",			new Assets.DiamondDash05Bitmap() ),
+				new FrameConfig( "bullet06",			new Assets.DiamondDash06Bitmap() )
 			] );
 		}
 		

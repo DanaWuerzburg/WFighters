@@ -18,7 +18,7 @@ package net.wooga.wfighters.fighter
 		public function update( t : uint ) : void
 		{
 			animTime += t;
-			animTimeRest = animTimeRest % 300;
+			animTimeRest = animTime % 300;
 			spriteset.showFrame(
 				animTimeRest < 50 ?  "bullet01" : 
 				animTimeRest < 150 ? "bullet02" : 
@@ -27,6 +27,8 @@ package net.wooga.wfighters.fighter
 				animTimeRest < 250 ? "bullet05" :
 									 "bullet06"
 			);
+			
+			trace( animTimeRest );
 		}
 	}
 }

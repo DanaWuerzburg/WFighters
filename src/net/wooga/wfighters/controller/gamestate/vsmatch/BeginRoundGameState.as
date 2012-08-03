@@ -50,8 +50,11 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			
 			gameContainer.fightArea.update( t );
 			
-			if( isRoundIntroAnimationFinished() )
+			if ( isRoundIntroAnimationFinished() )
+			{
 				gameContainer.gameController.changeGameState( new FightingGameState( gameContainer ) );
+				gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.STAGE_BGM, 0.3 ) );
+			}
 		}
 		
 		private function setUpRoundNumberImage() : void

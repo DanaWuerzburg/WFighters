@@ -60,6 +60,9 @@ package net.wooga.wfighters.controller
 		public static const KENDA_JUMP : String = "KENDA_JUMP";
 		public static const KENDA_DIAMOND_DASH : String = "KENDA_DIAMOND_DASH";
 		
+		/* Music */
+		public static const CHARACTER_SELECT : String = "CHARACTER_SELECT";
+		public static const STAGE_BGM : String = "STAGE_BGM";
 		
 	}
 }

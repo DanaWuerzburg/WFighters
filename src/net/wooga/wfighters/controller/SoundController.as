@@ -2,7 +2,11 @@ package net.wooga.wfighters.controller
 {
 	import flash.events.IEventDispatcher;
 	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
+	import flash.sampler.NewObjectSample;
 	import flash.utils.Dictionary;
+	import net.wooga.wfighters.events.StopSoundEvent;
 	
 	import net.wooga.wfighters.events.PlaySoundEvent;
 
@@ -10,6 +14,7 @@ package net.wooga.wfighters.controller
 	{
 		private var _eventDispatcher : IEventDispatcher;
 		private var _sounds : Dictionary;
+		private var _soundChannels : Dictionary = new Dictionary();
 		
 		public function SoundController( eventDispatcher : IEventDispatcher )
 		{
@@ -23,6 +28,7 @@ package net.wooga.wfighters.controller
 			loadSounds();
 			
 			_eventDispatcher.addEventListener( PlaySoundEvent.TYPE_NAME, onPlaySoundEvent, false, 0, true );
+			_eventDispatcher.addEventListener( StopSoundEvent.TYPE_NAME, onStopSoundEvent, false, 0, true );
 		}
 		
 		private function onPlaySoundEvent( event : PlaySoundEvent ) : void
@@ -30,8 +36,25 @@ package net.wooga.wfighters.controller
 			trace("Playing sound: " + event.soundCue);
 			
 			var sound : Sound = _sounds[ event.soundCue ];
-			sound.play();
-			// TODO: Manage SoundChannel objects so we can stop playing sound
+			var soundChannel : SoundChannel = sound.play();
+			_soundChannels[ event.soundCue ] = soundChannel;
+			soundChannel.soundTransform = new SoundTransform( event.volume );
+			
+		}
+		
+		private function onStopSoundEvent( event : StopSoundEvent ) : void
+		{
+			trace("Stoppping sound: " + event.soundCue);
+			
+			// TODO: Current sound channel manageing does not allow playing and stopping two identical sound ids
+			
+			var soundChannel : SoundChannel = _soundChannels[ event.soundCue ];
+			if ( soundChannel )
+			{
+				soundChannel.stop();
+				delete _soundChannels[ event.soundCue ];
+			}
+			// delete id from dictionary
 		}
 		
 		private function loadSounds() : void
@@ -96,6 +119,10 @@ package net.wooga.wfighters.controller
 			_sounds[ Sounds.KENDA_HU ] = Assets.createSound( Assets.KendaHuSound );
 			_sounds[ Sounds.KENDA_JUMP ] = Assets.createSound( Assets.KendaJumpSound );
 			_sounds[ Sounds.KENDA_DIAMOND_DASH ] = Assets.createSound( Assets.KendaDiamondDashSound );
+			
+			/* Music */
+			_sounds[ Sounds.CHARACTER_SELECT ] = Assets.createSound( Assets.CharacterSelectSound );
+			_sounds[ Sounds.STAGE_BGM ] = Assets.createSound( Assets.StageSound );
 		}
 	}
 }
