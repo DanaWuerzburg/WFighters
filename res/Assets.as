@@ -241,6 +241,12 @@ package
 		[Embed(source="koscreen/KOScreen-bg.png")]
 		public static const KOBackgroundBitmap : Class;
 		
+		/* Player wins screen */
+		[Embed(source="player1Wins.png")]
+		public static const PlayerOneWinsBitmap : Class;
+		[Embed(source="player2Wins.png")]
+		public static const PlayerTwoWinsBitmap : Class;
+		
 		/* Panda */
 		[Embed(source = "panda/pandaBlock.png")]
 		public static const PandaBlockBitmap : Class;

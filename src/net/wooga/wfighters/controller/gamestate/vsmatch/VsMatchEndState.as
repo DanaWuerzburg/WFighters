@@ -1,12 +1,13 @@
 package net.wooga.wfighters.controller.gamestate.vsmatch
 {
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.text.TextField;
-	import net.wooga.wfighters.controller.gamestate.woogascreen.WoogaScreenGameState;
 	
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.controller.Sounds;
 	import net.wooga.wfighters.controller.gamestate.GameState;
+	import net.wooga.wfighters.controller.gamestate.woogascreen.WoogaScreenGameState;
 	import net.wooga.wfighters.events.PlaySoundEvent;
 	
 	public class VsMatchEndState extends GameState
@@ -16,7 +17,7 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 		private var _winningPlayerId : uint;
 		private var _timeElapsed : int;
 		private var _drawingArea : Sprite;
-		private var _textField : TextField;
+		private var _playerWinsImage : Bitmap;
 		
 		public function VsMatchEndState( gameContainer:GameContainer, winningPlayerId : uint )
 		{
@@ -24,8 +25,7 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			
 			_winningPlayerId = winningPlayerId;
 			_drawingArea = new Sprite();
-			setUpTextField();
-			_drawingArea.addChild( _textField );
+			setUpText();
 		}
 		
 		public override function handleBecomeActive() : void
@@ -54,14 +54,21 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			}
 		}
 		
-		private function setUpTextField() : void
+		private function setUpText() : void
 		{
-			var winningPlayer : String = (_winningPlayerId + 1).toString();
-			_textField = gameContainer.createBigTextField( 0xFF0000 );
-			_textField.text = "Player " + winningPlayer + " wins!";
+			switch( _winningPlayerId )
+			{
+				case 0:
+					_playerWinsImage = Assets.createBitmap( Assets.PlayerOneWinsBitmap );
+					break;
+				case 1:
+				default:
+					_playerWinsImage = Assets.createBitmap( Assets.PlayerTwoWinsBitmap );
+			}
 			
-			_textField.x = (gameContainer.stage.stageWidth / 2) - (_textField.width / 2);
-			_textField.y = (gameContainer.stage.stageHeight / 2) - (_textField.height / 2);
+			_playerWinsImage.x = (gameContainer.stage.stageWidth / 2) - (_playerWinsImage.width / 2);
+			_playerWinsImage.y = (gameContainer.stage.stageHeight / 2) - (_playerWinsImage.height / 2);
+			_drawingArea.addChild( _playerWinsImage );
 		}
 		
 		private function playWinSound() : void
