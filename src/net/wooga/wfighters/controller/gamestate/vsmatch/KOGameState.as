@@ -19,14 +19,21 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 	
 	public class KOGameState extends GameState 
 	{
+		// Constants
 		private const KO_TEXT_CENTER_Y : Number = 150;
+		private const KO_TEXT_EFFECT_SCALE : Number = 2;
+		private const KO_TEXT_SCALE_TIME : Number = 200;
+		
 		private const KO_SUNRAY_ROTATION_SPEED : Number = 10;
 		private const KO_EFFECT_FADEOUT_START_TIME : int = 2000;
 		private const KO_EFFECT_FADEOUT_LENGTH : int = 200;
+		
 		private const KO_TEXT_FADEOUT_START_TIME : int = KO_EFFECT_FADEOUT_START_TIME + KO_EFFECT_FADEOUT_LENGTH + 500;
 		private const KO_TEXT_FADEOUT_LENGTH : int = 200;
+		
 		private const KO_SCREEN_EXIT_TIME : int = 5000;
 		
+		// Member variables
 		private var animationLayer : Sprite;
 		private var time : Number = 0;
 		private var koText : Bitmap;
@@ -62,8 +69,12 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 		{
 			time += t;
 			
-			koText.x = (gameContainer.stage.stageWidth / 2) - (koText.width / 2);
-			koText.y = KO_TEXT_CENTER_Y - (koText.height / 2);
+			if ( time <= KO_TEXT_SCALE_TIME )
+			{
+				koText.scaleX = koText.scaleY = GameMath.lerp( KO_TEXT_EFFECT_SCALE, 1, time / KO_TEXT_SCALE_TIME );
+				koText.x = (gameContainer.stage.stageWidth / 2) - (koText.width / 2);
+				koText.y = KO_TEXT_CENTER_Y - (koText.height / 2);
+			}
 			
 			sunrayContainer.rotation += (t / 1000.0) * KO_SUNRAY_ROTATION_SPEED;
 			
