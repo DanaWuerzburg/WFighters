@@ -26,6 +26,7 @@ package net.wooga.wfighters.fightarea
 		private var foreground : Foreground;
 		private var floor : Floor;
 		private var fighterContainer : Sprite;
+		private var _koLayer : Sprite;
 		
 		private var skyBitmapData : BitmapData;
 		private var backgroundBitmapData : BitmapData;
@@ -37,6 +38,9 @@ package net.wooga.wfighters.fightarea
 			
 			floor = new Floor();
 			addChild( floor );
+			
+			_koLayer = new Sprite();
+			addChild( _koLayer );
 			
 			fighterContainer = new Sprite();
 			addChild( fighterContainer );
@@ -121,6 +125,7 @@ package net.wooga.wfighters.fightarea
 		public function updateCamera() : void
 		{
 			x = -cameraRectangle.x;
+			koLayer.x = cameraRectangle.x; // HACK: keep KO layer from moving with camera
 
 			graphics.clear();
 			
@@ -140,6 +145,14 @@ package net.wooga.wfighters.fightarea
 			
 			floor.x = cameraRectangle.x;
 			floor.update( cameraRectangle.x / 1280 );
+		}
+		
+		/**
+		 * Returns a sprite that's placed in front of the background but behind the fighters.
+		 */
+		public function get koLayer() : Sprite
+		{
+			return _koLayer;
 		}
 	}
 }

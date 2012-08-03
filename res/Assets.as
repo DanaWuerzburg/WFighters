@@ -231,6 +231,16 @@ package
 		[Embed(source = "background.png")]
 		public static const BackgroundBitmap : Class;
 		
+		/* KO screen */
+		[Embed(source="koscreen/KO-particles.png")]
+		public static const KOParticlesBitmap : Class;
+		[Embed(source="koscreen/KO-sunray.png")]
+		public static const KOSunrayBitmap : Class;
+		[Embed(source="koscreen/KO.png")]
+		public static const KOTextBitmap : Class;
+		[Embed(source="koscreen/KOScreen-bg.png")]
+		public static const KOBackgroundBitmap : Class;
+		
 		/* Panda */
 		[Embed(source = "panda/pandaBlock.png")]
 		public static const PandaBlockBitmap : Class;

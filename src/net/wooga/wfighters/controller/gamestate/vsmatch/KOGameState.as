@@ -1,5 +1,6 @@
 package net.wooga.wfighters.controller.gamestate.vsmatch 
 {
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.GlowFilter;
@@ -17,11 +18,13 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 	
 	public class KOGameState extends GameState 
 	{
+		private const KO_TEXT_CENTER_Y : Number = 150;
+		
 		private var animationLayer : Sprite;
-		private var shadowTextField : TextField;
-		private var gradientMask : GradientEffect;
-		private var textField : TextField;
 		private var time : Number = 0;
+		private var koText : Bitmap;
+		private var koSunray : Bitmap;
+		private var koParticles : Bitmap;
 		
 		private var koPlayerId : uint;
 		
@@ -31,84 +34,49 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			
 			this.koPlayerId = koPlayerId;
 			
-			animationLayer = new Sprite();
-
+			loadImages();
 		}
 		
 		public override function handleBecomeActive() : void
 		{
 			trace("Entered KO game state");
-			gameContainer.addChild( animationLayer );
 			
-			var font : Font = new Assets.QuartziteFont();
-			var format:TextFormat = new TextFormat();
-			format.font = font.fontName;
-			format.size = 120;
 			
-			shadowTextField = new TextField();
-			shadowTextField.embedFonts = true;
-			shadowTextField.autoSize = TextFieldAutoSize.LEFT;
-			shadowTextField.antiAliasType = AntiAliasType.ADVANCED;
-			shadowTextField.defaultTextFormat = format;
-			var outline:GlowFilter=new GlowFilter(0x000000,1.0,10,10,30);
-			outline.quality = BitmapFilterQuality.MEDIUM;
-			shadowTextField.filters = [ outline ];
-			animationLayer.addChild( shadowTextField );
 			
-			textField = new TextField();
-			textField.embedFonts = true;
-			textField.autoSize = TextFieldAutoSize.LEFT;
-			textField.antiAliasType = AntiAliasType.ADVANCED;
-			textField.defaultTextFormat = format;
-			animationLayer.addChild( textField );
-			
-			gradientMask = new GradientEffect();
-			animationLayer.addChild( gradientMask );
-			gradientMask.mask = textField;
-			
-			shadowTextField.text = textField.text = "K.O.";
-			
-			gradientMask.scaleY = textField.scaleY = shadowTextField.scaleY = 0;
-			gradientMask.scaleX = textField.scaleX = shadowTextField.scaleX = 2;
-			gradientMask.x = textField.x = shadowTextField.x = 320 - textField.width / 2;
-			gradientMask.y = textField.y = shadowTextField.y = 240 - textField.height / 2;
-			
+			gameContainer.fightArea.koLayer.addChild( animationLayer );
 			gameContainer.stage.dispatchEvent( new PlaySoundEvent( Sounds.ANNOUNCER_KO ) );
 		}
 		
 		public override function handleResignActive() : void
 		{
-			gameContainer.removeChild( animationLayer );
+			gameContainer.fightArea.koLayer.removeChild( animationLayer );
 		}
 		
 		public override function update( t : int ) : void
 		{
 			time += t;
 			
-			if ( time < 300 )
-			{
-				gradientMask.scaleY = textField.scaleY = shadowTextField.scaleY = time / 150;
-				gradientMask.x = textField.x = shadowTextField.x = 320 - textField.width / 2;
-				gradientMask.y = textField.y = shadowTextField.y = 240 - textField.height / 2;
-			}
-			else if ( time > 2000 && time < 2300 )
-			{
-				gradientMask.scaleY = textField.scaleY = shadowTextField.scaleY = ( 2300 - time ) / 150;
-				gradientMask.x = textField.x = shadowTextField.x = 320 - textField.width / 2;
-				gradientMask.y = textField.y = shadowTextField.y = 240 - textField.height / 2;
-			}
-			else if ( time >= 2300 && time < 3000 )
-			{
-				
-				gradientMask.scaleY = textField.scaleY = shadowTextField.scaleY = 0;	
-			}
-			else if ( time >= 5000 )
+			koText.x = (gameContainer.stage.stageWidth / 2) - (koText.width / 2);
+			koText.y = KO_TEXT_CENTER_Y - (koText.height / 2);
+			
+			if ( time >= 5000 )
 			{
 				gameContainer.gameController.changeGameState( new EndOfRoundGameState( gameContainer, koPlayerId ) );
 			}
 			
-			gradientMask.drawEffect( textField.width, textField.height, 5, time );
 			gameContainer.fightArea.update( time < 3000 ? t / 8 : t );
+		}
+		
+		private function loadImages() : void
+		{
+			koText = Assets.createBitmap( Assets.KOTextBitmap );
+			koSunray = Assets.createBitmap( Assets.KOSunrayBitmap );
+			koParticles = Assets.createBitmap( Assets.KOParticlesBitmap );
+			
+			animationLayer = new Sprite();
+			animationLayer.addChild( koSunray );
+			animationLayer.addChild( koParticles );
+			animationLayer.addChild( koText );
 		}
 	}
 }
