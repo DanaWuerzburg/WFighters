@@ -5,6 +5,7 @@ package net.wooga.wfighters.controller
 	import net.wooga.wfighters.controller.gamestate.vsmatch.ConfigureFightersGameState;
 	import net.wooga.wfighters.controller.gamestate.GameState;
 	import net.wooga.wfighters.controller.gamestate.StartGameState;
+	import net.wooga.wfighters.controller.gamestate.woogascreen.WoogaScreenGameState;
 	import net.wooga.wfighters.GameContainer;
 	
 	public class GameController 
@@ -18,7 +19,7 @@ package net.wooga.wfighters.controller
 		public function GameController( gameContainer : GameContainer ) 
 		{
 			this.gameContainer = gameContainer;
-			this.changeGameState( new StartGameState( gameContainer ) );
+			this.changeGameState( new WoogaScreenGameState( gameContainer ) );
 		}
 		
 		public function update() : void

@@ -2,11 +2,11 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 {
 	import flash.display.Sprite;
 	import flash.text.TextField;
+	import net.wooga.wfighters.controller.gamestate.woogascreen.WoogaScreenGameState;
 	
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.controller.Sounds;
 	import net.wooga.wfighters.controller.gamestate.GameState;
-	import net.wooga.wfighters.controller.gamestate.StartGameState;
 	import net.wooga.wfighters.events.PlaySoundEvent;
 	
 	public class VsMatchEndState extends GameState
@@ -50,7 +50,7 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			if( _timeElapsed > TIME_UNTIL_EXIT )
 			{
 				gameContainer.resetGame();
-				gameContainer.gameController.changeGameState( new StartGameState( gameContainer ) );
+				gameContainer.gameController.changeGameState( new WoogaScreenGameState( gameContainer ) );
 			}
 		}
 		

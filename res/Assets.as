@@ -135,6 +135,10 @@ package
 		[Embed(source = "hp.png")]
 		public static const HPBitmap : Class;
 		
+		/* Wooga screen */
+		[Embed(source = "woogascreen/wooga.png")]
+		public static const WoogaBitmap : Class;
+		
 		/* Start screen */
 		[Embed(source = "startscreen/start-screen.png")]
 		public static const StartScreenBitmap : Class;
