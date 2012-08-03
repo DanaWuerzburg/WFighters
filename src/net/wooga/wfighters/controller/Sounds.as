@@ -48,5 +48,18 @@ package net.wooga.wfighters.controller
 		public static const FIGHT_GROUND03 : String = "FIGHT_GROUND03";
 		public static const FIGHT_BLOCK : String = "FIGHT_BLOCK";
 		
+		/* Rayu */
+		public static const RAYU_HA : String = "RAYU_HA";
+		public static const RAYU_HU : String = "RAYU_HU";
+		public static const RAYU_JUMP : String = "RAYU_JUMP";
+		public static const RAYU_RACCOON_FIRE : String = "RAYU_RACCOON_FIRE";
+		
+		/* KenDa */
+		public static const KENDA_HA : String = "KENDA_HA";
+		public static const KENDA_HU : String = "KENDA_HU";
+		public static const KENDA_JUMP : String = "KENDA_JUMP";
+		public static const KENDA_DIAMOND_DASH : String = "KENDA_DIAMOND_DASH";
+		
+		
 	}
 }

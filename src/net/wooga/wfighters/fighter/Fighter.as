@@ -215,6 +215,7 @@ package net.wooga.wfighters.fighter
 			{
 				_opponent.receiveDamage();
 			}
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( punchSound ) );
 		}
 		
 		private function punchPunch() : void
@@ -233,6 +234,7 @@ package net.wooga.wfighters.fighter
 			{
 				_opponent.receiveDamage();
 			}
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( punchSound ) );
 		}
 		
 		private function punchPunchPunch() : void
@@ -251,6 +253,7 @@ package net.wooga.wfighters.fighter
 			{
 				_opponent.receiveDamage();
 			}
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( punchSound ) );
 		}
 		
 		private function kick() : void
@@ -269,6 +272,7 @@ package net.wooga.wfighters.fighter
 			{
 				_opponent.receiveDamage();
 			}
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( kickSound ) );
 		}
 		
 		private function kickKick() : void
@@ -287,6 +291,7 @@ package net.wooga.wfighters.fighter
 			{
 				_opponent.receiveDamage();
 			}
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( kickSound ) );
 		}
 		
 		private function kickKickKick() : void
@@ -305,6 +310,7 @@ package net.wooga.wfighters.fighter
 			{
 				_opponent.receiveDamage();
 			}
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( kickSound ) );
 		}
 		
 		private function jump() : void
@@ -315,6 +321,8 @@ package net.wooga.wfighters.fighter
 			jumpVector.y = -100;
 			jumpVector.x = 0;
 			jumpTime = 0;
+			
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( jumpSound ) );
 		}
 		
 		private function jumpPunch() : void
@@ -327,6 +335,7 @@ package net.wooga.wfighters.fighter
 			jumpAttackOffset.x = width / 2 + width / 2 * spriteset.scaleX;
 			jumpAttackOffset.y = height / 2;
 			jumpAttackSuccess = false;
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( punchSound ) );
 		}
 		
 		private function jumpKick() : void
@@ -339,6 +348,7 @@ package net.wooga.wfighters.fighter
 			jumpAttackOffset.x = width / 2 + width / 2 * spriteset.scaleX;
 			jumpAttackOffset.y = height / 2;
 			jumpAttackSuccess = false;
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( kickSound ) );
 		}
 		
 		private function special() : void
@@ -349,6 +359,7 @@ package net.wooga.wfighters.fighter
 			comboAnims.length = 0;
 			comboAnims.push( "special01", "special02" );
 			addBullet();
+			gameContainer.stage.dispatchEvent( new PlaySoundEvent( specialSound ) );
 		}
 		
 		private function endCombo() : void
@@ -555,7 +566,7 @@ package net.wooga.wfighters.fighter
 					if ( y > lowestY )
 					{
 						y = lowestY;
-						gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomGroundSound() ) );
+						gameContainer.stage.dispatchEvent( new PlaySoundEvent( randomGroundSound ) );
 						state = STATE_FREE;
 						endCombo();
 					}
@@ -601,7 +612,7 @@ package net.wooga.wfighters.fighter
 					if ( y > lowestY )
 					{
 						y = lowestY;
-						gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomGroundSound() ) );
+						gameContainer.stage.dispatchEvent( new PlaySoundEvent( randomGroundSound ) );
 						state = STATE_FREE;
 						endCombo();
 					}
@@ -709,14 +720,14 @@ package net.wooga.wfighters.fighter
 				{
 					y = lowestY;
 					trace( 1 );
-					gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomGroundSound() ) );
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( randomGroundSound ) );
 				}
 				_fightArea.handleFighterPositionChanged( this );
 			}
 			else if ( y > lowestY )
 			{
 				y = lowestY;
-				gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomGroundSound() ) );
+				gameContainer.stage.dispatchEvent( new PlaySoundEvent( randomGroundSound ) );
 				trace( 2 );
 			}
 			
@@ -807,7 +818,7 @@ package net.wooga.wfighters.fighter
 				}
 				case STATE_DAMAGE:
 				{
-					gameContainer.stage.dispatchEvent( new PlaySoundEvent( getRandomPunchSound() ) );
+					gameContainer.stage.dispatchEvent( new PlaySoundEvent( randomPunchSound ) );
 					damageTime = DAMAGE_TIME;
 					spriteset.showFrame( "hit01" );
 					damageLevel += 4000;
@@ -1008,14 +1019,34 @@ package net.wooga.wfighters.fighter
 			deadBullets.push( bullet );
 		}
 		
-		private function getRandomPunchSound() : String
+		private function get randomPunchSound() : String
 		{
 			return punchSounds[ int( Math.random() * 9 ) ];
 		}
 		
-		private function getRandomGroundSound() : String
+		private function get randomGroundSound() : String
 		{
 			return groundSounds[ int( Math.random() * 3 ) ];
+		}
+		
+		protected function get specialSound() : String
+		{
+			return null;
+		}
+		
+		protected function get punchSound() : String
+		{
+			return null;
+		}
+		
+		protected function get kickSound() : String
+		{
+			return null;
+		}
+		
+		protected function get jumpSound() : String
+		{
+			return null;
 		}
 	}
 }

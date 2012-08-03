@@ -84,6 +84,18 @@ package net.wooga.wfighters.controller
 			_sounds[ Sounds.FIGHT_GROUND02 ] = Assets.createSound( Assets.FightGround02Sound );
 			_sounds[ Sounds.FIGHT_GROUND03 ] = Assets.createSound( Assets.FightGround03Sound );
 			_sounds[ Sounds.FIGHT_BLOCK ] = Assets.createSound( Assets.FightBlockSound );
+			
+			/* RaYu */
+			_sounds[ Sounds.RAYU_HA ] = Assets.createSound( Assets.RayuHaSound );
+			_sounds[ Sounds.RAYU_HU ] = Assets.createSound( Assets.RayuHuSound );
+			_sounds[ Sounds.RAYU_JUMP ] = Assets.createSound( Assets.RayuJumpSound );
+			_sounds[ Sounds.RAYU_RACCOON_FIRE ] = Assets.createSound( Assets.RayuRaccoonFireSound );
+			
+			/* KenDa */
+			_sounds[ Sounds.KENDA_HA ] = Assets.createSound( Assets.KendaHaSound );
+			_sounds[ Sounds.KENDA_HU ] = Assets.createSound( Assets.KendaHuSound );
+			_sounds[ Sounds.KENDA_JUMP ] = Assets.createSound( Assets.KendaJumpSound );
+			_sounds[ Sounds.KENDA_DIAMOND_DASH ] = Assets.createSound( Assets.KendaDiamondDashSound );
 		}
 	}
 }

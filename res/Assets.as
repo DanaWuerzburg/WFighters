@@ -64,6 +64,25 @@ package
 		[Embed(source="sound/voiceover/announcer/announcer_playertwowins.mp3")]
 		public static const AnnouncerPlayerTwoWinsSound : Class;
 		
+		/* Voiceover - RaYu */
+		[Embed(source="sound/voiceover/rayu/rayu_ha.mp3")]
+		public static const RayuHaSound : Class;
+		[Embed(source="sound/voiceover/rayu/rayu_hu.mp3")]
+		public static const RayuHuSound : Class;
+		[Embed(source="sound/voiceover/rayu/rayu_jump.mp3")]
+		public static const RayuJumpSound : Class;
+		[Embed(source="sound/voiceover/rayu/rayu_raccoonfire.mp3")]
+		public static const RayuRaccoonFireSound : Class;
+		
+		/* Voiceover - KenDa */
+		[Embed(source="sound/voiceover/kenda/kenda_ha.mp3")]
+		public static const KendaHaSound : Class;
+		[Embed(source="sound/voiceover/kenda/kenda_hu.mp3")]
+		public static const KendaHuSound : Class;
+		[Embed(source="sound/voiceover/kenda/kenda_jump.mp3")]
+		public static const KendaJumpSound : Class;
+		[Embed(source="sound/voiceover/kenda/kenda_diamonddash.mp3")]
+		public static const KendaDiamondDashSound : Class;
 		
 		/* SFX */
 		[Embed(source = "sound/sfx/menu_ok.mp3")]

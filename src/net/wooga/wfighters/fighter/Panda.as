@@ -1,6 +1,7 @@
 package net.wooga.wfighters.fighter 
 {
 	import flash.geom.Vector3D;
+	import net.wooga.wfighters.controller.Sounds;
 	import net.wooga.wfighters.GameContainer;
 	import net.wooga.wfighters.spriteset.FrameConfig;
 	import net.wooga.wfighters.spriteset.Spriteset;
@@ -80,6 +81,28 @@ package net.wooga.wfighters.fighter
 				new FrameConfig( "bullet05",			new Assets.Fireball05Bitmap() ),
 				new FrameConfig( "bullet06",			new Assets.Fireball06Bitmap() )
 			] );
+		}
+		
+		
+		
+		protected override function get specialSound() : String
+		{
+			return Sounds.KENDA_DIAMOND_DASH;
+		}
+		
+		protected override function get punchSound() : String
+		{
+			return Sounds.KENDA_HA;
+		}
+		
+		protected override function get kickSound() : String
+		{
+			return Sounds.KENDA_HU;
+		}
+		
+		protected override function get jumpSound() : String
+		{
+			return Sounds.KENDA_JUMP;
 		}
 	}
 
