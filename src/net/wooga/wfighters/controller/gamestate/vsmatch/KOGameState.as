@@ -21,8 +21,10 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 	{
 		private const KO_TEXT_CENTER_Y : Number = 150;
 		private const KO_SUNRAY_ROTATION_SPEED : Number = 10;
-		private const KO_EFFECT_FADEOUT_START_TIME : int = 3000;
-		private const KO_EFFECT_FADEOUT_LENGTH : int = 500;
+		private const KO_EFFECT_FADEOUT_START_TIME : int = 2000;
+		private const KO_EFFECT_FADEOUT_LENGTH : int = 200;
+		private const KO_TEXT_FADEOUT_START_TIME : int = KO_EFFECT_FADEOUT_START_TIME + KO_EFFECT_FADEOUT_LENGTH + 500;
+		private const KO_TEXT_FADEOUT_LENGTH : int = 200;
 		private const KO_SCREEN_EXIT_TIME : int = 5000;
 		
 		private var animationLayer : Sprite;
@@ -53,6 +55,7 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 		public override function handleResignActive() : void
 		{
 			gameContainer.fightArea.koLayer.removeChild( animationLayer );
+			gameContainer.removeChild( koText );
 		}
 		
 		public override function update( t : int ) : void
@@ -66,10 +69,14 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			
 			if ( time >= KO_EFFECT_FADEOUT_START_TIME )
 			{
-				var dtFadeout : Number = time - KO_EFFECT_FADEOUT_START_TIME;				
-				var opacity : Number = GameMath.lerp( 1, 0, dtFadeout / KO_EFFECT_FADEOUT_LENGTH );
-				
-				animationLayer.alpha = opacity;
+				var dtEffectFadeout : Number = time - KO_EFFECT_FADEOUT_START_TIME;				
+				animationLayer.alpha = GameMath.lerp( 1, 0, dtEffectFadeout / KO_EFFECT_FADEOUT_LENGTH );
+			}
+			
+			if ( time >= KO_TEXT_FADEOUT_START_TIME )
+			{
+				var dtTextFadeout : Number = time - KO_TEXT_FADEOUT_START_TIME;
+				koText.alpha = GameMath.lerp( 1, 0, dtTextFadeout / KO_EFFECT_FADEOUT_LENGTH );
 			}
 			
 			if ( time >= KO_SCREEN_EXIT_TIME )
@@ -97,7 +104,8 @@ package net.wooga.wfighters.controller.gamestate.vsmatch
 			animationLayer = new Sprite();
 			animationLayer.addChild( sunrayContainer );
 			animationLayer.addChild( koParticles );
-			animationLayer.addChild( koText );
+			
+			gameContainer.addChild( koText );
 		}
 	}
 }
